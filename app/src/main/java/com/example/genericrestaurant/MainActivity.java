@@ -5,11 +5,16 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
+    public ListView menulist;
+    ArrayList<MenuCard> menu = new ArrayList<>();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -29,16 +34,33 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         }
+
+
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mTextMessage = (TextView) findViewById(R.id.message);
+        menulist = findViewById(R.id.menu_list);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
+
+
+        MenuCard item1 = new MenuCard("Chicken Burger","Rs. 100", "Non-Veg.");
+        menu.add(0,item1);
+        CustomAdapter foodAdapter = new CustomAdapter(menu,this);
+
+        menulist.setAdapter(foodAdapter);
+
     }
+
+
+
+
+
 
 }
