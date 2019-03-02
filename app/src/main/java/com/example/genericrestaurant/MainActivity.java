@@ -20,20 +20,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     MainActivity mainActivity = getMainActivityInstance();
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navigation =  findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
-
-
         loadFragment(new fragment_menu());
-
-
-
     }
-
 
     private boolean loadFragment(Fragment fragment)
     {

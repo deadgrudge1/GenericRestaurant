@@ -1,6 +1,7 @@
 package com.example.genericrestaurant;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -10,14 +11,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class fragment_speak extends Fragment {
 
     private final int REQ_CODE_SPEECH_INPUT = 100;
-
+    public ListView order_list;
+    ArrayList<MenuCard> order = new ArrayList<>();
+    CustomAdapter orderAdapter ;
+    MenuCard order1;
 
 
 
@@ -36,6 +42,14 @@ public class fragment_speak extends Fragment {
     }
 
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        order1 = new MenuCard("Chicken Burger", "Rs. 100", "Non-Veg.");
+        order.add(order1);
+
+    }
 
     @Nullable
     @Override
@@ -45,7 +59,12 @@ public class fragment_speak extends Fragment {
         final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         promptSpeechInput();
-        return super.onCreateView(inflater, container, savedInstanceState);
+
+
+
+
+        return inflater.inflate(R.layout.fragment_mic,null);
+
 
 
 
@@ -55,5 +74,8 @@ public class fragment_speak extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        orderAdapter = new CustomAdapter(order,getContext());
+        order_list = view.findViewById(R.id.orderlist);
+        order_list.setAdapter(orderAdapter);
     }
 }

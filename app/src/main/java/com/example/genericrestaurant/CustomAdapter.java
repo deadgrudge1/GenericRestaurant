@@ -2,14 +2,10 @@ package com.example.genericrestaurant;
 
 
 import android.content.Context;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,7 +24,7 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
     }
 
     public CustomAdapter(ArrayList<MenuCard> data, Context context) {
-        super(context, R.layout.menu_item, data);
+        super(context, R.layout.food_item, data);
         this.menuCardsdata = data;
         this.mContext=context;
 
@@ -50,7 +46,7 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
 
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.menu_item, parent, false);
+            convertView = inflater.inflate(R.layout.food_item, parent, false);
             viewHolder.foodName = (TextView) convertView.findViewById(R.id.foodname);
             viewHolder.foodType = (TextView) convertView.findViewById(R.id.foodtype);
             viewHolder.foodCost = (TextView) convertView.findViewById(R.id.foodcost);

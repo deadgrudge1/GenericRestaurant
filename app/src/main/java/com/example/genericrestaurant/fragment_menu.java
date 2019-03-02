@@ -27,7 +27,7 @@ public class fragment_menu extends Fragment
 
         foodAdapter = new CustomAdapter(menu,getContext());
         item1 = new MenuCard("Chicken Burger", "Rs. 100", "Non-Veg.");
-        menu.add(0,item1);
+        menu.add(item1);
         return inflater.inflate(R.layout.fragment_menu, null);
     }
 
