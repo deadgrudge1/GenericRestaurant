@@ -34,9 +34,4 @@ public class MenuCard extends Fragment
         return food_type;
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_menu, null);
-    }
 }
