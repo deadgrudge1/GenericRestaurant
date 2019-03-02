@@ -2,6 +2,7 @@ package com.example.genericrestaurant;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -15,10 +16,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,fragment_speak.OnFragmentInteractionListener {
 
     private TextView mTextMessage;
     private final int REQ_CODE_SPEECH_INPUT = 100;
+    ArrayList<MenuCard> order = new ArrayList<>();
     //private Fragment fragment_mic;
 
     public MainActivity getMainActivityInstance(){return this;}
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
         BottomNavigationView navigation =  findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
+        order.add(new MenuCard("Burger","Rs. 50","Veg"));
         //fragment_mic = new fragment_speak();
         loadFragment(new fragment_menu(),"Menu");
     }
@@ -62,7 +65,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
 
             case R.id.navigation_Microphone:
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("order_speak",order);
                     fragment = new fragment_speak();
+                    fragment.setArguments(bundle);
                     loadFragment(fragment, "Speak");
             break;
         }
@@ -70,5 +76,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
-
+    @Override
+    public void onFragmentInteraction(ArrayList<MenuCard> order) {
+        this.order=order;
+        Toast.makeText(getApplicationContext(),"Got it",Toast.LENGTH_SHORT).show();
+    }
 }

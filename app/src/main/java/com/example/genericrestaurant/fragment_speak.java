@@ -48,8 +48,8 @@ public class fragment_speak extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        order1 = new MenuCard("Chicken Burger", "Rs. 100", "Non-Veg.");
-        order.add(order1);
+        //order1 = new MenuCard("Chicken Burger", "Rs. 100", "Non-Veg.");
+        //order.add(order1);
     }
 
     @Nullable
@@ -58,6 +58,7 @@ public class fragment_speak extends Fragment {
 
         //order1 = new MenuCard("Chicken Burger", "Rs. 100", "Non-Veg.");
         //order.add(order1);
+        order = (ArrayList<MenuCard>) getArguments().getSerializable("order_speak");
         final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         promptSpeechInput();
@@ -85,6 +86,9 @@ public class fragment_speak extends Fragment {
                     order.add(new MenuCard(string,"Rs. 50","Veg"));
                     orderAdapter=new CustomAdapter(order,getContext());
                     order_list.setAdapter(orderAdapter);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("order_speak_fragment",order);
+
                 }
                 break;
             }
@@ -93,5 +97,8 @@ public class fragment_speak extends Fragment {
     }
 
 
+    public interface OnFragmentInteractionListener {
+        public void onFragmentInteraction(ArrayList<MenuCard> order);
+    }
 
 }
