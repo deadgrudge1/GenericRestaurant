@@ -14,8 +14,10 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private TextView mTextMessage;
-    public ListView menulist;
-    ArrayList<MenuCard> menu = new ArrayList<>();
+
+
+    public MainActivity getMainActivityInstance(){return this;}
+    MainActivity mainActivity = getMainActivityInstance();
 
 
     @Override
@@ -28,8 +30,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         loadFragment(new fragment_menu());
 
-        MenuCard item1 = new MenuCard("Chicken Burger","Rs. 100", "Non-Veg.");
-        menu.add(0,item1);
+
 
     }
 
@@ -56,14 +57,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         {
             case R.id.navigation_home:
                 fragment = new fragment_menu();
-                menulist = findViewById(R.id.menu_list);
-
-
-                CustomAdapter foodAdapter = new CustomAdapter(menu,this);
-
-                menulist.setAdapter(foodAdapter);
+                loadFragment(fragment);
                 break;
 
+            case R.id.navigation_Microphone:
+
+                fragment = new fragment_speak();
+                loadFragment(fragment);
+            break;
         }
 
         return false;
