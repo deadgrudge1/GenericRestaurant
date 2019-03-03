@@ -25,7 +25,9 @@ class DBManager
     }
 
     public void close() {
+
         dbHelper.close();
+
     }
 
     public void insert(String name, String desc, int cost) {
