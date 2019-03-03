@@ -1,14 +1,10 @@
 package com.example.genericrestaurant;
 
-import android.graphics.drawable.Icon;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.annotation.SuppressLint;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
+
+@SuppressLint("ValidFragment")
 public class MenuCard extends Fragment
 {
     public String food_name, food_cost;

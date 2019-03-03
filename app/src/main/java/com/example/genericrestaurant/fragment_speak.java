@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class fragment_speak extends Fragment {
     ArrayList<MenuCard> order = new ArrayList<>();
     CustomAdapter orderAdapter ;
     MenuCard order1;
+    TextView total_amount;
 
 
     public void promptSpeechInput() {

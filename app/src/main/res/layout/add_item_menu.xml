@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/menu_text"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="15dp">
+
+
+    <EditText
+        android:id="@+id/subject_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Food Name">
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/description_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Food Cost"
+        android:inputType="textMultiLine"
+        android:minLines="5"></EditText>
+
+
+    <Button
+        android:id="@+id/add_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="147dp"
+        android:layout_marginTop="276dp"
+        android:text="ADD" />
+
+    <RadioButton
+        android:id="@+id/VEG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/subject_edittext"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="158dp"
+        android:text="Veg" />
+
+    <RadioButton
+        android:id="@+id/NONVEG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/VEG"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="112dp"
+        android:layout_marginTop="172dp"
+        android:text="Non Veg" />
+
+
+</RelativeLayout>

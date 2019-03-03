@@ -33,14 +33,25 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="56dp"
-        android:textSize="30dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="48dp"
         android:text="Total: "
+        android:textSize="30dp"
 
         />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="118dp"
+        android:layout_height="51dp"
+        android:layout_alignBaseline="@+id/textView"
+        android:textAlignment="center"
+        android:layout_marginLeft="263dp"
+        android:text="Amount"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
 </RelativeLayout>
