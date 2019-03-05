@@ -6,23 +6,23 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
     // Table Name
-    public static final String TABLE_NAME = "MENUCARD";
+    public static final String TABLE_MENU = "menu";
 
     // Table columns
-    public static final String FOOD_ID = "f_id";
+    public static final String FOOD_ID   = "f_id";
     public static final String FOOD_NAME = "Food_Name";
     public static final String FOOD_TYPE = "Food_type";
     public static final String FOOD_COST = "Food_cost";
 
 
     // Database Information
-    static final String DB_NAME = "HOTEL_SYSTEM.DB";
+    static final String DB_NAME = "restaurant.DB";
 
     // database version
     static final int DB_VERSION = 1;
 
     // Creating table query
-    private static final String CREATE_TABLE = "create table " + TABLE_NAME + "(" + FOOD_ID
+    private static final String CREATE_TABLE = "create table " + TABLE_MENU + "(" + FOOD_ID
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FOOD_NAME + " TEXT NOT NULL, " + FOOD_TYPE + " TEXT NOT NULL, " + FOOD_COST + " INTEGER NOT NULL);";
 
     public DatabaseHelper(Context context) {
@@ -36,7 +36,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MENU);
         onCreate(db);
     }
+
+
 }

@@ -35,12 +35,12 @@ class DBManager
         contentValue.put(DatabaseHelper.FOOD_NAME, name);
         contentValue.put(DatabaseHelper.FOOD_TYPE, desc);
         contentValue.put(DatabaseHelper.FOOD_COST, cost);
-        database.insert(DatabaseHelper.TABLE_NAME, null, contentValue);
+        database.insert(DatabaseHelper.TABLE_MENU, null, contentValue);
     }
 
     public Cursor fetch() {
         String[] columns = new String[] { DatabaseHelper.FOOD_ID, DatabaseHelper.FOOD_NAME, DatabaseHelper.FOOD_TYPE, DatabaseHelper.FOOD_COST };
-        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME, columns, null, null, null, null, null);
+        Cursor cursor = database.query(DatabaseHelper.TABLE_MENU, columns, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -52,12 +52,12 @@ class DBManager
         contentValues.put(DatabaseHelper.FOOD_NAME, name);
         contentValues.put(DatabaseHelper.FOOD_TYPE, desc);
         contentValues.put(DatabaseHelper.FOOD_COST,cost);
-        int i = database.update(DatabaseHelper.TABLE_NAME, contentValues, DatabaseHelper.FOOD_ID + " = " + _id, null);
+        int i = database.update(DatabaseHelper.TABLE_MENU, contentValues, DatabaseHelper.FOOD_ID + " = " + _id, null);
         return i;
     }
 
     public void delete(long _id) {
-        database.delete(DatabaseHelper.TABLE_NAME, DatabaseHelper.FOOD_ID + "=" + _id, null);
+        database.delete(DatabaseHelper.TABLE_MENU, DatabaseHelper.FOOD_ID + "=" + _id, null);
     }
 
 
