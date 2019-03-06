@@ -1,9 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Cart">
+<RelativeLayout android:background="#e1e1e1"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:id="@+id/layout_total"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:weightSum="2">
+        <TextView android:gravity="end"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:text="Total : "
+            android:textSize="20dp">
+        </TextView>
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:text="0 Rs"
+            android:textSize="20dp">
+        </TextView>
+    </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_cart"
+        android:layout_above="@+id/btn_placeorder"
+        android:layout_below="@+id/layout_total"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+    </android.support.v7.widget.RecyclerView>
+
+
+    <Button
+        android:id="@+id/btn_placeorder"
+        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:onClick="insertOrder"
+        android:text="Place Order"
+        android:textColor="@android:color/white"
+        android:theme="@style/Theme.MaterialButton">
+    </Button>
+
+</RelativeLayout>
