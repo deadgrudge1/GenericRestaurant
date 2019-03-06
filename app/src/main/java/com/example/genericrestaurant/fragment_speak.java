@@ -100,7 +100,7 @@ public class fragment_speak extends Fragment {
 
 
     public interface OnFragmentInteractionListener {
-        public void onFragmentInteraction(ArrayList<MenuCard> order);
+        void onFragmentInteraction(ArrayList<MenuCard> order);
     }
 
 }

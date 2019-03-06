@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
 
     // Database Information
-    static final String DB_NAME = "restaurant.DB";
+    static final String DB_NAME = "restaurant.db";
 
     // database version
     static final int DB_VERSION = 1;

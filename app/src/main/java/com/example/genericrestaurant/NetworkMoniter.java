@@ -12,7 +12,7 @@ public class NetworkMoniter extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        if(checkNetworkConnection(context))
+       /* if(checkNetworkConnection(context))
         {
              DatabaseHelper dbHelper = new DatabaseHelper(context);
             SQLiteDatabase database = dbHelper.getWritableDatabase();
@@ -24,16 +24,16 @@ public class NetworkMoniter extends BroadcastReceiver {
             {
                 //int sync_status = cursor.getColumnIndex(DBManager.SYNC_STATUS);
 
-            }*/
-        }
+            }
+        }*/
 
     }
 
 
-    public boolean checkNetworkConnection(Context context)
+    /*public boolean checkNetworkConnection(Context context)
     {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getNetworkInfo();
         return (networkInfo!= null && networkInfo.isConnected());
-    }
+    }*/
 }
