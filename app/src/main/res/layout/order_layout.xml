@@ -36,49 +36,46 @@
                     >
 
                     <TextView
-                        android:id="@+id/tv_name"
+                        android:id="@+id/food_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Itemname"
                         android:layout_weight="0.75"
-                        android:textSize="13dp"
-                        />
+                        android:text="Itemname"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textSize="13dp" />
 
                     <TextView
-                        android:id="@+id/tv_size"
+                        android:id="@+id/food_quantity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Size"
-                        android:textSize="13dp"
-                        android:textAlignment="center"
                         android:layout_weight="1.1"
+                        android:text="Size"
+                        android:textAlignment="center"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textSize="13dp"
 
                         />
 
                     <TextView
-                        android:id="@+id/tv_rate"
+                        android:id="@+id/food_cost"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_weight="1"
                         android:text="Rate"
                         android:textAlignment="center"
-                        android:layout_weight="1"
-                        android:textSize="13dp"
-                        />
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textSize="13dp" />
 
                     <TextView
-                        android:id="@+id/tv_total"
+                        android:id="@+id/total_bill"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Total"
                         android:layout_toRightOf="@+id/tv_qty"
-                        android:textAlignment="center"
-                        android:textSize="13dp"
                         android:layout_weight="1"
-                        />
+                        android:text="Total"
+                        android:textAlignment="center"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textSize="13dp" />
 
                     <CheckBox
                         android:id="@+id/chk_selectitem"
