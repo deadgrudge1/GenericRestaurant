@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private final int REQ_CODE_SPEECH_INPUT = 100;
     ArrayList<MenuCard> order = new ArrayList<>();
     //private Fragment fragment_mic;
+    Fragment fragment = null;
 
     public MainActivity getMainActivityInstance(){return this;}
     MainActivity mainActivity = getMainActivityInstance();
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
         BottomNavigationView navigation =  findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
-        order.add(new MenuCard("Burger","Rs. 50","Veg"));
+        order.add(new MenuCard("Veg Burger","Rs. 70","Veg",0));
         //fragment_mic = new fragment_speak();
         loadFragment(new fragment_menu(),"Menu");
     }
@@ -56,21 +57,28 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-        Fragment fragment = null;
+
         switch (menuItem.getItemId())
         {
             case R.id.navigation_home:
-                fragment = new fragment_menu();
-                loadFragment(fragment,"Home");
+                    fragment = new fragment_menu();
+                    loadFragment(fragment, "Home");
+
+
                 break;
 
             case R.id.navigation_Microphone:
-                Bundle bundle=new Bundle();
-                bundle.putSerializable("order_speak",order);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("order_speak", order);
                     fragment = new fragment_speak();
                     fragment.setArguments(bundle);
                     loadFragment(fragment, "Speak");
             break;
+
+            case R.id.navigation_dashboard:
+                fragment = new fragment_cart();
+                loadFragment(fragment, "Cart");
+                break;
         }
 
         return false;

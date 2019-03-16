@@ -1,5 +1,6 @@
 package com.example.genericrestaurant;
 
+/*
 import android.app.Activity;
 import android.content.ClipData;
 import android.support.annotation.NonNull;
@@ -82,9 +83,9 @@ class CartListAdapter extends RecyclerView.Adapter {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            /*cart_minus_img=(ImageView) itemView.findViewById(R.id.cart_minus_img);
+            cart_minus_img=(ImageView) itemView.findViewById(R.id.cart_minus_img);
             cart_plus_img=(ImageView) itemView.findViewById(R.id.cart_plus_img);
-            img_deleteitem=(ImageView) itemView.findViewById(R.id.img_deleteitem);*/
+            img_deleteitem=(ImageView) itemView.findViewById(R.id.img_deleteitem);
             itemname=(TextView) itemView.findViewById(R.id.foo);
             itemprice=(TextView) itemView.findViewById(R.id.tv_rate);
             itemsize=(TextView) itemView.findViewById(R.id.tv_size);
@@ -96,3 +97,4 @@ class CartListAdapter extends RecyclerView.Adapter {
 
 
 }
+*/

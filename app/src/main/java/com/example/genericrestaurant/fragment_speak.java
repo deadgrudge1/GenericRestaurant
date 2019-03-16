@@ -85,7 +85,7 @@ public class fragment_speak extends Fragment {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String string=result.get(0);
-                    order.add(new MenuCard(string,"Rs. 50","Veg"));
+                    order.add(new MenuCard(string,"Rs. 50","Veg",0));
                     orderAdapter=new CustomAdapter(order,getContext());
                     order_list.setAdapter(orderAdapter);
                     Bundle bundle = new Bundle();

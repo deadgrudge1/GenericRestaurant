@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
         TextView foodName;
         TextView foodType;
         TextView foodCost;
-
+        ImageView imageView;
     }
 
     public CustomAdapter(ArrayList<MenuCard> data, Context context) {
@@ -50,6 +51,7 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
             viewHolder.foodName = (TextView) convertView.findViewById(R.id.foodname);
             viewHolder.foodType = (TextView) convertView.findViewById(R.id.foodtype);
             viewHolder.foodCost = (TextView) convertView.findViewById(R.id.foodcost);
+            viewHolder.imageView=(ImageView)convertView.findViewById(R.id.food_img);
 
             result=convertView;
 
@@ -63,6 +65,11 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
         viewHolder.foodName.setText(menuCard.getFoodName());
         viewHolder.foodType.setText(menuCard.getFoodType());
         viewHolder.foodCost.setText(menuCard.getFoodCost());
+        if(menuCard.img_type==0)
+            viewHolder.imageView.setImageResource(R.drawable.vegetarian_food_symbol);
+        else if(menuCard.img_type==1)
+            viewHolder.imageView.setImageResource(R.drawable.non_vegetarian_food_symbol);
+
 
         // Return the completed view to render on screen
         return convertView;

@@ -9,10 +9,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final String TABLE_MENU = "menu";
 
     // Table columns
-    public static final String FOOD_ID   = "f_id";
-    public static final String FOOD_NAME = "Food_Name";
-    public static final String FOOD_TYPE = "Food_type";
-    public static final String FOOD_COST = "Food_cost";
+    public static final String FOOD_ID   = "ID_Menu";
+    public static final String FOOD_NAME = "Name_Menu";
+    public static final String FOOD_TYPE = "Type_Menu";
+    public static final String FOOD_IMG = "Image_Menu";
+    public static final String FOOD_COST = "Cost";
 
 
     // Database Information
@@ -23,7 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Creating table query
     private static final String CREATE_TABLE = "create table " + TABLE_MENU + "(" + FOOD_ID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FOOD_NAME + " TEXT NOT NULL, " + FOOD_TYPE + " TEXT NOT NULL, " + FOOD_COST + " INTEGER NOT NULL);";
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FOOD_NAME + " TEXT NOT NULL, " + FOOD_TYPE + " TEXT NOT NULL, " + FOOD_IMG + " INTEGER, " + FOOD_COST + " INTEGER NOT NULL);";
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -31,6 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL(CREATE_TABLE);
     }
 

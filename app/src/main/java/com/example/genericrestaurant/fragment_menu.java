@@ -1,5 +1,6 @@
 package com.example.genericrestaurant;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,8 +40,7 @@ public class fragment_menu extends Fragment
 
 
         //foodAdapter = new CustomAdapter(menu,getContext());
-        item1 = new MenuCard("Chicken Burger", "Rs. 100", "Non-Veg.");
-        menu.add(item1);
+
 
         return inflater.inflate(R.layout.fragment_menu, null);
     }
@@ -51,16 +51,25 @@ public class fragment_menu extends Fragment
         super.onViewCreated(view, savedInstanceState);
         add_item_button = view.findViewById(R.id.add_item);
         menulist = view.findViewById(R.id.menu_list);
-        loadMenu();
-        menulist.setAdapter(foodAdapter);
+        try {
+            loadMenu();
+        }catch (Exception e){
+
+        }
+
+       // try {
+
+        //}catch (Exception e){Toast.makeText(getContext(),"Failed to Fetch Menu : loadmenu",Toast.LENGTH_SHORT).show();}
 
     }
 
-    private void loadMenu() {
+    private void loadMenu()
+
+    {
 
         String path;
 
-        path = "http://192.168.0.107/restaurant/fetch_menu.php";
+        path = "http://192.168.0.106/restaurant/fetch_menu.php";
         /*
          * Creating a String Request
          * The request type is GET defined by first parameter
@@ -68,47 +77,64 @@ public class fragment_menu extends Fragment
          * Then we have a Response Listener and a Error Listener
          * In response listener we will get the JSON response as a String
          * */
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, path,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            //converting the string to json array object
-                            JSONArray array = new JSONArray(response);
 
-                            //traversing through all the object
-                            for (int i = 0; i < array.length(); i++) {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, path,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                //converting the string to json array object
+                                JSONArray array = new JSONArray(response);
+                                menu = new ArrayList<>();
+                                //traversing through all the object
+                                for (int i = 0; i < array.length(); i++) {
 
-                                //getting product object from json array
-                                JSONObject menu_json = array.getJSONObject(i);
+                                    //getting product object from json array
+                                    JSONObject menu_json = array.getJSONObject(i);
+                                    //adding the product to product list
+                                    menu.add(new MenuCard(
+                                            menu_json.getString("Name_Menu"),
+                                            String.valueOf("Rs. " + menu_json.getInt("Cost")),
+                                            menu_json.getString("Type_Menu"),
+                                            menu_json.getInt("Image_Menu")
+                                    ));
+                                }
 
-                                //adding the product to product list
-                                menu.add(new MenuCard(
-                                        menu_json.getString("Name_Menu"),
-                                        String.valueOf("Rs. "+menu_json.getInt("Cost")),
-                                        String.valueOf(menu_json.getInt("Type_Menu"))
-                                ));
+                                //creating adapter object and setting it to recyclerview
+                                foodAdapter = new CustomAdapter(menu, getContext());
+                                menulist.setAdapter(foodAdapter);
+                                //recyclerView.setAdapter(adapter);
+                            } catch (JSONException e) {
+                                Toast.makeText(getContext(), "Error : " + e, Toast.LENGTH_LONG).show();
                             }
-
-                            //creating adapter object and setting it to recyclerview
-                            foodAdapter = new CustomAdapter(menu,getContext());
-                            menulist.setAdapter(foodAdapter);
-                            //recyclerView.setAdapter(adapter);
-                        } catch (JSONException e) {
-                                Toast.makeText(getContext(),"Error : "+e,Toast.LENGTH_LONG).show();
                         }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(),"Failed to Fetch Menu",Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getContext(), "Failed to Fetch Menu\nLoading Default", Toast.LENGTH_SHORT).show();
+                            item1 = new MenuCard("Veg Burger", "Rs. 70", "Veg.",0);
+                            menu.add(item1);
+                            item1 = new MenuCard("Chicken Burger", "Rs. 80", "Non-Veg.",1);
+                            menu.add(item1);
+                            item1 = new MenuCard("Fries", "Rs. 50", "Veg.",0);
+                            menu.add(item1);
+                            item1 = new MenuCard("Coke", "Rs. 40", "Veg.",0);
+                            menu.add(item1);
+                            foodAdapter=new CustomAdapter(menu,getContext());
+                            menulist.setAdapter(foodAdapter);
+                        }
+                    });
 
-        //adding our stringrequest to queue
-        Volley.newRequestQueue(getContext()).add(stringRequest);
+            //try {
+                //adding our stringrequest to queue
+                Volley.newRequestQueue(getContext()).add(stringRequest);
+            //}catch (Exception e) {
+              //      Toast.makeText(getContext(), "Failed to Fetch Menu : Volley", Toast.LENGTH_SHORT).show();
+                //}
+
     }
+
 
 
 

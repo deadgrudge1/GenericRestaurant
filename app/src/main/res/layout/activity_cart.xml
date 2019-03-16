@@ -1,51 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:background="#e1e1e1"
-    android:layout_height="fill_parent"
-    android:layout_width="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout
-        android:id="@+id/layout_total"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:padding="5dp"
-        android:weightSum="2">
-        <TextView android:gravity="end"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:text="Total : "
-            android:textSize="20dp">
-        </TextView>
+            android:id="@+id/recycler_cart"
+            android:layout_height="wrap_content">
+
+
+        </android.support.v7.widget.RecyclerView>
+
+
+
 
         <TextView
-            android:id="@+id/food_total_cart"
-            android:layout_width="match_parent"
+            android:id="@+id/amount_cart"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="0 Rs"
-            android:textSize="20dp"></TextView>
-    </LinearLayout>
+            android:text="Total : "
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:layout_below="@+id/recycler_cart"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            />
 
+        <Button
+            android:id="@+id/button_place_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/recycler_cart"
+            android:layout_marginEnd="30dp"
+            android:text="Place Order"
+            />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_cart"
-        android:layout_above="@+id/btn_placeorder"
-        android:layout_below="@+id/layout_total"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
-    </android.support.v7.widget.RecyclerView>
-
-
-    <Button
-        android:id="@+id/btn_placeorder"
-        android:layout_gravity="center"
-        android:layout_alignParentBottom="true"
-        android:layout_height="60dp"
-        android:layout_width="match_parent"
-        android:onClick="insertOrder"
-        android:text="Place Order"
-        android:textColor="@android:color/white"
-        android:theme="@style/Theme.MaterialButton">
-    </Button>
 
 </RelativeLayout>
