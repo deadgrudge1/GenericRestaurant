@@ -32,7 +32,6 @@ public class fragment_menu extends Fragment
     ArrayList<MenuCard> menuCardArrayList = new ArrayList<>();
     CustomAdapter foodAdapter;
     MenuCard item1;
-    FloatingActionButton add_item_button;
 
 
     @Nullable
@@ -49,7 +48,6 @@ public class fragment_menu extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-        add_item_button = view.findViewById(R.id.add_item);
         menuCardListView = view.findViewById(R.id.menu_list);
         try {
             loadMenu();
