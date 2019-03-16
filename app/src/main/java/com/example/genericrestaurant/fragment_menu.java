@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -27,8 +28,8 @@ import java.util.ArrayList;
 
 public class fragment_menu extends Fragment
 {
-    public ListView menulist;
-    ArrayList<MenuCard> menu = new ArrayList<>();
+    public ListView menuCardListView;
+    ArrayList<MenuCard> menuCardArrayList = new ArrayList<>();
     CustomAdapter foodAdapter;
     MenuCard item1;
     FloatingActionButton add_item_button;
@@ -37,7 +38,6 @@ public class fragment_menu extends Fragment
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
 
         //foodAdapter = new CustomAdapter(menu,getContext());
 
@@ -50,7 +50,7 @@ public class fragment_menu extends Fragment
 
         super.onViewCreated(view, savedInstanceState);
         add_item_button = view.findViewById(R.id.add_item);
-        menulist = view.findViewById(R.id.menu_list);
+        menuCardListView = view.findViewById(R.id.menu_list);
         try {
             loadMenu();
         }catch (Exception e){
@@ -85,14 +85,14 @@ public class fragment_menu extends Fragment
                             try {
                                 //converting the string to json array object
                                 JSONArray array = new JSONArray(response);
-                                menu = new ArrayList<>();
+                                menuCardArrayList = new ArrayList<>();
                                 //traversing through all the object
                                 for (int i = 0; i < array.length(); i++) {
 
                                     //getting product object from json array
                                     JSONObject menu_json = array.getJSONObject(i);
                                     //adding the product to product list
-                                    menu.add(new MenuCard(
+                                    menuCardArrayList.add(new MenuCard(
                                             menu_json.getString("Name_Menu"),
                                             String.valueOf("Rs. " + menu_json.getInt("Cost")),
                                             menu_json.getString("Type_Menu"),
@@ -101,8 +101,8 @@ public class fragment_menu extends Fragment
                                 }
 
                                 //creating adapter object and setting it to recyclerview
-                                foodAdapter = new CustomAdapter(menu, getContext());
-                                menulist.setAdapter(foodAdapter);
+                                foodAdapter = new CustomAdapter(menuCardArrayList, getContext());
+                                menuCardListView.setAdapter(foodAdapter);
                                 //recyclerView.setAdapter(adapter);
                             } catch (JSONException e) {
                                 Toast.makeText(getContext(), "Error : " + e, Toast.LENGTH_LONG).show();
@@ -112,17 +112,21 @@ public class fragment_menu extends Fragment
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(getContext(), "Failed to Fetch Menu\nLoading Default", Toast.LENGTH_SHORT).show();
+
                             item1 = new MenuCard("Veg Burger", "Rs. 70", "Veg.",0);
-                            menu.add(item1);
+                            menuCardArrayList.add(item1);
                             item1 = new MenuCard("Chicken Burger", "Rs. 80", "Non-Veg.",1);
-                            menu.add(item1);
+                            menuCardArrayList.add(item1);
                             item1 = new MenuCard("Fries", "Rs. 50", "Veg.",0);
-                            menu.add(item1);
+                            menuCardArrayList.add(item1);
                             item1 = new MenuCard("Coke", "Rs. 40", "Veg.",0);
-                            menu.add(item1);
-                            foodAdapter=new CustomAdapter(menu,getContext());
-                            menulist.setAdapter(foodAdapter);
+                            menuCardArrayList.add(item1);
+                            if (getActivity()!=null){
+                                Toast.makeText(getContext(), "Failed to Fetch Menu\nLoading Default", Toast.LENGTH_SHORT).show();
+                                foodAdapter=new CustomAdapter(menuCardArrayList,getActivity());
+                                menuCardListView.setAdapter(foodAdapter);
+                            }
+
                         }
                     });
 

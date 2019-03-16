@@ -3,6 +3,7 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
     // Table Name
@@ -18,6 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Database Information
     static final String DB_NAME = "restaurant.db";
+    DBManager dbManager;
 
     // database version
     static final int DB_VERSION = 1;
@@ -34,6 +36,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL(CREATE_TABLE);
+        MenuCard menuCard = new MenuCard("Veg Burger database", "100", "Veg.",0);
+        dbManager.insertMenuItem(menuCard);
+         menuCard = new MenuCard("Chicken Burger database", "100", "Non Veg.",1);
+        dbManager.insertMenuItem(menuCard);
+        Log.d("insert-item","Inserted item succesfully");
+
     }
 
     @Override

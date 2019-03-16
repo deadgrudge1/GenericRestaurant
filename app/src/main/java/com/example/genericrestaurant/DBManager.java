@@ -30,11 +30,11 @@ class DBManager
 
     }
 
-    public void insert(String name, String desc, int cost) {
+    public void  insertMenuItem(MenuCard menuCard) {
         ContentValues contentValue = new ContentValues();
-        contentValue.put(DatabaseHelper.FOOD_NAME, name);
-        contentValue.put(DatabaseHelper.FOOD_TYPE, desc);
-        contentValue.put(DatabaseHelper.FOOD_COST, cost);
+        contentValue.put(DatabaseHelper.FOOD_NAME, menuCard.food_name);
+        contentValue.put(DatabaseHelper.FOOD_TYPE, menuCard.food_type);
+        contentValue.put(DatabaseHelper.FOOD_COST, menuCard.food_cost);
         database.insert(DatabaseHelper.TABLE_MENU, null, contentValue);
     }
 
