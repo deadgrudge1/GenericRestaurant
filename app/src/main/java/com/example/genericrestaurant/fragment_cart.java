@@ -29,6 +29,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
     RecyclerView recyclerView;
     CartAdapter cartAdapter;
     private CartAdapter.OnItemClickListener listener;
+    int amount_total;
     private NumberPicker.OnValueChangeListener valueChangeListener;
     int oldval,newval;
     public static final int REQ_CODE=1;
@@ -39,8 +40,8 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
 
         //menulist = findViewById(R.id.menu_list);
         //menulist.setClickable(true);
-        item1 = new OrderCard("Chicken Burger", "100", "Non-Veg.",1);
         menu = new ArrayList<>();
+        item1 = new OrderCard("Chicken Burger", "100", "Non-Veg.",1);
         menu.add(item1);
         item1 = new OrderCard("Veg Burger", "80", "Veg.",0,"2");
         menu.add(item1);
@@ -62,6 +63,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         //valueChangeListener=this;
         cartAdapter = new CartAdapter(getContext(),menu,listener);
         recyclerView.setAdapter(cartAdapter); // set the Adapter to RecyclerView
+        set_total();
     }
 
     @Override
@@ -75,7 +77,13 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         recyclerView.setAdapter(cartAdapter);
     }
 
-
+    public void set_total()
+    {
+        amount_total=0;
+        for(int i=0;i<menu.size();i++)
+            amount_total=amount_total+(Integer.parseInt(menu.get(i).food_cost)*Integer.parseInt(menu.get(i).quantity));
+        total.setText("Total : "+String.valueOf(amount_total));
+    }
 
     public void doPositiveClick(int id,int val) {
         // Do stuff here.
@@ -85,7 +93,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
 
         cartAdapter = new CartAdapter(getContext(),menu,listener);
         recyclerView.setAdapter(cartAdapter);
-        //set_total();
+        set_total();
     }
 
 
