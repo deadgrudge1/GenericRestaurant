@@ -106,6 +106,7 @@ public class fragment_menu extends Fragment
                                 //creating adapter object and setting it to recyclerview
                                 foodAdapter = new CustomAdapter(menuCardArrayList, getContext());
                                 menuCardListView.setAdapter(foodAdapter);
+                                progressBar.setVisibility(View.GONE);
                                 //recyclerView.setAdapter(adapter);
                             } catch (JSONException e) {
                                 Toast.makeText(getContext(), "Error : " + e, Toast.LENGTH_LONG).show();
