@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,7 @@ public class fragment_speak extends Fragment {
     CustomAdapter orderAdapter ;
     MenuCard order1;
     TextView total_amount;
-
+    FloatingActionButton mic_float_button;
 
     public void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -63,7 +64,7 @@ public class fragment_speak extends Fragment {
         order = (ArrayList<MenuCard>) getArguments().getSerializable("order_speak");
         final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        promptSpeechInput();
+
 
         return inflater.inflate(R.layout.fragment_mic,null);
     }
@@ -71,6 +72,13 @@ public class fragment_speak extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mic_float_button = view.findViewById(R.id.mic_float_button);
+        mic_float_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                promptSpeechInput();
+            }
+        });
 
         orderAdapter = new CustomAdapter(order,getContext());
         order_list = view.findViewById(R.id.orderlist);
