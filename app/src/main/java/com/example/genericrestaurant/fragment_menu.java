@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -33,7 +34,8 @@ public class fragment_menu extends Fragment
     CustomAdapter foodAdapter;
     MenuCard item1;
     FloatingActionButton add_item_button;
-
+    ProgressBar progressBar;
+    ImageButton imageButton_refresh;
 
     @Nullable
     @Override
@@ -51,12 +53,13 @@ public class fragment_menu extends Fragment
         super.onViewCreated(view, savedInstanceState);
         add_item_button = view.findViewById(R.id.add_item);
         menuCardListView = view.findViewById(R.id.menu_list);
+        progressBar=view.findViewById(R.id.loadingPanel);
+        imageButton_refresh=view.findViewById(R.id.button_refresh);
         try {
             loadMenu();
         }catch (Exception e){
 
         }
-
        // try {
 
         //}catch (Exception e){Toast.makeText(getContext(),"Failed to Fetch Menu : loadmenu",Toast.LENGTH_SHORT).show();}
@@ -103,6 +106,7 @@ public class fragment_menu extends Fragment
                                 //creating adapter object and setting it to recyclerview
                                 foodAdapter = new CustomAdapter(menuCardArrayList, getContext());
                                 menuCardListView.setAdapter(foodAdapter);
+                                progressBar.setVisibility(View.GONE);
                                 //recyclerView.setAdapter(adapter);
                             } catch (JSONException e) {
                                 Toast.makeText(getContext(), "Error : " + e, Toast.LENGTH_LONG).show();
@@ -125,6 +129,8 @@ public class fragment_menu extends Fragment
                                 Toast.makeText(getContext(), "Failed to Fetch Menu\nLoading Default", Toast.LENGTH_SHORT).show();
                                 foodAdapter=new CustomAdapter(menuCardArrayList,getActivity());
                                 menuCardListView.setAdapter(foodAdapter);
+                                progressBar.setVisibility(View.GONE);
+                                imageButton_refresh.setVisibility(View.VISIBLE);
                             }
 
                         }
