@@ -65,11 +65,11 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
         viewHolder.foodName.setText(menuCard.getFoodName());
         viewHolder.foodType.setText(menuCard.getFoodType());
         viewHolder.foodCost.setText(menuCard.getFoodCost());
-        if(menuCard.img_type==0)
+        /*if(menuCard.img_type==0)
             viewHolder.imageView.setImageResource(R.drawable.vegetarian_food_symbol);
         else if(menuCard.img_type==1)
             viewHolder.imageView.setImageResource(R.drawable.non_vegetarian_food_symbol);
-
+        */
 
         // Return the completed view to render on screen
         return convertView;

@@ -69,7 +69,7 @@ public class fragment_menu extends Fragment
 
         String path;
 
-        path = "http://192.168.0.106/restaurant/fetch_menu.php";
+        path = "http://192.168.0.108/restaurant/fetch_menu.php";
         /*
          * Creating a String Request
          * The request type is GET defined by first parameter
