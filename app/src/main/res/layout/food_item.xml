@@ -27,7 +27,6 @@
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:padding="6dp"
-        android:id="@+id/food_img"
         android:src="@drawable/non_vegetarian_food_symbol" />
 
     <LinearLayout android:orientation="vertical"
