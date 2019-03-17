@@ -148,7 +148,7 @@ public class fragment_menu extends Fragment
 
             //try {
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                300,
+                100,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 //adding our stringrequest to queue

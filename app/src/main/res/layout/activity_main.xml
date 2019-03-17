@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="#dddddd">
+    android:background="@drawable/background">
 
 
 
@@ -29,10 +29,10 @@
         android:layout_marginStart="0dp"
         android:backgroundTint="#dddddd"
         android:background="?android:attr/windowBackground"
-        app:itemBackground="@android:color/black"
-        app:itemIconTint="@android:color/holo_green_light"
-        app:itemTextColor="@android:color/holo_green_light"
-        app:labelVisibilityMode="selected"
+        app:itemBackground="@color/backgroundBrown"
+        app:itemIconTint="#dddddd"
+        app:itemTextColor="#dddddd"
+        app:labelVisibilityMode="auto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

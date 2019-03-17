@@ -66,7 +66,9 @@
         android:layout_alignEnd="@+id/foodcost"
         android:layout_below="@+id/foodcost"
         android:text="Qty : 1"
-        android:textColor="?attr/actionModeSplitBackground" />
+        android:textSize="14dp"
+        android:textColor="@color/colorAccent"
+         />
 
     <TextView
         android:id="@+id/foodcost"
@@ -79,15 +81,17 @@
 
     <ImageButton
         android:id="@+id/cancelButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="23dp"
         android:adjustViewBounds="true"
         android:contentDescription="@android:string/cancel"
-        android:tint="@android:color/transparent"
-        app:srcCompat="@drawable/cross"
+        app:srcCompat="@mipmap/whitecross"
         android:scaleType="fitCenter"
+        android:background="@null"
+        android:padding="5dp"
+
         />
 
 
