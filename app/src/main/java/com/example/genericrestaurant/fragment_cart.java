@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
 
-public class fragment_cart extends Fragment implements CartAdapter.OnItemClickListener,DialogClickListener{
+public class fragment_cart extends Fragment implements CartAdapter.OnItemClickListener, DialogClickListener {
 
     TextView total;
     Button order_place;
@@ -31,19 +32,18 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
     private CartAdapter.OnItemClickListener listener;
     int amount_total;
     private NumberPicker.OnValueChangeListener valueChangeListener;
-    int oldval,newval;
-    public static final int REQ_CODE=1;
+    int oldval, newval;
+    public static final int REQ_CODE = 1;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
 
 
         //menulist = findViewById(R.id.menu_list);
         //menulist.setClickable(true);
         menu = new ArrayList<>();
-        item1 = new OrderCard("Chicken Burger", "100", "Non-Veg.",1);
+        item1 = new OrderCard("Chicken Burger", "100", "Non-Veg.", 1);
         menu.add(item1);
-        item1 = new OrderCard("Veg Burger", "80", "Veg.",0,"2");
+        item1 = new OrderCard("Veg Burger", "80", "Veg.", 0, "2");
         menu.add(item1);
         return inflater.inflate(R.layout.activity_cart, null);
     }
@@ -51,47 +51,47 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-        total=(TextView)view.findViewById(R.id.amount_cart);
-        order_place=(Button)view.findViewById(R.id.button_place_order);
+        total = (TextView) view.findViewById(R.id.amount_cart);
+        order_place = (Button) view.findViewById(R.id.button_place_order);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_cart);
         // set a LinearLayoutManager with default vertical orientation
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         // call the constructor of CustomAdapter to send the reference and data to Adapter
-        listener=this;
+        listener = this;
         //valueChangeListener=this;
-        cartAdapter = new CartAdapter(getContext(),menu,listener);
+        cartAdapter = new CartAdapter(getContext(), menu, listener);
         recyclerView.setAdapter(cartAdapter); // set the Adapter to RecyclerView
         set_total();
+
     }
 
     @Override
     public void showNumberPicker(View v, int id, int qty) {
         DialogBox newFragment = new DialogBox();
-        newFragment.set(id,qty,this.menu);
-        newFragment.setTargetFragment(this,REQ_CODE);
+        newFragment.set(id, qty, this.menu);
+        newFragment.setTargetFragment(this, REQ_CODE);
         newFragment.show(getFragmentManager(), "time picker");
-        menu=newFragment.get_menu();
-        cartAdapter = new CartAdapter(getContext(),menu,listener);
+        menu = newFragment.get_menu();
+        cartAdapter = new CartAdapter(getContext(), menu, listener);
         recyclerView.setAdapter(cartAdapter);
     }
 
-    public void set_total()
-    {
-        amount_total=0;
-        for(int i=0;i<menu.size();i++)
-            amount_total=amount_total+(Integer.parseInt(menu.get(i).food_cost)*Integer.parseInt(menu.get(i).quantity));
-        total.setText("Total : "+String.valueOf(amount_total));
+    public void set_total() {
+        amount_total = 0;
+        for (int i = 0; i < menu.size(); i++)
+            amount_total = amount_total + (Integer.parseInt(menu.get(i).food_cost) * Integer.parseInt(menu.get(i).quantity));
+        total.setText("Total : " + String.valueOf(amount_total));
     }
 
-    public void doPositiveClick(int id,int val) {
+    public void doPositiveClick(int id, int val) {
         // Do stuff here.
         Log.i("FragmentAlertDialog", "Positive click!");
-        Toast.makeText(getContext(),"ID : "+String.valueOf(id)+" Val : "+String.valueOf(val),Toast.LENGTH_SHORT).show();
-        menu.get(id).quantity=String.valueOf(val);
+        Toast.makeText(getContext(), "ID : " + String.valueOf(id) + " Val : " + String.valueOf(val), Toast.LENGTH_SHORT).show();
+        menu.get(id).quantity = String.valueOf(val);
 
-        cartAdapter = new CartAdapter(getContext(),menu,listener);
+        cartAdapter = new CartAdapter(getContext(), menu, listener);
         recyclerView.setAdapter(cartAdapter);
         set_total();
     }
@@ -102,8 +102,12 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         Log.i("FragmentAlertDialog", "Negative click!");
     }
 
-
-
+    public void removeItemFromCart(int id) {
+        menu.remove(id);
+        cartAdapter = new CartAdapter(getContext(), menu, listener);
+        recyclerView.setAdapter(cartAdapter);
+        set_total();
+    }
 
 
 }

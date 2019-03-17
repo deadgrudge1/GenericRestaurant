@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/menu_text"
     android:layout_width="wrap_content"
     android:background="?android:attr/selectableItemBackground"
     android:padding="15dp"
     android:layout_height="wrap_content">
 
-    <view class="android.support.v7.app.AlertController$RecycleListView"
+    <view
+        class="android.support.v7.app.AlertController$RecycleListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:src="@android:drawable/btn_dialog">
 
     </view>
 
@@ -58,20 +63,32 @@
         android:id="@+id/edit_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/foodcost"
+        android:layout_below="@+id/foodcost"
         android:text="Qty : 1"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="60dp"/>
+        android:textColor="?attr/actionModeSplitBackground" />
 
     <TextView
         android:id="@+id/foodcost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="29dp"
-        android:layout_marginEnd="23dp"
+        android:layout_toStartOf="@+id/cancelButton"
         android:text="Rs.249"
         android:textSize="17dp"
         android:textStyle="bold" />
+
+    <ImageButton
+        android:id="@+id/cancelButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="23dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@android:string/cancel"
+        android:tint="@android:color/transparent"
+        app:srcCompat="@drawable/cross"
+        android:scaleType="fitCenter"
+        />
+
 
 </RelativeLayout>

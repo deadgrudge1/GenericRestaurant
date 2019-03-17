@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ public class CartAdapter extends RecyclerView.Adapter implements NumberPicker.On
 
     public interface OnItemClickListener {
         void showNumberPicker(View v, int id, int qty);
+        void removeItemFromCart(int id);
     }
 
 
@@ -80,7 +82,6 @@ public class CartAdapter extends RecyclerView.Adapter implements NumberPicker.On
             }
         });
 
-
         // implement setOnClickListener event on item view.
         holder_view.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +89,14 @@ public class CartAdapter extends RecyclerView.Adapter implements NumberPicker.On
                 // display a toast with person name on item click
                 Toast.makeText(context, menuCard.food_name, Toast.LENGTH_SHORT).show();
 
+            }
+        });
+        final String toast= "Removed: "+holder.foodName.getText().toString();
+        holder.cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
+               listener.removeItemFromCart(position);
             }
         });
     }
@@ -103,6 +112,7 @@ public class CartAdapter extends RecyclerView.Adapter implements NumberPicker.On
         TextView foodType;
         TextView foodCost;
         TextView quantity;
+        ImageButton cancelButton;
         public MyViewHolder(View itemView) {
             super(itemView);
             // get the reference of item view's
@@ -110,6 +120,7 @@ public class CartAdapter extends RecyclerView.Adapter implements NumberPicker.On
             foodType = (TextView) itemView.findViewById(R.id.foodtype);
             foodCost = (TextView) itemView.findViewById(R.id.foodcost);
             quantity = (TextView) itemView.findViewById(R.id.edit_quantity);
+            cancelButton = itemView.findViewById(R.id.cancelButton);
         }
     }
 
