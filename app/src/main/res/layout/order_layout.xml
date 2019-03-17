@@ -41,8 +41,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.75"
                         android:text="Itemname"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textSize="13dp" />
+                        android:textAppearance="@style/TextAppearance.AppCompat" />
 
                     <TextView
                         android:id="@+id/food_quantity"
