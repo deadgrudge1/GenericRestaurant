@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -42,13 +43,11 @@ public class fragment_menu extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         //foodAdapter = new CustomAdapter(menu,getContext());
-
-
         return inflater.inflate(R.layout.fragment_menu, null);
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable final Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
         menuCardListView = view.findViewById(R.id.menu_list);
@@ -60,6 +59,15 @@ public class fragment_menu extends Fragment
 
         }
 
+        imageButton_refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"Wait for Refresh", Toast.LENGTH_SHORT).show();
+                Fragment fragment=new fragment_menu();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment ,"Menu")
+                        .commit();
+            }
+        });
        // try {
 
         //}catch (Exception e){Toast.makeText(getContext(),"Failed to Fetch Menu : loadmenu",Toast.LENGTH_SHORT).show();}
@@ -80,6 +88,8 @@ public class fragment_menu extends Fragment
          * Then we have a Response Listener and a Error Listener
          * In response listener we will get the JSON response as a String
          * */
+
+
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, path,
                     new Response.Listener<String>() {
@@ -137,11 +147,16 @@ public class fragment_menu extends Fragment
                     });
 
             //try {
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                300,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 //adding our stringrequest to queue
                 Volley.newRequestQueue(getContext()).add(stringRequest);
             //}catch (Exception e) {
               //      Toast.makeText(getContext(), "Failed to Fetch Menu : Volley", Toast.LENGTH_SHORT).show();
                 //}
+
 
     }
 
