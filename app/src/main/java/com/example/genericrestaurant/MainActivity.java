@@ -2,6 +2,7 @@ package com.example.genericrestaurant;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     ArrayList<MenuCard> order = new ArrayList<>();
     //private Fragment fragment_mic;
     Fragment fragment = null;
+    boolean doubleBackToExitPressedOnce = false;
 
     public MainActivity getMainActivityInstance(){return this;}
     MainActivity mainActivity = getMainActivityInstance();
@@ -39,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navigation.setOnNavigationItemSelectedListener(this);
         order.add(new MenuCard("Veg Burger","Rs. 70","Veg",0));
         //fragment_mic = new fragment_speak();
+
+
+
         loadFragment(new fragment_menu(),"Menu");
     }
 
@@ -90,5 +95,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public void onFragmentInteraction(ArrayList<MenuCard> order) {
         this.order=order;
         Toast.makeText(getApplicationContext(),"Got it",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }
