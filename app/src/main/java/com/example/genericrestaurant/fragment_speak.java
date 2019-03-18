@@ -3,6 +3,8 @@ package com.example.genericrestaurant;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
@@ -27,10 +29,14 @@ public class fragment_speak extends Fragment {
     private final int REQ_CODE_SPEECH_INPUT = 100;
     public ListView order_list;
     ArrayList<MenuCard> order = new ArrayList<>();
+    DatabaseHelper databaseHelper;
     CustomAdapter orderAdapter ;
     MenuCard order1;
     TextView total_amount;
+    Cursor cursor;
     FloatingActionButton mic_float_button;
+    ArrayList<MenuCard> mArrayList = new ArrayList<>();
+
 
     public void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -59,19 +65,36 @@ public class fragment_speak extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        //order1 = new MenuCard("Chicken Burger", "Rs. 100", "Non-Veg.");
-        //order.add(order1);
-        order = (ArrayList<MenuCard>) getArguments().getSerializable("order_speak");
+        databaseHelper = new DatabaseHelper(getActivity());
+
         final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 
+        cursor = databaseHelper.fetchMenuItems(databaseHelper.getWritableDatabase());
+        if(cursor.getCount() == 0)
+        {
+            Toast.makeText(getActivity(), "Database is empty", Toast.LENGTH_SHORT).show();
+        }
+        else
+            cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String foodname = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FOOD_NAME));
+            String foodcost = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FOOD_COST));
+            String foodtype = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FOOD_TYPE));
+            MenuCard menuCard = new MenuCard(foodname, foodcost, foodtype, 0);
+            mArrayList.add(menuCard); //add the item
+            cursor.moveToNext();
+        }
 
-        return inflater.inflate(R.layout.fragment_mic,null);
+
+       return inflater.inflate(R.layout.fragment_mic,null);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
         mic_float_button = view.findViewById(R.id.mic_float_button);
         mic_float_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,10 +102,12 @@ public class fragment_speak extends Fragment {
                 promptSpeechInput();
             }
         });
-
-        orderAdapter = new CustomAdapter(order,getContext());
+        orderAdapter = new CustomAdapter(mArrayList,getContext());
         order_list = view.findViewById(R.id.orderlist);
         order_list.setAdapter(orderAdapter);
+
+
+
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -93,7 +118,7 @@ public class fragment_speak extends Fragment {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String string=result.get(0);
-                    order.add(new MenuCard(string,"Rs. 50","Veg",0));
+                    //order.add(new MenuCard(string,"Rs. 50","Veg",0));
                     orderAdapter=new CustomAdapter(order,getContext());
                     order_list.setAdapter(orderAdapter);
                     Bundle bundle = new Bundle();
@@ -112,3 +137,5 @@ public class fragment_speak extends Fragment {
     }
 
 }
+
+

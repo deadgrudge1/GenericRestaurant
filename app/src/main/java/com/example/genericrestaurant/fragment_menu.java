@@ -1,5 +1,6 @@
 package com.example.genericrestaurant;
 
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,15 +35,17 @@ public class fragment_menu extends Fragment
     ArrayList<MenuCard> menuCardArrayList = new ArrayList<>();
     CustomAdapter foodAdapter;
     MenuCard item1;
-
+    DatabaseHelper databaseHelper;
     ProgressBar progressBar;
     ImageButton imageButton_refresh;
+    Cursor cursor;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         //foodAdapter = new CustomAdapter(menu,getContext());
+
         return inflater.inflate(R.layout.fragment_menu, null);
     }
 
@@ -127,14 +130,27 @@ public class fragment_menu extends Fragment
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
-                            item1 = new MenuCard("Veg Burger", "Rs. 70", "Veg.",0);
-                            menuCardArrayList.add(item1);
-                            item1 = new MenuCard("Chicken Burger", "Rs. 80", "Non-Veg.",1);
-                            menuCardArrayList.add(item1);
-                            item1 = new MenuCard("Fries", "Rs. 50", "Veg.",0);
-                            menuCardArrayList.add(item1);
-                            item1 = new MenuCard("Coke", "Rs. 40", "Veg.",0);
-                            menuCardArrayList.add(item1);
+
+                            databaseHelper = new DatabaseHelper(getActivity());
+
+
+                            cursor = databaseHelper.fetchMenuItems(databaseHelper.getWritableDatabase());
+                            if(cursor.getCount() == 0)
+                            {
+                                Toast.makeText(getActivity(), "Database is empty", Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                                cursor.moveToFirst();
+                            while (!cursor.isAfterLast()) {
+                                String foodname = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FOOD_NAME));
+                                String foodcost = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FOOD_COST));
+                                String foodtype = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FOOD_TYPE));
+                                MenuCard menuCard = new MenuCard(foodname, foodcost, foodtype, 0);
+                                menuCardArrayList.add(menuCard); //add the item
+                                cursor.moveToNext();
+                            }
+
+
                             if (getActivity()!=null){
                                 Toast.makeText(getContext(), "Failed to Fetch Menu\nLoading Default", Toast.LENGTH_SHORT).show();
                                 foodAdapter=new CustomAdapter(menuCardArrayList,getActivity());
@@ -164,3 +180,4 @@ public class fragment_menu extends Fragment
 
 
 }
+

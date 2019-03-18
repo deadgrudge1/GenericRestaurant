@@ -36,7 +36,7 @@
                     >
 
                     <TextView
-                        android:id="@+id/food_name"
+                        android:id="@+id/food_name_cart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.75"
@@ -44,7 +44,7 @@
                         android:textAppearance="@style/TextAppearance.AppCompat" />
 
                     <TextView
-                        android:id="@+id/food_quantity"
+                        android:id="@+id/food_quantity_cart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.1"
@@ -56,7 +56,7 @@
                         />
 
                     <TextView
-                        android:id="@+id/food_cost"
+                        android:id="@+id/food_cost_cart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -66,7 +66,7 @@
                         android:textSize="13dp" />
 
                     <TextView
-                        android:id="@+id/total_bill"
+                        android:id="@+id/total_bill_cart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/tv_qty"
@@ -77,12 +77,11 @@
                         android:textSize="13dp" />
 
                     <CheckBox
-                        android:id="@+id/chk_selectitem"
+                        android:id="@+id/chk_selectitem_cart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.15"
-                        android:clickable="false"
-                        />
+                        android:clickable="false" />
                 </LinearLayout>
 
             </LinearLayout>

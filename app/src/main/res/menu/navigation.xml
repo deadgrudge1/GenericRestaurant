@@ -9,12 +9,12 @@
     <item
         android:id="@+id/navigation_Microphone"
         android:icon="@drawable/microphone"
-        android:title="Tap to Speak" />
+        android:title="Order" />
 
     <item
         android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:icon="@drawable/cart"
+        android:title="Cart" />
 
     <item
         android:id="@+id/navigation_notifications"
