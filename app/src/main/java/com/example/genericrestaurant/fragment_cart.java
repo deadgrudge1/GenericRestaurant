@@ -143,6 +143,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
     }
 
     public void removeItemFromCart(int id) {
+
         Cursor cursor_temp = databaseHelper.fetchCartItems(databaseHelper.getReadableDatabase());
         cursor_temp.moveToFirst();
         int count = id;
