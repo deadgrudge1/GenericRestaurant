@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -71,6 +72,7 @@ public class fragment_menu extends Fragment
                         .commit();
             }
         });
+
        // try {
 
         //}catch (Exception e){Toast.makeText(getContext(),"Failed to Fetch Menu : loadmenu",Toast.LENGTH_SHORT).show();}
@@ -145,7 +147,8 @@ public class fragment_menu extends Fragment
                                 String foodname = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FOOD_NAME));
                                 String foodcost = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FOOD_COST));
                                 String foodtype = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FOOD_TYPE));
-                                MenuCard menuCard = new MenuCard(foodname, foodcost, foodtype, 0);
+                                int img_type = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.FOOD_IMG));
+                                MenuCard menuCard = new MenuCard(foodname, foodcost, foodtype, img_type);
                                 menuCardArrayList.add(menuCard); //add the item
                                 cursor.moveToNext();
                             }

@@ -1,6 +1,7 @@
 package com.example.genericrestaurant;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,6 +35,8 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
     private NumberPicker.OnValueChangeListener valueChangeListener;
     int oldval, newval;
     public static final int REQ_CODE = 1;
+    DatabaseHelper databaseHelper;
+    Cursor cursor;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -42,9 +45,46 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         //menulist.setClickable(true);
         menu = new ArrayList<>();
         item1 = new OrderCard("Chicken Burger", "100", "Non-Veg.", 1);
-        menu.add(item1);
+        //menu.add(item1);
         item1 = new OrderCard("Veg Burger", "80", "Veg.", 0, "2");
-        menu.add(item1);
+        //menu.add(item1);
+
+        databaseHelper = new DatabaseHelper(getActivity());
+
+
+        cursor = databaseHelper.fetchCartItems(databaseHelper.getWritableDatabase());
+        if(cursor.getCount() == 0)
+        {
+            Toast.makeText(getActivity(), "Cart Db is empty", Toast.LENGTH_SHORT).show();
+        }
+        else
+            cursor.moveToFirst();
+
+        OrderCard orderCard;
+        while (!cursor.isAfterLast()) {
+            int food_id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.FOOD_ID));
+            int quantity = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.QUANTITY));
+
+            Cursor temp =  databaseHelper.fetchMenuItem(databaseHelper.getReadableDatabase(),food_id);
+            if(temp.getCount() == 0)
+            {
+                Toast.makeText(getActivity(), "Failed to map Cart Item", Toast.LENGTH_SHORT).show();
+            }
+            else
+                temp.moveToFirst();
+
+            String foodname = temp.getString(temp.getColumnIndex(DatabaseHelper.FOOD_NAME));
+            String foodcost = temp.getString(temp.getColumnIndex(DatabaseHelper.FOOD_COST));
+            String foodtype = temp.getString(temp.getColumnIndex(DatabaseHelper.FOOD_TYPE));
+            int img_type = temp.getInt(temp.getColumnIndex(DatabaseHelper.FOOD_IMG));
+
+            orderCard = new OrderCard(foodname,foodcost,foodtype,img_type,String.valueOf(quantity));
+
+            menu.add(orderCard);
+
+            cursor.moveToNext();
+        }
+
         return inflater.inflate(R.layout.activity_cart, null);
     }
 
@@ -103,10 +143,18 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
     }
 
     public void removeItemFromCart(int id) {
+        Cursor cursor_temp = databaseHelper.fetchMenuItems(databaseHelper.getWritableDatabase());
+        cursor_temp.moveToFirst();
+        int count=id;
+        while(id >= 0)
+            cursor_temp.moveToNext();
+        int food_id = cursor_temp.getInt(cursor_temp.getColumnIndex(DatabaseHelper.FOOD_ID));
+        databaseHelper.removeCartItem(databaseHelper.getWritableDatabase(), food_id);
         menu.remove(id);
         cartAdapter = new CartAdapter(getContext(), menu, listener);
         recyclerView.setAdapter(cartAdapter);
         set_total();
+
     }
 
 

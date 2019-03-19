@@ -81,16 +81,15 @@
 
     <ImageButton
         android:id="@+id/cancelButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="23dp"
-        android:adjustViewBounds="true"
         android:contentDescription="@android:string/cancel"
-        app:srcCompat="@mipmap/whitecross"
+        app:srcCompat="@drawable/cross"
         android:scaleType="fitCenter"
-        android:background="@null"
-        android:padding="5dp"
+        android:background="#20dddddd"
+        android:layout_marginStart="20dp"
+        android:padding="7dp"
 
         />
 

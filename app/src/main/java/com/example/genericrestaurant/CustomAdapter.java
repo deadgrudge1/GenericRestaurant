@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,8 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
 
     private ArrayList<MenuCard> menuCardsdata;
     Context mContext;
+    DatabaseHelper db;
+    int count;
 
     // View lookup cache
     private static class ViewHolder {
@@ -29,6 +32,7 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
         super(context, R.layout.food_item, data);
         this.menuCardsdata = data;
         this.mContext=context;
+        db=new DatabaseHelper(context);
 
     }
 
@@ -36,9 +40,9 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
     private int lastPosition = -1;
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        MenuCard menuCard = getItem(position);
+        final MenuCard menuCard = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder; // view lookup cache stored in tag
 
@@ -71,6 +75,14 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
         else if(menuCard.img_type==1)
             viewHolder.imageView.setImageResource(R.drawable.non_vegetarian_food_symbol);
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"Added "+menuCard.getFoodName()+" to Cart",Toast.LENGTH_SHORT).show();
+                count=db.fetchCartItems(db.getReadableDatabase()).getCount();
+                db.insertCartItem(db.getWritableDatabase(),position+1,1);
+            }
+        });
 
         // Return the completed view to render on screen
         return convertView;

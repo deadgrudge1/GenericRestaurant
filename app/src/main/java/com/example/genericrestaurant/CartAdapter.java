@@ -31,6 +31,8 @@ public class CartAdapter extends RecyclerView.Adapter implements NumberPicker.On
         this.menuCardsdata=menuCardsdata;
         this.listener=listener;
     }
+
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // infalte the item Layout
