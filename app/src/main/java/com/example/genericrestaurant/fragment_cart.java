@@ -143,12 +143,17 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
     }
 
     public void removeItemFromCart(int id) {
-        Cursor cursor_temp = databaseHelper.fetchMenuItems(databaseHelper.getWritableDatabase());
+        Cursor cursor_temp = databaseHelper.fetchCartItems(databaseHelper.getReadableDatabase());
         cursor_temp.moveToFirst();
-        int count=id;
-        while(id >= 0)
+        int count = id;
+        int food_id=0;
+        while (count >= 0)
+        {
+            food_id = cursor_temp.getInt(cursor_temp.getColumnIndex(DatabaseHelper.FOOD_ID));
             cursor_temp.moveToNext();
-        int food_id = cursor_temp.getInt(cursor_temp.getColumnIndex(DatabaseHelper.FOOD_ID));
+            count--;
+        }
+
         databaseHelper.removeCartItem(databaseHelper.getWritableDatabase(), food_id);
         menu.remove(id);
         cartAdapter = new CartAdapter(getContext(), menu, listener);
