@@ -69,8 +69,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.navigation_home:
                     fragment = new fragment_menu();
                     loadFragment(fragment, "Home");
-
-
                 break;
 
             case R.id.navigation_Microphone:

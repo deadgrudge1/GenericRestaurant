@@ -14,17 +14,7 @@
         android:layout_marginTop="3dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="56dp"
-        android:id="@+id/menu_list"
-        android:descendantFocusability="blocksDescendants"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:id="@+id/recycler_cart"
-        android:layout_height="wrap_content">
-
-
-    </android.support.v7.widget.RecyclerView>
-
+        android:id="@+id/menu_list" />
 
 
     <ProgressBar

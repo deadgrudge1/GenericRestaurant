@@ -10,8 +10,6 @@
             android:layout_width="match_parent"
             android:id="@+id/recycler_cart"
             android:layout_height="wrap_content">
-
-
         </android.support.v7.widget.RecyclerView>
 
 
@@ -32,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="60dp"
         android:backgroundTint="@color/backgroundYellow"
         android:text="Place Order"
         android:visibility="visible" />
@@ -41,7 +39,7 @@
         android:id="@+id/clear_cart"
         style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="88dp"
-        android:layout_height="35dp"
+        android:layout_height="40dp"
         android:layout_below="@+id/recycler_cart"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="11dp"
