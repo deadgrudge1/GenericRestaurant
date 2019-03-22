@@ -137,5 +137,3 @@ public class fragment_speak extends Fragment {
     }
 
 }
-
-

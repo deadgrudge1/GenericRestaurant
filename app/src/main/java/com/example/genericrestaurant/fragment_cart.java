@@ -26,6 +26,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
 
     TextView total;
     Button order_place;
+    Button cart_clear;
     ArrayList<OrderCard> menu;
     OrderCard item1;
     RecyclerView recyclerView;
@@ -39,7 +40,6 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
     Cursor cursor;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
 
         //menulist = findViewById(R.id.menu_list);
         //menulist.setClickable(true);
@@ -85,16 +85,26 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
             cursor.moveToNext();
         }
 
+        /*cart_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                databaseHelper.emptyCart(databaseHelper.getWritableDatabase());
+
+            }
+        });*/
+
         return inflater.inflate(R.layout.activity_cart, null);
     }
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-        total = (TextView) view.findViewById(R.id.amount_cart);
-        order_place = (Button) view.findViewById(R.id.button_place_order);
+        total = view.findViewById(R.id.amount_cart);
+        order_place = view.findViewById(R.id.button_place_order);
+        cart_clear = view.findViewById(R.id.clear_cart);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_cart);
+        recyclerView = view.findViewById(R.id.recycler_cart);
         // set a LinearLayoutManager with default vertical orientation
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -105,7 +115,21 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         recyclerView.setAdapter(cartAdapter); // set the Adapter to RecyclerView
         set_total();
 
+        cart_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(menu.isEmpty())
+                {
+                    Toast.makeText(getActivity(),"Cart already Empty",Toast.LENGTH_SHORT).show();
+                }
+                else
+                    cart_empty();
+            }
+        });
+
     }
+
+
 
     @Override
     public void showNumberPicker(View v, int id, int qty) {
@@ -174,6 +198,19 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         recyclerView.setAdapter(cartAdapter);
         set_total();
 
+    }
+
+    private void cart_empty()
+    {
+
+        databaseHelper.emptyCart(databaseHelper.getWritableDatabase());
+        menu.clear();
+        cartAdapter = new CartAdapter(getContext(), menu, listener);
+        recyclerView.setAdapter(cartAdapter);
+        cart_clear.setVisibility(View.GONE);
+        total.setText("Cart is empty, add items from menu to place order.");
+
+        Toast.makeText(getActivity(),"Cart is Empty",Toast.LENGTH_SHORT).show();
     }
 
 

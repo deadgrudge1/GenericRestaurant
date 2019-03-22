@@ -120,7 +120,6 @@ public class Cart extends AppCompatActivity {
 
    jsonCartList - Consists of Objects of all product selected.
 
-
     }
 }
 */

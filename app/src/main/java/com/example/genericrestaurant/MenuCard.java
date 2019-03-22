@@ -14,7 +14,6 @@ public class MenuCard extends Fragment
     public int img_type;
 
 
-
     public MenuCard(String food_name, String food_cost, String food_type, int img_type) {
         this.food_name = food_name;
         this.food_cost = food_cost;

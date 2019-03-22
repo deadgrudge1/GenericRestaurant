@@ -11,4 +11,3 @@ public class Cart extends AppCompatActivity {
         setContentView(R.layout.activity_cart);
     }
 }
-

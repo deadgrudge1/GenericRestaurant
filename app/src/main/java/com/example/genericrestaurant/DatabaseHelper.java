@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -23,6 +24,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String QUANTITY = "Item_Qty";
     public static final String POSITION = "Position";
+
+
 
 
     public DatabaseHelper getDatabaseHelperContext(){
@@ -137,6 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     return true;  //add +1 to quantity if food item exists in cart
                 }
             } while (cursor_temp.moveToNext());
+
         }
 
         ContentValues contentValues = new ContentValues();
@@ -169,6 +173,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.delete(DatabaseHelper.TABLE_CART, DatabaseHelper.FOOD_ID + "=" + position,null);
 
             return true;
+    }
+
+    public boolean emptyCart(SQLiteDatabase db)
+    {
+        db.execSQL(" DELETE  FROM "  + TABLE_CART );
+        return true;
     }
 
     public Cursor fetchMenuItem(SQLiteDatabase db, int Food_ID)
@@ -206,6 +216,3 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 }
-
-
-

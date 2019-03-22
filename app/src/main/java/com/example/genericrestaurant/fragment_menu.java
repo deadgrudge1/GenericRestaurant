@@ -174,7 +174,7 @@ public class fragment_menu extends Fragment
 
             //try {
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                100,
+                1000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 //adding our stringrequest to queue
@@ -183,11 +183,5 @@ public class fragment_menu extends Fragment
               //      Toast.makeText(getContext(), "Failed to Fetch Menu : Volley", Toast.LENGTH_SHORT).show();
                 //}
 
-
     }
-
-
-
-
 }
-

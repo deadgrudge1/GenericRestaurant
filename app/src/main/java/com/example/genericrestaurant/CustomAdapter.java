@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
         TextView foodType;
         TextView foodCost;
         ImageView imageView;
+
     }
 
     public CustomAdapter(ArrayList<MenuCard> data, Context context) {
@@ -93,11 +95,13 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
                 }
 
                 db.insertCartItem(db.getWritableDatabase(),food_id,1);
+
             }
         });
 
         // Return the completed view to render on screen
         return convertView;
     }
-}
 
+
+}

@@ -15,29 +15,39 @@
         </android.support.v7.widget.RecyclerView>
 
 
+    <TextView
+        android:id="@+id/amount_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recycler_cart"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="16dp"
+        android:text="Total : "
+        android:textAlignment="center"
+        android:textSize="20dp" />
 
+    <Button
+        android:id="@+id/button_place_order"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:backgroundTint="@color/backgroundYellow"
+        android:text="Place Order"
+        android:visibility="visible" />
 
-        <TextView
-            android:id="@+id/amount_cart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Total : "
-            android:textAlignment="center"
-            android:textSize="20dp"
-            android:layout_below="@+id/recycler_cart"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="5dp"
-            />
-
-        <Button
-            android:id="@+id/button_place_order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/recycler_cart"
-            android:layout_marginEnd="30dp"
-            android:text="Place Order"
-            />
+    <Button
+        android:id="@+id/clear_cart"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="88dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/recycler_cart"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="25dp"
+        android:backgroundTint="@color/backgroundYellow"
+        android:text="CLEAR" />
 
 
 </RelativeLayout>

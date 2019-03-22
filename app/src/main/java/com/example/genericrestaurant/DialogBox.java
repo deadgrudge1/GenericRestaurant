@@ -35,8 +35,8 @@ public class DialogBox extends DialogFragment {
         numberPicker.setValue(qty);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Choose Value");
-        builder.setMessage("Choose a number :");
+        builder.setTitle("How many do you wish to order?");
+        builder.setMessage("Select quantity :");
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override

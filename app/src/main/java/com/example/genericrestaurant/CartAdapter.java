@@ -44,7 +44,6 @@ public class CartAdapter extends RecyclerView.Adapter implements NumberPicker.On
 
 
 
-
     public void onBindViewHolder(final RecyclerView.ViewHolder holder_view, final int position) {
         // set the data in items
         MyViewHolder holder=new MyViewHolder(holder_view.itemView);
