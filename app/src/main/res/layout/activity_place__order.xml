@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Place_Order">
+
+    <TextView
+        android:id="@+id/order_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Order has been placed"
+        android:layout_centerHorizontal="true"
+        android:textSize="25sp"
+        android:layout_marginVertical="15dp" />
+
+
+    <TextView
+        android:id="@+id/order_items_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/order_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Chicken Burger"
+        android:textSize="24sp" />
+
+
+    <TextView
+        android:id="@+id/place_order_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total : Rs. 101"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        android:layout_margin="15dp"
+        android:layout_above="@+id/button_place_order_back"/>
+
+    <Button
+        android:id="@+id/button_place_order_back"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@color/backgroundYellow"
+        android:text="GO BACK"
+        android:visibility="visible" />
+
+</RelativeLayout>

@@ -127,6 +127,13 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
             }
         });
 
+        order_place.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                place_order();
+            }
+        });
+
     }
 
 
@@ -211,6 +218,18 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         total.setText("Cart is empty, add items from menu to place order.");
 
         Toast.makeText(getActivity(),"Cart is Empty",Toast.LENGTH_SHORT).show();
+    }
+
+    private void place_order()
+    {
+        Intent intent = new Intent(getContext(),Place_Order.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("total",amount_total);
+        bundle.putSerializable("items",menu);
+        intent.putExtra("bundle",bundle);
+        startActivity(intent);
+        cart_empty();
     }
 
 
