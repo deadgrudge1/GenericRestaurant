@@ -2,6 +2,7 @@ package com.example.genericrestaurant;
 
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +70,7 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
 
         viewHolder.foodName.setText(menuCard.getFoodName());
         viewHolder.foodType.setText(menuCard.getFoodType());
-        viewHolder.foodCost.setText(menuCard.getFoodCost());
+        viewHolder.foodCost.setText("Rs. "+menuCard.getFoodCost());
         if(menuCard.img_type==0)
             viewHolder.imageView.setImageResource(R.drawable.vegetarian_food_symbol);
         else if(menuCard.img_type==1)
@@ -79,8 +80,19 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(),"Added "+menuCard.getFoodName()+" to Cart",Toast.LENGTH_SHORT).show();
-                count=db.fetchCartItems(db.getReadableDatabase()).getCount();
-                db.insertCartItem(db.getWritableDatabase(),position+1,1);
+
+                Cursor cursor_temp = db.fetchMenuItems(db.getReadableDatabase());
+                cursor_temp.moveToFirst();
+                int count = position;
+                int food_id=0;
+                while (count >= 0)
+                {
+                    food_id = cursor_temp.getInt(cursor_temp.getColumnIndex(DatabaseHelper.FOOD_ID));
+                    cursor_temp.moveToNext();
+                    count--;
+                }
+
+                db.insertCartItem(db.getWritableDatabase(),food_id,1);
             }
         });
 

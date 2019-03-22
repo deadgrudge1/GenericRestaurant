@@ -77,7 +77,9 @@
         android:layout_toStartOf="@+id/cancelButton"
         android:text="Rs.249"
         android:textSize="17dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        />
 
     <ImageButton
         android:id="@+id/cancelButton"
@@ -90,6 +92,7 @@
         android:background="#20dddddd"
         android:layout_marginStart="20dp"
         android:padding="7dp"
+        android:layout_marginTop="10dp"
 
         />
 

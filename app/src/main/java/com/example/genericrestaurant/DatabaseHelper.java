@@ -59,13 +59,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("insert-item", "Inserted item succesfully 1");
         //menuCard = new MenuCard("Chicken Burger database", "100", "Non Veg.", 1);
         //insertMenuItem(db, menuCard);
-        menuCard = new MenuCard("Veg Burger", "70", "Veg.",0);
+        menuCard = new MenuCard(1,"Veg Burger", "70", "Veg.",0);
         insertMenuItem(db,menuCard);
-        menuCard = new MenuCard("Chicken Burger", "80", "Non-Veg.",1);
+        menuCard = new MenuCard(2,"Chicken Burger", "80", "Non-Veg.",1);
         insertMenuItem(db,menuCard);
-        menuCard = new MenuCard("Fries", "50", "Veg.",0);
+        menuCard = new MenuCard(3,"Fries", "50", "Veg.",0);
         insertMenuItem(db,menuCard);
-        menuCard = new MenuCard("Coke", "40", "Veg.",0);
+        menuCard = new MenuCard(4,"Coke", "40", "Veg.",0);
         insertMenuItem(db,menuCard);
         Log.d("insert-item", "Inserted item succesfully");
 
@@ -83,6 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean insertMenuItem(SQLiteDatabase db,MenuCard menuCard) {
         ContentValues contentValue = new ContentValues();
+        contentValue.put(DatabaseHelper.FOOD_ID,menuCard.id);
         contentValue.put(DatabaseHelper.FOOD_NAME, menuCard.food_name);
         contentValue.put(DatabaseHelper.FOOD_TYPE, menuCard.food_type);
         contentValue.put(DatabaseHelper.FOOD_COST, menuCard.food_cost);
@@ -93,6 +94,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else
             return true;
     }
+
+  /*  public boolean updateMenu(SQLiteDatabase db, MenuCard menuCard)
+    {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put(DatabaseHelper.FOOD_NAME, menuCard.food_name);
+        contentValue.put(DatabaseHelper.FOOD_TYPE, menuCard.food_type);
+        contentValue.put(DatabaseHelper.FOOD_COST, menuCard.food_cost);
+        contentValue.put(DatabaseHelper.FOOD_IMG, menuCard.img_type);
+        long result = db.update(DatabaseHelper.TABLE_MENU,contentValue,,null);
+    }  */
 
     public Cursor fetchMenuItems(SQLiteDatabase db) {
         String[] columns = new String[]{DatabaseHelper.FOOD_ID, DatabaseHelper.FOOD_NAME, DatabaseHelper.FOOD_TYPE, DatabaseHelper.FOOD_COST, DatabaseHelper.FOOD_IMG};
@@ -112,6 +123,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean insertCartItem(SQLiteDatabase db, /*int position,*/ int Food_ID, int quantity)
     {
+
+        Cursor cursor_temp = fetchCartItems(this.getReadableDatabase());
+        cursor_temp.moveToFirst();
+        int food_id=0;
+        if(cursor_temp.getCount()>0) {
+            do {
+                food_id = cursor_temp.getInt(cursor_temp.getColumnIndex(DatabaseHelper.FOOD_ID));
+                if (food_id == Food_ID) {
+                    int quantity_new = cursor_temp.getInt(cursor_temp.getColumnIndex(DatabaseHelper.QUANTITY));
+                    quantity_new = quantity_new + quantity;
+                    updateCartItem(db, food_id, quantity_new);
+                    return true;  //add +1 to quantity if food item exists in cart
+                }
+            } while (cursor_temp.moveToNext());
+        }
+
         ContentValues contentValues = new ContentValues();
         //contentValues.put(DatabaseHelper.POSITION, position);
         contentValues.put(DatabaseHelper.FOOD_ID, Food_ID);
@@ -153,6 +180,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         DatabaseHelper.FOOD_COST,
                         DatabaseHelper.FOOD_IMG};
         return db.rawQuery("SELECT * FROM " + TABLE_MENU + " WHERE " + FOOD_ID + " = " + Food_ID,null);
+    }
+
+    public boolean updateCartItem(SQLiteDatabase db, int Food_ID, int quantity)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseHelper.QUANTITY,quantity);
+        db.update(DatabaseHelper.TABLE_CART,contentValues,DatabaseHelper.FOOD_ID + " = " + Food_ID,null);
+        return true;
     }
 
     public boolean arrangeCart(SQLiteDatabase db)

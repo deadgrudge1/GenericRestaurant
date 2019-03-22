@@ -85,7 +85,7 @@ public class fragment_menu extends Fragment
 
         String path;
 
-        path = "http://192.168.0.108/restaurant/fetch_menu.php";
+        path = "http://192.168.0.109/restaurant/fetch_menu.php";
         /*
          * Creating a String Request
          * The request type is GET defined by first parameter
@@ -104,6 +104,8 @@ public class fragment_menu extends Fragment
                                 //converting the string to json array object
                                 JSONArray array = new JSONArray(response);
                                 menuCardArrayList = new ArrayList<>();
+                                databaseHelper = new DatabaseHelper(getContext());
+                                databaseHelper.getWritableDatabase().delete(DatabaseHelper.TABLE_MENU,null,null);
                                 //traversing through all the object
                                 for (int i = 0; i < array.length(); i++) {
 
@@ -111,12 +113,17 @@ public class fragment_menu extends Fragment
                                     JSONObject menu_json = array.getJSONObject(i);
                                     //adding the product to product list
                                     menuCardArrayList.add(new MenuCard(
+                                            menu_json.getInt("ID_Menu"),
                                             menu_json.getString("Name_Menu"),
-                                            String.valueOf("Rs. " + menu_json.getInt("Cost")),
+                                            String.valueOf(menu_json.getInt("Cost")),
                                             menu_json.getString("Type_Menu"),
                                             menu_json.getInt("Image_Menu")
                                     ));
+
+                                    databaseHelper.insertMenuItem(databaseHelper.getWritableDatabase(),menuCardArrayList.get(i));
                                 }
+
+
 
                                 //creating adapter object and setting it to recyclerview
                                 foodAdapter = new CustomAdapter(menuCardArrayList, getContext());

@@ -131,6 +131,19 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         Toast.makeText(getContext(), "ID : " + String.valueOf(id) + " Val : " + String.valueOf(val), Toast.LENGTH_SHORT).show();
         menu.get(id).quantity = String.valueOf(val);
 
+
+        Cursor cursor_temp = databaseHelper.fetchCartItems(databaseHelper.getReadableDatabase());
+        cursor_temp.moveToFirst();
+        int count = id;
+        while(count > 0)
+        {
+            cursor_temp.moveToNext();
+            count--;
+        }
+        int food_id = cursor_temp.getInt(cursor_temp.getColumnIndex(DatabaseHelper.FOOD_ID));;
+
+        databaseHelper.updateCartItem(databaseHelper.getWritableDatabase(), food_id, val);
+
         cartAdapter = new CartAdapter(getContext(), menu, listener);
         recyclerView.setAdapter(cartAdapter);
         set_total();
