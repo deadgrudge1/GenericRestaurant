@@ -130,7 +130,12 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         order_place.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                place_order();
+                if(menu.isEmpty())
+                {
+                    Toast.makeText(getActivity(),"Add Items in cart to place order.",Toast.LENGTH_SHORT).show();
+                }
+                else
+                    place_order();
             }
         });
 
