@@ -1,5 +1,6 @@
 package com.example.genericrestaurant;
 
+import android.app.FragmentManager;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,6 +52,8 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
         total_text = (TextView)findViewById(R.id.place_order_total);
         order_text = (TextView)findViewById((R.id.order_items_text));
         back = (Button)findViewById(R.id.button_place_order_back);
+
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
