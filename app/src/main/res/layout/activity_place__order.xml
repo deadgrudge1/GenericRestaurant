@@ -7,6 +7,16 @@
     tools:context=".Place_Order">
 
     <TextView
+        android:id="@+id/cashcard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Please pay cash at counter"
+        android:textSize="25sp"
+        android:layout_below="@id/spinner"
+        android:layout_marginTop="100dp"/>
+
+    <TextView
         android:id="@+id/order_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,5 +57,23 @@
         android:backgroundTint="@color/backgroundYellow"
         android:text="GO BACK"
         android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/qrcode"
+        android:layout_width="181dp"
+        android:layout_height="213dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="124dp"
+        app:srcCompat="@drawable/paytmqr" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="153dp"
+        android:layout_below="@+id/order_items_text"/>
 
 </RelativeLayout>
