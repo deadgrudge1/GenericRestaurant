@@ -85,7 +85,7 @@ public class fragment_menu extends Fragment
 
         String path;
 
-        path = "http://192.168.0.109/restaurant/fetch_menu.php";
+        path = "https://generic-restaurant.000webhostapp.com/fetch_menu.php";
         /*
          * Creating a String Request
          * The request type is GET defined by first parameter
@@ -174,7 +174,7 @@ public class fragment_menu extends Fragment
 
             //try {
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                100,
+                1000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 //adding our stringrequest to queue

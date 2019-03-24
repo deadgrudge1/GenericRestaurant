@@ -25,6 +25,9 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
     ImageView paytm;
     TextView cashcard;
     Button back;
+    Spinner spin;
+    ArrayAdapter aa;
+    String[] payment_options = {"Cash", "Card","UPI", "Paytm"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +35,14 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
         setContentView(R.layout.activity_place__order);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        String[] payment_options = {"Cash", "Card","UPI", "Paytm"};
+
 
         //Getting the instance of Spinner and applying OnItemSelectedListener on it
-        Spinner spin = (Spinner) findViewById(R.id.spinner);
+        spin = (Spinner) findViewById(R.id.spinner);
         spin.setOnItemSelectedListener(this);
 
         //Creating the ArrayAdapter instance having the country list
-        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,payment_options);
+        aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,payment_options);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         spin.setAdapter(aa);
