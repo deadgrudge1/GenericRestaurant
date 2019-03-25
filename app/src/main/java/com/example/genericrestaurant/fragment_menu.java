@@ -1,5 +1,6 @@
 package com.example.genericrestaurant;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -36,18 +37,34 @@ public class fragment_menu extends Fragment
     ArrayList<MenuCard> menuCardArrayList = new ArrayList<>();
     CustomAdapter foodAdapter;
     MenuCard item1;
-    DatabaseHelper databaseHelper;
     ProgressBar progressBar;
     ImageButton imageButton_refresh;
     Cursor cursor;
+    DatabaseHelper databaseHelper;
+    StringRequest stringRequest;
+    int status = 0;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         //foodAdapter = new CustomAdapter(menu,getContext());
+        String string;
+        if(savedInstanceState!=null)
+        {
+            string = savedInstanceState.getString("test");
+            Toast.makeText(getContext(), "Yo this works", Toast.LENGTH_SHORT).show();
+        }
+
 
         return inflater.inflate(R.layout.fragment_menu, null);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+
     }
 
     @Override
@@ -57,19 +74,56 @@ public class fragment_menu extends Fragment
         menuCardListView = view.findViewById(R.id.menu_list);
         progressBar=view.findViewById(R.id.loadingPanel);
         imageButton_refresh=view.findViewById(R.id.button_refresh);
+
+
+        if(savedInstanceState!=null)
+            status = savedInstanceState.getInt("status");
         try {
+            if(status == 0)
             loadMenu();
+
+            else if(status == 1)
+            {
+                databaseHelper = new DatabaseHelper(getActivity());
+                menuCardArrayList = new ArrayList<MenuCard>();
+
+                cursor = databaseHelper.fetchMenuItems(databaseHelper.getWritableDatabase());
+                if(cursor.getCount() == 0)
+                {
+                    Toast.makeText(getActivity(), "Database is empty", Toast.LENGTH_SHORT).show();
+                }
+                else
+                    cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    String foodname = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FOOD_NAME));
+                    String foodcost = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FOOD_COST));
+                    String foodtype = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FOOD_TYPE));
+                    int img_type = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.FOOD_IMG));
+                    MenuCard menuCard = new MenuCard(foodname, foodcost, foodtype, img_type);
+                    menuCardArrayList.add(menuCard); //add the item
+                    cursor.moveToNext();
+                }
+
+                foodAdapter = new CustomAdapter(menuCardArrayList, getContext());
+                menuCardListView.setAdapter(foodAdapter);
+                progressBar.setVisibility(View.GONE);
+                imageButton_refresh.setVisibility(View.GONE);
+
+            }
         }catch (Exception e){
 
         }
+
 
         imageButton_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(),"Wait for Refresh", Toast.LENGTH_SHORT).show();
-                Fragment fragment=new fragment_menu();
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment ,"Menu")
-                        .commit();
+                //Fragment fragment=new fragment_menu();
+                //getFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment ,"Menu")
+                //        .commit();
+                loadMenu();
+
             }
         });
 
@@ -79,7 +133,7 @@ public class fragment_menu extends Fragment
 
     }
 
-    private void loadMenu()
+    public void loadMenu()
 
     {
 
@@ -96,7 +150,7 @@ public class fragment_menu extends Fragment
 
 
 
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, path,
+            stringRequest = new StringRequest(Request.Method.POST, path,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -129,6 +183,8 @@ public class fragment_menu extends Fragment
                                 foodAdapter = new CustomAdapter(menuCardArrayList, getContext());
                                 menuCardListView.setAdapter(foodAdapter);
                                 progressBar.setVisibility(View.GONE);
+                                imageButton_refresh.setVisibility(View.GONE);
+                                status = 1;
                                 //recyclerView.setAdapter(adapter);
                             } catch (JSONException e) {
                                 Toast.makeText(getContext(), "Error : " + e, Toast.LENGTH_LONG).show();
@@ -141,7 +197,7 @@ public class fragment_menu extends Fragment
 
 
                             databaseHelper = new DatabaseHelper(getActivity());
-
+                            menuCardArrayList = new ArrayList<MenuCard>();
 
                             cursor = databaseHelper.fetchMenuItems(databaseHelper.getWritableDatabase());
                             if(cursor.getCount() == 0)
@@ -183,5 +239,19 @@ public class fragment_menu extends Fragment
               //      Toast.makeText(getContext(), "Failed to Fetch Menu : Volley", Toast.LENGTH_SHORT).show();
                 //}
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+            stringRequest.cancel();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+
+        outState.putString("test","test");
+        outState.putInt("status",status);
+        super.onSaveInstanceState(outState);
     }
 }
