@@ -53,11 +53,9 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
 
 
         cursor = databaseHelper.fetchCartItems(databaseHelper.getWritableDatabase());
-        if(cursor.getCount() == 0)
-        {
+        if (cursor.getCount() == 0) {
             Toast.makeText(getActivity(), "Cart Db is empty", Toast.LENGTH_SHORT).show();
-        }
-        else
+        } else
             cursor.moveToFirst();
 
         OrderCard orderCard;
@@ -65,12 +63,10 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
             int food_id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.FOOD_ID));
             int quantity = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.QUANTITY));
 
-            Cursor temp =  databaseHelper.fetchMenuItem(databaseHelper.getReadableDatabase(),food_id);
-            if(temp.getCount() == 0)
-            {
+            Cursor temp = databaseHelper.fetchMenuItem(databaseHelper.getReadableDatabase(), food_id);
+            if (temp.getCount() == 0) {
                 Toast.makeText(getActivity(), "Failed to map Cart Item", Toast.LENGTH_SHORT).show();
-            }
-            else
+            } else
                 temp.moveToFirst();
 
             String foodname = temp.getString(temp.getColumnIndex(DatabaseHelper.FOOD_NAME));
@@ -78,7 +74,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
             String foodtype = temp.getString(temp.getColumnIndex(DatabaseHelper.FOOD_TYPE));
             int img_type = temp.getInt(temp.getColumnIndex(DatabaseHelper.FOOD_IMG));
 
-            orderCard = new OrderCard(foodname,foodcost,foodtype,img_type,String.valueOf(quantity));
+            orderCard = new OrderCard(foodname, foodcost, foodtype, img_type, String.valueOf(quantity));
 
             menu.add(orderCard);
 
@@ -118,11 +114,9 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         cart_clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(menu.isEmpty())
-                {
-                    Toast.makeText(getActivity(),"Cart already Empty",Toast.LENGTH_SHORT).show();
-                }
-                else
+                if (menu.isEmpty()) {
+                    Toast.makeText(getActivity(), "Cart already Empty", Toast.LENGTH_SHORT).show();
+                } else
                     cart_empty();
             }
         });
@@ -131,16 +125,14 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
             @Override
             public void onClick(View v) {
                 if(menu.isEmpty())
-                {
-                    Toast.makeText(getActivity(),"Add Items in cart to place order.",Toast.LENGTH_SHORT).show();
-                }
+                    Toast.makeText(getActivity(), "Add atleast 1 item to place order", Toast.LENGTH_SHORT).show();
                 else
                     place_order();
+
             }
         });
 
     }
-
 
 
     @Override
@@ -171,12 +163,12 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         Cursor cursor_temp = databaseHelper.fetchCartItems(databaseHelper.getReadableDatabase());
         cursor_temp.moveToFirst();
         int count = id;
-        while(count > 0)
-        {
+        while (count > 0) {
             cursor_temp.moveToNext();
             count--;
         }
-        int food_id = cursor_temp.getInt(cursor_temp.getColumnIndex(DatabaseHelper.FOOD_ID));;
+        int food_id = cursor_temp.getInt(cursor_temp.getColumnIndex(DatabaseHelper.FOOD_ID));
+        ;
 
         databaseHelper.updateCartItem(databaseHelper.getWritableDatabase(), food_id, val);
 
@@ -196,9 +188,8 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         Cursor cursor_temp = databaseHelper.fetchCartItems(databaseHelper.getReadableDatabase());
         cursor_temp.moveToFirst();
         int count = id;
-        int food_id=0;
-        while (count >= 0)
-        {
+        int food_id = 0;
+        while (count >= 0) {
             food_id = cursor_temp.getInt(cursor_temp.getColumnIndex(DatabaseHelper.FOOD_ID));
             cursor_temp.moveToNext();
             count--;
@@ -212,8 +203,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
 
     }
 
-    private void cart_empty()
-    {
+     void cart_empty() {
 
         databaseHelper.emptyCart(databaseHelper.getWritableDatabase());
         menu.clear();
@@ -222,19 +212,17 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         cart_clear.setVisibility(View.GONE);
         total.setText("Cart is empty, add items from menu to place order.");
 
-        Toast.makeText(getActivity(),"Cart is Empty",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Cart is Empty", Toast.LENGTH_SHORT).show();
     }
 
-    private void place_order()
-    {
-        Intent intent = new Intent(getContext(),Place_Order.class);
+    private void place_order() {
+        Intent intent = new Intent(getContext(), Place_Order.class);
 
         Bundle bundle = new Bundle();
-        bundle.putInt("total",amount_total);
-        bundle.putSerializable("items",menu);
-        intent.putExtra("bundle",bundle);
+        bundle.putInt("total", amount_total);
+        bundle.putSerializable("items", menu);
+        intent.putExtra("bundle", bundle);
         startActivity(intent);
-        cart_empty();
     }
 
 
