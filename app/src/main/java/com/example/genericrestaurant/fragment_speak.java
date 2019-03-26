@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -28,11 +29,10 @@ import static android.app.Activity.RESULT_OK;
 public class fragment_speak extends Fragment {
 
     private final int REQ_CODE_SPEECH_INPUT = 100;
-    public ListView order_list;
     ArrayList<MenuCard> order = new ArrayList<>();
-    CustomAdapter orderAdapter ;
     TextView total_amount;
 
+    TextToSpeech voiceoutput;
     FloatingActionButton mic_float_button;
     List<ResponseMessage> responseMessageList = new ArrayList<>();
     RecyclerView Conversation;
@@ -104,6 +104,7 @@ public class fragment_speak extends Fragment {
                     //order.add(new MenuCard(string,"Rs. 50","Veg",0));
                     messageAdapter = new MessageAdapter(responseMessageList);
                     Conversation.setAdapter(messageAdapter);
+                    speak();
 
 
                     Bundle bundle = new Bundle();
@@ -119,6 +120,15 @@ public class fragment_speak extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(ArrayList<MenuCard> order);
+    }
+
+    public void speak()
+    {
+        String text = responseMessageList.get(responseMessageList.size()-1).getTextmessage();
+        voiceoutput.setPitch(1/10);
+        voiceoutput.setSpeechRate(1/2);
+        voiceoutput.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+
     }
 
 }
