@@ -8,10 +8,8 @@
         />
 
     <gradient
-
-        android:startColor="#DCDCDC"
+        android:startColor="#CCCCCC"
         android:endColor="#DCDCDC"
-
         />
 
 </shape>

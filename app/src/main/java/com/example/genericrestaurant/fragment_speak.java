@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,18 +37,6 @@ public class fragment_speak extends Fragment {
     FloatingActionButton mic_float_button;
     List<ResponseMessage> responseMessageList = new ArrayList<>();
     RecyclerView Conversation;
-
-
-
-
-
-
-
-
-
-
-
-
     MessageAdapter messageAdapter;
 
 
@@ -110,13 +99,18 @@ public class fragment_speak extends Fragment {
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String string=result.get(0);
 
-                    responseMessageList.add(new ResponseMessage(string,true));
-                    responseMessageList.add(new ResponseMessage("This is bot.",false));
-
-                    //order.add(new MenuCard(string,"Rs. 50","Veg",0));
                     messageAdapter = new MessageAdapter(responseMessageList);
                     Conversation.setAdapter(messageAdapter);
-                    //speak();
+
+                    ResponseMessage message = new ResponseMessage(string,true);
+                    responseMessageList.add(message);
+                    ResponseMessage message2 = new ResponseMessage("I'm not programmed yet, this is the response I'll currently give.",false);
+                    responseMessageList.add(message2);
+                    messageAdapter.notifyDataSetChanged();
+                    if(!isMessageVisible())
+                    {
+                        Conversation.smoothScrollToPosition(messageAdapter.getItemCount()-1);
+                    }
 
 
                     Bundle bundle = new Bundle();
@@ -141,6 +135,15 @@ public class fragment_speak extends Fragment {
         voiceoutput.setSpeechRate(1/2);
         voiceoutput.speak(text,TextToSpeech.QUEUE_FLUSH,null);
 
+    }
+
+
+    public boolean isMessageVisible()
+    {
+        LinearLayoutManager linearLayoutManager = (LinearLayoutManager) Conversation.getLayoutManager();
+        int lastpos = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+        int itemcount = Conversation.getAdapter().getItemCount();
+        return (lastpos>=itemcount);
     }
 
 }
