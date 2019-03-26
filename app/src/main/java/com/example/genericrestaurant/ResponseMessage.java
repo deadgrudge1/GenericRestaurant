@@ -5,6 +5,7 @@ public class ResponseMessage {
     String textmessage;
     boolean isMe;
 
+
     public ResponseMessage(String textmessage, boolean isMe) {
         this.textmessage = textmessage;
         this.isMe = isMe;
