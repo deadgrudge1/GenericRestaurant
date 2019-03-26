@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,6 +94,31 @@ public class fragment_speak extends Fragment {
         Conversation.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         Conversation.setAdapter(messageAdapter);
 
+        voiceoutput = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status == TextToSpeech.SUCCESS)
+                {
+                    int result =   voiceoutput.setLanguage(Locale.ENGLISH);                                //SETTING LANGUAGE TO ENGLISH
+                    if(result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED)
+                    {
+                        Log.e( "VOICE OUTPUT",  "Language not Supported");
+                    }
+                    else
+                    {
+
+                    }
+
+                }
+
+                else
+                {
+                    Log.e( "VOICE OUTPUT",  "Initialization failure");
+                }
+
+            }
+        });
+
 
 
     }
@@ -108,6 +134,8 @@ public class fragment_speak extends Fragment {
 
                     messageAdapter = new MessageAdapter(responseMessageList);
                     Conversation.setAdapter(messageAdapter);
+
+
 
                     ResponseMessage message = new ResponseMessage(string ,true);
                     responseMessageList.add(message);
@@ -153,6 +181,17 @@ public class fragment_speak extends Fragment {
         int lastpos = linearLayoutManager.findLastCompletelyVisibleItemPosition();
         int itemcount = Conversation.getAdapter().getItemCount();
         return (lastpos>=itemcount);
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        if(voiceoutput != null)
+        {
+            voiceoutput.stop();
+            voiceoutput.shutdown();
+        }
+        super.onDestroy();
     }
 
 }
