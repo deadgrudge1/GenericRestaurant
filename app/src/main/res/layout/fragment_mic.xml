@@ -61,4 +61,15 @@
         app:backgroundTint="@color/backgroundYellow"
         app:srcCompat="@drawable/microphone" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/mute_float_button"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleX="0.6"
+        android:scaleY="0.6"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="8dp"
+        app:backgroundTint="@color/backgroundYellow"
+        app:srcCompat="@drawable/ic_volume_on_black_24dp" />
+
 </RelativeLayout>
