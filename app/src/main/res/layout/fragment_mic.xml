@@ -20,7 +20,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:imeActionId="4"
-        android:id="@+id/conversation"
+        android:id="@+id/converse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/total_textView"
