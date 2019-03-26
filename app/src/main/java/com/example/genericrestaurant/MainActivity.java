@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,10 +27,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     //private Fragment fragment_mic;
     Fragment fragment = null;
     boolean doubleBackToExitPressedOnce = false;
-
     public MainActivity getMainActivityInstance(){return this;}
     MainActivity mainActivity = getMainActivityInstance();
-
+    Fragment fragment_menu = new fragment_menu();
+    Fragment fragment_cart = new fragment_cart();
+    Fragment fragment_speak = new fragment_speak();
+    fragment_menu fragmentMenu = new fragment_menu();
 
 
     @Override
@@ -42,8 +45,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         //fragment_mic = new fragment_speak();
 
 
-
-        loadFragment(new fragment_menu(),"Menu");
+        loadFragment(fragment_menu,"Menu");
     }
 
     private boolean loadFragment(Fragment fragment, String fragment_tag)
@@ -67,8 +69,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (menuItem.getItemId())
         {
             case R.id.navigation_home:
-                    fragment = new fragment_menu();
-                    loadFragment(fragment, "Home");
+                    //fragment = new fragment_menu();
+                    loadFragment(fragment_menu, "Menu");
                 break;
 
             case R.id.navigation_Microphone:
@@ -76,12 +78,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     bundle.putSerializable("order_speak", order);
                     fragment = new fragment_speak();
                     fragment.setArguments(bundle);
-                    loadFragment(fragment, "Speak");
+                    loadFragment(fragment_speak, "Speak");
             break;
 
             case R.id.navigation_dashboard:
                 fragment = new fragment_cart();
-                loadFragment(fragment, "Cart");
+                loadFragment(fragment_cart, "Cart");
                 break;
         }
 
@@ -111,5 +113,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 doubleBackToExitPressedOnce=false;
             }
         }, 2000);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 }
