@@ -18,14 +18,14 @@
         android:textSize="26sp"
         android:textStyle="normal" />
 
-    <ListView
-        android:id="@+id/orderlist"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.RecyclerView
+        android:imeActionId="4"
+        android:id="@+id/conversation"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/total_textView"
         android:layout_alignTop="@+id/txtSpeechInput"
-        android:layout_marginTop="50dp"
-        />
+        android:layout_marginTop="50dp" />
 
     <TextView
         android:id="@+id/total_textView"
@@ -56,9 +56,9 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignBottom="@+id/total_textView"
-        android:layout_marginBottom="10dp"
         android:layout_centerHorizontal="true"
-        app:backgroundTint="@color/colorPrimary"
+        android:layout_marginBottom="10dp"
+        app:backgroundTint="@color/backgroundYellow"
         app:srcCompat="@drawable/microphone" />
 
 </RelativeLayout>

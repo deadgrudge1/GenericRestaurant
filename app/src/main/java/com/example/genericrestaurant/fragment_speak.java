@@ -4,22 +4,23 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
@@ -29,13 +30,13 @@ public class fragment_speak extends Fragment {
     private final int REQ_CODE_SPEECH_INPUT = 100;
     public ListView order_list;
     ArrayList<MenuCard> order = new ArrayList<>();
-    DatabaseHelper databaseHelper;
     CustomAdapter orderAdapter ;
-    MenuCard order1;
     TextView total_amount;
-    Cursor cursor;
+
     FloatingActionButton mic_float_button;
-    ArrayList<MenuCard> mArrayList = new ArrayList<>();
+    List<ResponseMessage> responseMessageList = new ArrayList<>();
+    RecyclerView Conversation;
+    MessageAdapter messageAdapter;
 
 
     public void promptSpeechInput() {
@@ -65,35 +66,14 @@ public class fragment_speak extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        databaseHelper = new DatabaseHelper(getActivity());
-
         final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-
-        cursor = databaseHelper.fetchMenuItems(databaseHelper.getWritableDatabase());
-        if(cursor.getCount() == 0)
-        {
-            Toast.makeText(getActivity(), "Database is empty", Toast.LENGTH_SHORT).show();
-        }
-        else
-            cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            String foodname = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FOOD_NAME));
-            String foodcost = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FOOD_COST));
-            String foodtype = cursor.getString(cursor.getColumnIndex(DatabaseHelper.FOOD_TYPE));
-            MenuCard menuCard = new MenuCard(foodname, foodcost, foodtype, 0);
-            mArrayList.add(menuCard); //add the item
-            cursor.moveToNext();
-        }
-
-
        return inflater.inflate(R.layout.fragment_mic,null);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
 
         mic_float_button = view.findViewById(R.id.mic_float_button);
         mic_float_button.setOnClickListener(new View.OnClickListener() {
@@ -102,11 +82,10 @@ public class fragment_speak extends Fragment {
                 promptSpeechInput();
             }
         });
-        orderAdapter = new CustomAdapter(mArrayList,getContext());
-        order_list = view.findViewById(R.id.orderlist);
-        order_list.setAdapter(orderAdapter);
-
-
+        messageAdapter = new MessageAdapter(responseMessageList);
+        Conversation = view.findViewById(R.id.conversation);
+        Conversation.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        Conversation.setAdapter(messageAdapter);
 
     }
 
@@ -118,9 +97,15 @@ public class fragment_speak extends Fragment {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String string=result.get(0);
+
+                    responseMessageList.add(new ResponseMessage(string,true));
+                    responseMessageList.add(new ResponseMessage("This is bot.",false));
+
                     //order.add(new MenuCard(string,"Rs. 50","Veg",0));
-                    orderAdapter=new CustomAdapter(order,getContext());
-                    order_list.setAdapter(orderAdapter);
+                    messageAdapter = new MessageAdapter(responseMessageList);
+                    Conversation.setAdapter(messageAdapter);
+
+
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("order_speak_fragment",order);
 

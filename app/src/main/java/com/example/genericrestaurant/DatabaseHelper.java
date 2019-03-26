@@ -14,6 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Table Name
     public static final String TABLE_MENU = "menu";
     public static final String TABLE_CART = "cart";
+    public static final String TABLE_ORDER = "order_t" ;
 
     // Table columns
     public static final String FOOD_ID = "ID_Menu";
@@ -22,10 +23,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FOOD_IMG = "Image_Menu";
     public static final String FOOD_COST = "Cost";
 
+    //Cart Items
     public static final String QUANTITY = "Item_Qty";
     public static final String POSITION = "Position";
 
-
+    //Order Items
+    public static final String ORDER_ID = "ID_Order";
 
 
     public DatabaseHelper getDatabaseHelperContext(){
@@ -41,12 +44,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final int DB_VERSION = 1;
 
     // Creating table query
-    private static final String CREATE_TABLE_MENU = "create table " + TABLE_MENU + "(" + FOOD_ID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FOOD_NAME + " TEXT NOT NULL, " + FOOD_TYPE + " TEXT NOT NULL, " + FOOD_IMG + " INTEGER, " + FOOD_COST + " TEXT NOT NULL);";
+    private static final String CREATE_TABLE_MENU = "create table " + TABLE_MENU + "("
+            + FOOD_ID + "" + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FOOD_NAME + " TEXT NOT NULL, "
+            + FOOD_TYPE + " TEXT NOT NULL, " + FOOD_IMG + " INTEGER, "
+            + FOOD_COST + " TEXT NOT NULL);";
 
     private static final String CREATE_TABLE_CART = "create table " + TABLE_CART + "("
             /* + POSITION + " INTEGER PRIMARY KEY, " */
-            + FOOD_ID + " INTEGER REFERENCES " + TABLE_MENU + "(" + FOOD_ID + "), " + QUANTITY + " INTEGER);";
+            + FOOD_ID + " INTEGER REFERENCES " + TABLE_MENU + "(" + FOOD_ID + "), "
+            + QUANTITY + " INTEGER);";
+
+    private static final String CREATE_TABLE_ORDER = " create table " + TABLE_ORDER + "("
+            + ORDER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ," + FOOD_ID + " INTEGER REFERENCES "
+            + TABLE_MENU + "(" + FOOD_ID + "), " + QUANTITY + " INTEGER);";
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -75,6 +85,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_CART);
         //insertCartItem(db, 2, 2);
         //insertCartItem(db, 4, 3);
+
+        db.execSQL(CREATE_TABLE_ORDER);
 
     }
 
@@ -212,6 +224,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void delete(SQLiteDatabase db, String id) {
         db.delete(DatabaseHelper.TABLE_MENU, DatabaseHelper.FOOD_ID + "=" + id, null);
 
+    }
+
+    public boolean insertOrderItem(SQLiteDatabase db, int Food_ID,int quantity){
+
+        db.execSQL(" INSERT INTO order_t SELECT * FROM cart");
+
+
+        return true;
     }
 
 
