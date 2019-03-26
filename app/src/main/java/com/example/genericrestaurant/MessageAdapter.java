@@ -26,7 +26,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.CustomVi
     class CustomViewHolder extends RecyclerView.ViewHolder
     {
 
-        TextView textView,date_user;
+        TextView textView;
+        TextView date_user;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,7 +66,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.CustomVi
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.CustomViewHolder holder, int position) {
         holder.textView.setText(responseMessagesList.get(position).getTextmessage());
-        holder.date_user.setText(currenttime);
+        //holder.date_user.setText(currenttime);
     }
 
     @Override
