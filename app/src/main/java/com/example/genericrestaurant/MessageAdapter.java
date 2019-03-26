@@ -2,24 +2,37 @@ package com.example.genericrestaurant;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import okhttp3.internal.Util;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.CustomViewHolder> {
 
 
+    Calendar c = Calendar.getInstance();
+    SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+    String currenttime = df.format(c.getTime());
+
     class CustomViewHolder extends RecyclerView.ViewHolder
     {
 
-        TextView textView;
+        TextView textView,date_user;
+
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
 
             textView = itemView.findViewById(R.id.user_bubble);
+            date_user = itemView.findViewById(R.id.time_textview);
 
         }
     }
@@ -52,6 +65,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.CustomVi
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.CustomViewHolder holder, int position) {
         holder.textView.setText(responseMessagesList.get(position).getTextmessage());
+        holder.date_user.setText(currenttime);
     }
 
     @Override

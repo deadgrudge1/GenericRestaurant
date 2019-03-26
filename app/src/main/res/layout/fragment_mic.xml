@@ -15,7 +15,7 @@
         android:layout_marginBottom="-130dp"
         android:text="@string/tap_on_the_button_to_continue"
         android:textColor="@android:color/black"
-        android:textSize="26sp"
+        android:textSize="20dp"
         android:textStyle="normal" />
 
     <android.support.v7.widget.RecyclerView
@@ -48,7 +48,7 @@
         android:textAlignment="center"
         android:text="Amount"
         android:textColor="#000000"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <android.support.design.widget.FloatingActionButton

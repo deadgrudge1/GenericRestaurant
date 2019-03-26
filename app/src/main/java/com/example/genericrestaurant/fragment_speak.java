@@ -22,8 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import okhttp3.internal.Util;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -31,8 +35,9 @@ public class fragment_speak extends Fragment {
 
     private final int REQ_CODE_SPEECH_INPUT = 100;
     ArrayList<MenuCard> order = new ArrayList<>();
-    TextView total_amount;
+    TextView total_amount,date_user;
 
+    Date currenttime = Calendar.getInstance().getTime();
     TextToSpeech voiceoutput;
     FloatingActionButton mic_float_button;
     List<ResponseMessage> responseMessageList = new ArrayList<>();
@@ -88,6 +93,8 @@ public class fragment_speak extends Fragment {
         Conversation.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         Conversation.setAdapter(messageAdapter);
 
+
+
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -102,7 +109,7 @@ public class fragment_speak extends Fragment {
                     messageAdapter = new MessageAdapter(responseMessageList);
                     Conversation.setAdapter(messageAdapter);
 
-                    ResponseMessage message = new ResponseMessage(string,true);
+                    ResponseMessage message = new ResponseMessage(string ,true);
                     responseMessageList.add(message);
                     ResponseMessage message2 = new ResponseMessage("I'm not programmed yet, this is the response I'll currently give.",false);
                     responseMessageList.add(message2);
@@ -110,6 +117,7 @@ public class fragment_speak extends Fragment {
                     if(!isMessageVisible())
                     {
                         Conversation.smoothScrollToPosition(messageAdapter.getItemCount()-1);
+                        speak();
                     }
 
 
@@ -130,7 +138,8 @@ public class fragment_speak extends Fragment {
 
     public void speak()
     {
-        String text = responseMessageList.get(responseMessageList.size()-1).getTextmessage();
+        int i = responseMessageList.size();
+        String text = responseMessageList.get(i - 1).getTextmessage();
         voiceoutput.setPitch(1/10);
         voiceoutput.setSpeechRate(1/2);
         voiceoutput.speak(text,TextToSpeech.QUEUE_FLUSH,null);
