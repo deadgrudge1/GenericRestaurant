@@ -44,6 +44,8 @@ public class fragment_speak extends Fragment {
     List<ResponseMessage> responseMessageList = new ArrayList<>();
     RecyclerView Conversation;
     MessageAdapter messageAdapter;
+    FloatingActionButton volume_button;
+    int volume=1;
 
 
     public void promptSpeechInput() {
@@ -75,11 +77,14 @@ public class fragment_speak extends Fragment {
 
         final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+
+
+
        return inflater.inflate(R.layout.fragment_mic,null);
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         mic_float_button = view.findViewById(R.id.mic_float_button);
@@ -89,6 +94,39 @@ public class fragment_speak extends Fragment {
                 promptSpeechInput();
             }
         });
+
+        volume_button = view.findViewById(R.id.mute_float_button);
+
+        if(savedInstanceState!=null)
+            volume = savedInstanceState.getInt("volume");
+
+        if(volume == 1)
+        {
+            volume_button.setImageResource(R.drawable.ic_volume_on_black_24dp);
+        }
+
+        else if(volume == 0)
+        {
+            volume_button.setImageResource(R.drawable.ic_volume_off_black_24dp);
+        }
+
+        volume_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(volume == 1)
+                {
+                    volume = 0;
+                    volume_button.setImageResource(R.drawable.ic_volume_off_black_24dp);
+                }
+
+                else if(volume == 0)
+                {
+                    volume = 1;
+                    volume_button.setImageResource(R.drawable.ic_volume_on_black_24dp);
+                }
+            }
+        });
+
         messageAdapter = new MessageAdapter(responseMessageList);
         Conversation = view.findViewById(R.id.converse);
         Conversation.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -145,7 +183,8 @@ public class fragment_speak extends Fragment {
                     if(!isMessageVisible())
                     {
                         Conversation.smoothScrollToPosition(messageAdapter.getItemCount()-1);
-                        speak();
+                        if(volume == 1)
+                            speak();
                     }
 
 
@@ -193,5 +232,15 @@ public class fragment_speak extends Fragment {
         }
         super.onDestroy();
     }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+
+        outState.putString("test","test");
+        outState.putInt("volume",volume);
+        super.onSaveInstanceState(outState);
+    }
+
+
 
 }
