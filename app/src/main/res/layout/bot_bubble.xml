@@ -18,4 +18,14 @@
         android:layout_alignParentLeft="true"
         />
 
+    <TextView
+        android:id="@+id/time_textview_bot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/user_bubble"
+        android:layout_marginEnd="-2dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/user_bubble"
+        android:text="10:09" />
+
 </RelativeLayout>

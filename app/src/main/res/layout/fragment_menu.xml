@@ -5,6 +5,10 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/pullDownToRefresh"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
 
     <ListView
         android:layout_width="match_parent"
@@ -14,8 +18,10 @@
         android:layout_marginTop="3dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="56dp"
-        android:id="@+id/menu_list" />
+        android:id="@+id/menu_list"
+        android:scrollbars="vertical" />
 
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/loadingPanel"
@@ -23,16 +29,5 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:indeterminate="true" />
-
-    <ImageButton
-        android:id="@+id/button_refresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="#00dddddd"
-        android:scaleX="2"
-        android:scaleY="2"
-        android:visibility="gone"
-        app:srcCompat="@drawable/ic_refresh_black_24dp" />
 
 </RelativeLayout>

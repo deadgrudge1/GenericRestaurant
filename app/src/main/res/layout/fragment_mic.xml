@@ -6,58 +6,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/txtSpeechInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-130dp"
-        android:text="@string/tap_on_the_button_to_continue"
-        android:textColor="@android:color/black"
-        android:textSize="20dp"
-        android:textStyle="normal" />
-
     <android.support.v7.widget.RecyclerView
-        android:imeActionId="4"
         android:id="@+id/converse"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/total_textView"
-        android:layout_alignTop="@+id/txtSpeechInput"
-        android:layout_marginTop="50dp" />
-
-    <TextView
-        android:id="@+id/total_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="70dp"
-        android:text="Total: "
-        android:textSize="30dp"
-
-        />
-
-    <TextView
-        android:id="@+id/amount_textView2"
-        android:layout_width="118dp"
-        android:layout_height="51dp"
-        android:layout_alignBaseline="@+id/total_textView"
-        android:layout_alignParentRight="true"
-        android:textAlignment="center"
-        android:text="Amount"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:layout_above="@id/mic_float_button"
+        android:layout_marginTop="50dp"
+        android:imeActionId="4"
+        android:scrollbars="vertical" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/mic_float_button"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_alignBottom="@+id/total_textView"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="81dp"
         app:backgroundTint="@color/backgroundYellow"
         app:srcCompat="@drawable/microphone" />
 
@@ -65,10 +29,14 @@
         android:id="@+id/mute_float_button"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_alignRight="@id/mic_float_button"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="80dp"
+        android:layout_alignParentBottom="true"
         android:scaleX="0.6"
         android:scaleY="0.6"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="8dp"
         app:backgroundTint="@color/backgroundYellow"
         app:srcCompat="@drawable/ic_volume_on_black_24dp" />
 

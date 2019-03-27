@@ -2,32 +2,26 @@ package com.example.genericrestaurant;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 
@@ -36,12 +30,11 @@ public class fragment_menu extends Fragment
     public ListView menuCardListView;
     ArrayList<MenuCard> menuCardArrayList = new ArrayList<>();
     CustomAdapter foodAdapter;
-    MenuCard item1;
     ProgressBar progressBar;
-    ImageButton imageButton_refresh;
     Cursor cursor;
     DatabaseHelper databaseHelper;
     StringRequest stringRequest;
+    SwipeRefreshLayout pullToRefresh;
     int status = 0;
 
     @Nullable
@@ -73,7 +66,7 @@ public class fragment_menu extends Fragment
         super.onViewCreated(view, savedInstanceState);
         menuCardListView = view.findViewById(R.id.menu_list);
         progressBar=view.findViewById(R.id.loadingPanel);
-        imageButton_refresh=view.findViewById(R.id.button_refresh);
+        pullToRefresh = view.findViewById(R.id.pullDownToRefresh);
 
 
         if(savedInstanceState!=null)
@@ -107,23 +100,20 @@ public class fragment_menu extends Fragment
                 foodAdapter = new CustomAdapter(menuCardArrayList, getContext());
                 menuCardListView.setAdapter(foodAdapter);
                 progressBar.setVisibility(View.GONE);
-                imageButton_refresh.setVisibility(View.GONE);
+
 
             }
         }catch (Exception e){
 
         }
 
-
-        imageButton_refresh.setOnClickListener(new View.OnClickListener() {
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View v) {
+            public void onRefresh() {
                 Toast.makeText(getContext(),"Wait for Refresh", Toast.LENGTH_SHORT).show();
-                //Fragment fragment=new fragment_menu();
-                //getFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment ,"Menu")
-                //        .commit();
                 loadMenu();
-
+                foodAdapter.notifyDataSetChanged();
+                pullToRefresh.setRefreshing(false);
             }
         });
 
@@ -147,9 +137,6 @@ public class fragment_menu extends Fragment
          * Then we have a Response Listener and a Error Listener
          * In response listener we will get the JSON response as a String
          * */
-
-
-
             stringRequest = new StringRequest(Request.Method.POST, path,
                     new Response.Listener<String>() {
                         @Override
@@ -177,13 +164,10 @@ public class fragment_menu extends Fragment
                                     databaseHelper.insertMenuItem(databaseHelper.getWritableDatabase(),menuCardArrayList.get(i));
                                 }
 
-
-
                                 //creating adapter object and setting it to recyclerview
                                 foodAdapter = new CustomAdapter(menuCardArrayList, getContext());
                                 menuCardListView.setAdapter(foodAdapter);
                                 progressBar.setVisibility(View.GONE);
-                                imageButton_refresh.setVisibility(View.GONE);
                                 status = 1;
                                 //recyclerView.setAdapter(adapter);
                             } catch (JSONException e) {
@@ -195,10 +179,8 @@ public class fragment_menu extends Fragment
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
-
                             databaseHelper = new DatabaseHelper(getActivity());
                             menuCardArrayList = new ArrayList<MenuCard>();
-
                             cursor = databaseHelper.fetchMenuItems(databaseHelper.getWritableDatabase());
                             if(cursor.getCount() == 0)
                             {
@@ -222,7 +204,6 @@ public class fragment_menu extends Fragment
                                 foodAdapter=new CustomAdapter(menuCardArrayList,getActivity());
                                 menuCardListView.setAdapter(foodAdapter);
                                 progressBar.setVisibility(View.GONE);
-                                imageButton_refresh.setVisibility(View.VISIBLE);
                             }
 
                         }

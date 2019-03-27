@@ -19,9 +19,7 @@ import okhttp3.internal.Util;
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.CustomViewHolder> {
 
 
-    Calendar c = Calendar.getInstance();
-    SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-    String currenttime = df.format(c.getTime());
+
 
     class CustomViewHolder extends RecyclerView.ViewHolder
     {
@@ -66,7 +64,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.CustomVi
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.CustomViewHolder holder, int position) {
         holder.textView.setText(responseMessagesList.get(position).getTextmessage());
-        //holder.date_user.setText(currenttime);
+
     }
 
     @Override
