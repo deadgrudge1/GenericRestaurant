@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -97,6 +98,7 @@ public class fragment_speak extends Fragment  {
 
         final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        new RetrieveFeedTask().execute();
 
 
 
@@ -195,20 +197,12 @@ public class fragment_speak extends Fragment  {
 
                     messageAdapter = new MessageAdapter(responseMessageList);
                     Conversation.setAdapter(messageAdapter);
-
-
-
-
                     message = new ResponseMessage(string ,true);
                     responseMessageList.add(message);
-                    ResponseMessage message2 = null;
-                    try {
-                        message2 = new ResponseMessage(getText(message.getTextmessage()),false);
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                    responseMessageList.add(message2);
+                    new RetrieveFeedTask().execute();
                     messageAdapter.notifyDataSetChanged();
+
+
                     if(!isMessageVisible())
                     {
                         Conversation.smoothScrollToPosition(messageAdapter.getItemCount()-1);
@@ -227,35 +221,6 @@ public class fragment_speak extends Fragment  {
         }
     }
 
-    /*@Override
-    public void onResult(AIResponse result) {
-
-    }
-
-    @Override
-    public void onError(AIError error) {
-
-    }
-
-    @Override
-    public void onAudioLevel(float level) {
-
-    }
-
-    @Override
-    public void onListeningStarted() {
-
-    }
-
-    @Override
-    public void onListeningCanceled() {
-
-    }
-
-    @Override
-    public void onListeningFinished() {
-
-    }*/
 
 
     public interface OnFragmentInteractionListener {
@@ -316,7 +281,7 @@ public class fragment_speak extends Fragment  {
             connection.setRequestProperty("Authorization","Bearer 1348d95ad6aa4e119cec25a7973ba09f");
             connection.setRequestProperty("Content-Type","application/json");
 
-            JSONArray jsonArray = new JSONArray();
+            JSONArray jsonArray = new JSONArray(message.getTextmessage());
             JSONObject jsonParam = new JSONObject();
             jsonArray.put(query);
             jsonParam.put("query",jsonArray);
@@ -335,7 +300,6 @@ public class fragment_speak extends Fragment  {
             String line =  null;
 
             text = Sb.toString();
-
 
 
 
@@ -372,6 +336,30 @@ public class fragment_speak extends Fragment  {
 
         return null;
     }
+
+    class RetrieveFeedTask extends AsyncTask<String, Void, String> {
+        String s = "Hi";
+        protected String doInBackground(String... urls) {
+            try {
+                s = getText(urls[0]);
+                Log.d("schavishay","ikde kay hotay?");
+            } catch (Exception e) {
+
+            }
+            return  s;
+        }
+
+        protected void onPostExecute(String s2) {
+            super.onPostExecute(s);
+            ResponseMessage message2 = null;
+            message2 = new ResponseMessage(s,false);
+
+            responseMessageList.add(message2);
+            messageAdapter.notifyDataSetChanged();
+        }
+
+    }
+
 
 
 }

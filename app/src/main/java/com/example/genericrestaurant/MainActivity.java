@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
 
+
     }
 
     private boolean loadFragment(Fragment fragment, String fragment_tag)

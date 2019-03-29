@@ -7,7 +7,7 @@ JSON POST REQUEST TO SERVER
                   "shop"
                 ],
                 "lang": "en",
-                "query": "I need apples",
+                "query": "I need apples",           //Message object goes here
                 "sessionId": "12345",
                 "timezone": "America/New_York"
               }
@@ -35,7 +35,7 @@ JSON GET OBJECT FORMAT FROM SERVER
                       "type": "simple_response"
                     },
                     {
-                      "speech": "Okay how many apples?",
+                      "speech": "Okay how many apples?",    //message2 set from here
                       "type": 0
                     }
                   ],
