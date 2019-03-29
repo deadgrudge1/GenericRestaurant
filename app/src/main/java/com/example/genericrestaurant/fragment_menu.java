@@ -169,6 +169,7 @@ public class fragment_menu extends Fragment
                                 menuCardListView.setAdapter(foodAdapter);
                                 progressBar.setVisibility(View.GONE);
                                 status = 1;
+                                Toast.makeText(getActivity(), "Data fetched from server", Toast.LENGTH_SHORT).show();
                                 //recyclerView.setAdapter(adapter);
                             } catch (JSONException e) {
                                 Toast.makeText(getContext(), "Error : " + e, Toast.LENGTH_LONG).show();
@@ -211,7 +212,7 @@ public class fragment_menu extends Fragment
 
             //try {
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                100,
+                1000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 //adding our stringrequest to queue

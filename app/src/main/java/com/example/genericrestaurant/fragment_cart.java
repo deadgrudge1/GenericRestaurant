@@ -203,7 +203,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
 
     }
 
-     void cart_empty() {
+    public void cart_empty() {
 
         databaseHelper.emptyCart(databaseHelper.getWritableDatabase());
         menu.clear();
@@ -223,6 +223,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         bundle.putSerializable("items", menu);
         intent.putExtra("bundle", bundle);
         startActivity(intent);
+        cart_empty();
     }
 
 

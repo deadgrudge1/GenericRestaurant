@@ -1,30 +1,29 @@
 package com.example.genericrestaurant;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
-import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,fragment_speak.OnFragmentInteractionListener {
+//import ai.api.AIConfiguration;
+//import ai.api.AIListener;
+//import ai.api.model.AIError;
+//import ai.api.model.AIResponse;
 
-    private TextView mTextMessage;
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,
+        fragment_speak.OnFragmentInteractionListener {
+
     private final int REQ_CODE_SPEECH_INPUT = 100;
     ArrayList<MenuCard> order = new ArrayList<>();
-    //private Fragment fragment_mic;
     Fragment fragment = null;
     boolean doubleBackToExitPressedOnce = false;
     public MainActivity getMainActivityInstance(){return this;}
@@ -33,19 +32,30 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     Fragment fragment_cart = new fragment_cart();
     Fragment fragment_speak = new fragment_speak();
     fragment_menu fragmentMenu = new fragment_menu();
+    private ViewPager viewPager;
+    private TabLayout mTabLayout;
+    SwipeAdapter swipeAdapter;
 
 
+
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navigation =  findViewById(R.id.navigation);
+        viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(swipeAdapter);
         navigation.setOnNavigationItemSelectedListener(this);
         order.add(new MenuCard("Veg Burger","Rs. 70","Veg",0));
         //fragment_mic = new fragment_speak();
-
-
         loadFragment(fragment_menu,"Menu");
+
+
+
+
+
+
     }
 
     private boolean loadFragment(Fragment fragment, String fragment_tag)
@@ -119,4 +129,34 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onPause() {
         super.onPause();
     }
+
+   /* @Override
+    public void onResult(AIResponse result) {
+
+    }
+
+    @Override
+    public void onError(AIError error) {
+
+    }
+
+    @Override
+    public void onAudioLevel(float level) {
+
+    }
+
+    @Override
+    public void onListeningStarted() {
+
+    }
+
+    @Override
+    public void onListeningCanceled() {
+
+    }
+
+    @Override
+    public void onListeningFinished() {
+
+    }*/
 }

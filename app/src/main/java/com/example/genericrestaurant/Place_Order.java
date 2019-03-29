@@ -36,7 +36,6 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-
         //Getting the instance of Spinner and applying OnItemSelectedListener on it
         spin = (Spinner) findViewById(R.id.spinner);
         spin.setOnItemSelectedListener(this);

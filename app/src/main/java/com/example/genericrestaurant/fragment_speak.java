@@ -22,17 +22,33 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import okhttp3.internal.Util;
+//import ai.api.AIConfiguration;
+//import ai.api.AIListener;
+//import ai.api.model.AIError;
+//import ai.api.model.AIResponse;
+//import okhttp3.internal.Util;
 
 import static android.app.Activity.RESULT_OK;
 
-public class fragment_speak extends Fragment {
+public class fragment_speak extends Fragment  {
 
     private final int REQ_CODE_SPEECH_INPUT = 100;
     ArrayList<MenuCard> order = new ArrayList<>();
@@ -46,6 +62,10 @@ public class fragment_speak extends Fragment {
     MessageAdapter messageAdapter;
     FloatingActionButton volume_button;
     int volume=1;
+    public ResponseMessage message;
+
+
+
 
 
     public void promptSpeechInput() {
@@ -157,6 +177,9 @@ public class fragment_speak extends Fragment {
             }
         });
 
+        //final AIConfiguration aiConfiguration;
+        //aiConfiguration = new AIConfiguration("1348d95ad6aa4e119cec25a7973ba09f",AIConfiguration.SupportedLanguages.English);
+
 
 
     }
@@ -175,9 +198,15 @@ public class fragment_speak extends Fragment {
 
 
 
-                    ResponseMessage message = new ResponseMessage(string ,true);
+
+                    message = new ResponseMessage(string ,true);
                     responseMessageList.add(message);
-                    ResponseMessage message2 = new ResponseMessage("I'm not programmed yet, this is the response I'll currently give.",false);
+                    ResponseMessage message2 = null;
+                    try {
+                        message2 = new ResponseMessage(getText(message.getTextmessage()),false);
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
                     responseMessageList.add(message2);
                     messageAdapter.notifyDataSetChanged();
                     if(!isMessageVisible())
@@ -197,6 +226,36 @@ public class fragment_speak extends Fragment {
 
         }
     }
+
+    /*@Override
+    public void onResult(AIResponse result) {
+
+    }
+
+    @Override
+    public void onError(AIError error) {
+
+    }
+
+    @Override
+    public void onAudioLevel(float level) {
+
+    }
+
+    @Override
+    public void onListeningStarted() {
+
+    }
+
+    @Override
+    public void onListeningCanceled() {
+
+    }
+
+    @Override
+    public void onListeningFinished() {
+
+    }*/
 
 
     public interface OnFragmentInteractionListener {
@@ -241,6 +300,78 @@ public class fragment_speak extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
+    //Obtain response from Agent on DialogueFlow
+
+    public String getText(String query) throws UnsupportedEncodingException
+    {
+        String message_server = null;
+        String text = null;
+        BufferedReader bufferedReader = null;
+
+        try {
+
+            URL url = new URL("https://api.api.ai/v1/query?v=20150910");
+
+            URLConnection connection = url.openConnection();
+            connection.setRequestProperty("Authorization","Bearer 1348d95ad6aa4e119cec25a7973ba09f");
+            connection.setRequestProperty("Content-Type","application/json");
+
+            JSONArray jsonArray = new JSONArray();
+            JSONObject jsonParam = new JSONObject();
+            jsonArray.put(query);
+            jsonParam.put("query",jsonArray);
+            jsonParam.put("lang","en");
+            jsonParam.put("Session id","1234567890");
+
+            OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+            Log.d("Query","after converesion is" + jsonParam.toString());
+            wr.write(jsonParam.toString());
+            wr.flush();
+            Log.d("Query","Json is" + jsonParam);
+
+
+            bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder Sb = new StringBuilder();
+            String line =  null;
+
+            text = Sb.toString();
+
+
+
+
+            do{
+
+                Sb.append(line + "\n");
+
+            }while( (line = bufferedReader.readLine()) != null );
+
+            JSONObject server_object = new JSONObject(text);
+            JSONObject serverobject = server_object.getJSONObject("result");
+            JSONObject fulfillment = null;
+            if(serverobject.has("fulfillment")) {
+                fulfillment = serverobject.getJSONObject("fulfillment");
+
+                if(fulfillment.has("speech")){
+
+                    message_server = fulfillment.optString("speech");
+
+                }
+
+            }
+
+
+            return message_server;
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
 
 }
