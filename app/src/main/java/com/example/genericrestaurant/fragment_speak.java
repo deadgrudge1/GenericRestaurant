@@ -285,7 +285,8 @@ public class fragment_speak extends Fragment {
             String projectId = "projectbot-ba068";
 
             SessionsSettings.Builder settingsBuilder = SessionsSettings.newBuilder();
-            SessionsSettings sessionsSettings = settingsBuilder.setCredentialsProvider(FixedCredentialsProvider.create(credentials)).build();
+            SessionsSettings sessionsSettings = settingsBuilder.setCredentialsProvider
+                    (FixedCredentialsProvider.create(credentials)).build();
             sessionsClient = SessionsClient.create(sessionsSettings);
             session = SessionName.of(projectId, uuid);
         } catch (Exception e) {
@@ -304,7 +305,8 @@ public class fragment_speak extends Fragment {
 
         } else {
             Log.d(TAG, "Bot Reply: Null");
-            ResponseMessage message_server = new ResponseMessage("Didn't receive a respone from API.AI. \nCheck your net connection and try again.", false);
+            ResponseMessage message_server = new ResponseMessage("Didn't receive a " +
+                    "response from API.AI. \nCheck your net connection and try again.", false);
             responseMessageList.add(message_server);
             messageAdapter.notifyDataSetChanged();
 
@@ -313,7 +315,8 @@ public class fragment_speak extends Fragment {
 
     public void sendMessage() {
         String msg = message.getTextmessage();
-        QueryInput queryInput = QueryInput.newBuilder().setText(TextInput.newBuilder().setText(msg).setLanguageCode("en-US")).build();
+        QueryInput queryInput = QueryInput.newBuilder().setText(TextInput.newBuilder().setText(msg).
+                setLanguageCode("en-US")).build();
         new RequestJava(this, session, sessionsClient, queryInput).execute();
     }
 }
