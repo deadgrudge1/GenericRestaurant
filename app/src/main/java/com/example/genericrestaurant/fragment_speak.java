@@ -114,7 +114,7 @@ public class fragment_speak extends Fragment {
         final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         databaseHelper = new DatabaseHelper(getActivity());
-
+        initV2Chatbot();
 
         return inflater.inflate(R.layout.fragment_mic, null);
     }
@@ -187,7 +187,7 @@ public class fragment_speak extends Fragment {
                     Log.e("VOICE OUTPUT", "Initialization failure");
                 }
 
-                initV2Chatbot();
+
 
             }
         });
@@ -280,10 +280,14 @@ public class fragment_speak extends Fragment {
 
     private void initV2Chatbot() {
         try {
-            InputStream stream = getResources().openRawResource(R.raw.projectbot);
+            InputStream stream = getResources().openRawResource(R.raw.agent_credentials);
             GoogleCredentials credentials = GoogleCredentials.fromStream(stream);
-            String projectId = "projectbot-ba068";
+            String projectId = ((ServiceAccountCredentials)credentials).getProjectId();
+            Log.d("projectId"," This is  " + projectId);
 
+            ResponseMessage responseMessage = new ResponseMessage("yo",true);
+            responseMessageList.add(responseMessage);
+            messageAdapter.notifyDataSetChanged();
             SessionsSettings.Builder settingsBuilder = SessionsSettings.newBuilder();
             SessionsSettings sessionsSettings = settingsBuilder.setCredentialsProvider
                     (FixedCredentialsProvider.create(credentials)).build();
