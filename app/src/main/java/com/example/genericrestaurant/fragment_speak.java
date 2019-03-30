@@ -23,12 +23,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.api.gax.core.FixedCredentialsProvider;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.auth.oauth2.ServiceAccountCredentials;
+import com.google.cloud.dialogflow.v2.DetectIntentResponse;
+import com.google.cloud.dialogflow.v2.QueryInput;
+import com.google.cloud.dialogflow.v2.SessionName;
+import com.google.cloud.dialogflow.v2.SessionsClient;
+import com.google.cloud.dialogflow.v2.SessionsSettings;
+import com.google.cloud.dialogflow.v2.TextInput;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -40,6 +51,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 //import ai.api.AIConfiguration;
 //import ai.api.AIListener;
@@ -48,12 +60,14 @@ import java.util.Locale;
 //import okhttp3.internal.Util;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.ContentValues.TAG;
 
-public class fragment_speak extends Fragment  {
+public class fragment_speak extends Fragment {
 
     private final int REQ_CODE_SPEECH_INPUT = 100;
     ArrayList<MenuCard> order = new ArrayList<>();
-    TextView total_amount,date_user;
+    TextView total_amount, date_user;
+
 
     Date currenttime = Calendar.getInstance().getTime();
     TextToSpeech voiceoutput;
@@ -61,12 +75,13 @@ public class fragment_speak extends Fragment  {
     List<ResponseMessage> responseMessageList = new ArrayList<>();
     RecyclerView Conversation;
     MessageAdapter messageAdapter;
-    FloatingActionButton volume_button;
-    int volume=1;
+    FloatingActionButton volume_button,offline_micbutton;
+    int volume = 1;
     public ResponseMessage message;
-
-
-
+    SessionsClient sessionsClient;
+    SessionName session;
+    private String uuid = UUID.randomUUID().toString();
+    DatabaseHelper databaseHelper;
 
 
     public void promptSpeechInput() {
@@ -79,7 +94,7 @@ public class fragment_speak extends Fragment  {
             startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
         } catch (ActivityNotFoundException a) {
             Toast.makeText(getContext(),
-                    getString(R.string.speech_not_supported),Toast.LENGTH_SHORT).show();
+                    getString(R.string.speech_not_supported), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -98,51 +113,54 @@ public class fragment_speak extends Fragment  {
 
         final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        new RetrieveFeedTask().execute();
+        databaseHelper = new DatabaseHelper(getActivity());
 
 
-
-       return inflater.inflate(R.layout.fragment_mic,null);
+        return inflater.inflate(R.layout.fragment_mic, null);
     }
 
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mic_float_button = view.findViewById(R.id.mic_float_button);
-        mic_float_button.setOnClickListener(new View.OnClickListener() {
+        mic_float_button = view.findViewById(R.id.mic_float_button2);
+        offline_micbutton = view.findViewById(R.id.mic_float_button);
+
+        offline_micbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 promptSpeechInput();
             }
         });
 
+        mic_float_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                promptSpeechInput();
+            }
+
+
+
+        });
+
         volume_button = view.findViewById(R.id.mute_float_button);
 
-        if(savedInstanceState!=null)
+        if (savedInstanceState != null)
             volume = savedInstanceState.getInt("volume");
 
-        if(volume == 1)
-        {
+        if (volume == 1) {
             volume_button.setImageResource(R.drawable.ic_volume_on_black_24dp);
-        }
-
-        else if(volume == 0)
-        {
+        } else if (volume == 0) {
             volume_button.setImageResource(R.drawable.ic_volume_off_black_24dp);
         }
 
         volume_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(volume == 1)
-                {
+                if (volume == 1) {
                     volume = 0;
                     volume_button.setImageResource(R.drawable.ic_volume_off_black_24dp);
-                }
-
-                else if(volume == 0)
-                {
+                } else if (volume == 0) {
                     volume = 1;
                     volume_button.setImageResource(R.drawable.ic_volume_on_black_24dp);
                 }
@@ -157,31 +175,25 @@ public class fragment_speak extends Fragment  {
         voiceoutput = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
-                if(status == TextToSpeech.SUCCESS)
-                {
-                    int result =   voiceoutput.setLanguage(Locale.ENGLISH);                                //SETTING LANGUAGE TO ENGLISH
-                    if(result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED)
-                    {
-                        Log.e( "VOICE OUTPUT",  "Language not Supported");
-                    }
-                    else
-                    {
+                if (status == TextToSpeech.SUCCESS) {
+                    int result = voiceoutput.setLanguage(Locale.ENGLISH);                                //SETTING LANGUAGE TO ENGLISH
+                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Log.e("VOICE OUTPUT", "Language not Supported");
+                    } else {
 
                     }
 
+                } else {
+                    Log.e("VOICE OUTPUT", "Initialization failure");
                 }
 
-                else
-                {
-                    Log.e( "VOICE OUTPUT",  "Initialization failure");
-                }
+                initV2Chatbot();
 
             }
         });
 
         //final AIConfiguration aiConfiguration;
         //aiConfiguration = new AIConfiguration("1348d95ad6aa4e119cec25a7973ba09f",AIConfiguration.SupportedLanguages.English);
-
 
 
     }
@@ -193,26 +205,30 @@ public class fragment_speak extends Fragment  {
 
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    String string=result.get(0);
+                    String string = result.get(0);
+                    if(string.contains("burger")) {
+                            databaseHelper.insertCartItem(databaseHelper.getWritableDatabase(), 1, 2);
+
+                    }
+
 
                     messageAdapter = new MessageAdapter(responseMessageList);
                     Conversation.setAdapter(messageAdapter);
-                    message = new ResponseMessage(string ,true);
+                    message = new ResponseMessage(string, true);
                     responseMessageList.add(message);
-                    new RetrieveFeedTask().execute();
+                    sendMessage();
                     messageAdapter.notifyDataSetChanged();
 
 
-                    if(!isMessageVisible())
-                    {
-                        Conversation.smoothScrollToPosition(messageAdapter.getItemCount()-1);
-                        if(volume == 1)
+                    if (!isMessageVisible()) {
+                        Conversation.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+                        if (volume == 1)
                             speak();
                     }
 
 
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("order_speak_fragment",order);
+                    bundle.putSerializable("order_speak_fragment", order);
 
                 }
                 break;
@@ -222,35 +238,30 @@ public class fragment_speak extends Fragment  {
     }
 
 
-
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(ArrayList<MenuCard> order);
     }
 
-    public void speak()
-    {
+    public void speak() {
         int i = responseMessageList.size();
         String text = responseMessageList.get(i - 1).getTextmessage();
-        voiceoutput.setPitch(1/10);
-        voiceoutput.setSpeechRate(1/2);
-        voiceoutput.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+        voiceoutput.setPitch(1 / 10);
+        voiceoutput.setSpeechRate(1 / 2);
+        voiceoutput.speak(text, TextToSpeech.QUEUE_FLUSH, null);
 
     }
 
 
-    public boolean isMessageVisible()
-    {
+    public boolean isMessageVisible() {
         LinearLayoutManager linearLayoutManager = (LinearLayoutManager) Conversation.getLayoutManager();
         int lastpos = linearLayoutManager.findLastCompletelyVisibleItemPosition();
         int itemcount = Conversation.getAdapter().getItemCount();
-        return (lastpos>=itemcount);
+        return (lastpos >= itemcount);
     }
 
     @Override
-    public void onDestroy()
-    {
-        if(voiceoutput != null)
-        {
+    public void onDestroy() {
+        if (voiceoutput != null) {
             voiceoutput.stop();
             voiceoutput.shutdown();
         }
@@ -260,106 +271,49 @@ public class fragment_speak extends Fragment  {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
 
-        outState.putString("test","test");
-        outState.putInt("volume",volume);
+        outState.putString("test", "test");
+        outState.putInt("volume", volume);
         super.onSaveInstanceState(outState);
     }
 
     //Obtain response from Agent on DialogueFlow
 
-    public String getText(String query) throws UnsupportedEncodingException
-    {
-        String message_server = null;
-        String text = null;
-        BufferedReader bufferedReader = null;
-
+    private void initV2Chatbot() {
         try {
+            InputStream stream = getResources().openRawResource(R.raw.projectbot);
+            GoogleCredentials credentials = GoogleCredentials.fromStream(stream);
+            String projectId = "projectbot-ba068";
 
-            URL url = new URL("https://api.api.ai/v1/query?v=20150910");
-
-            URLConnection connection = url.openConnection();
-            connection.setRequestProperty("Authorization","Bearer 1348d95ad6aa4e119cec25a7973ba09f");
-            connection.setRequestProperty("Content-Type","application/json");
-
-            JSONArray jsonArray = new JSONArray(message.getTextmessage());
-            JSONObject jsonParam = new JSONObject();
-            jsonArray.put(query);
-            jsonParam.put("query",jsonArray);
-            jsonParam.put("lang","en");
-            jsonParam.put("Session id","1234567890");
-
-            OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
-            Log.d("Query","after converesion is" + jsonParam.toString());
-            wr.write(jsonParam.toString());
-            wr.flush();
-            Log.d("Query","Json is" + jsonParam);
-
-
-            bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder Sb = new StringBuilder();
-            String line =  null;
-
-            text = Sb.toString();
-
-
-
-            do{
-
-                Sb.append(line + "\n");
-
-            }while( (line = bufferedReader.readLine()) != null );
-
-            JSONObject server_object = new JSONObject(text);
-            JSONObject serverobject = server_object.getJSONObject("result");
-            JSONObject fulfillment = null;
-            if(serverobject.has("fulfillment")) {
-                fulfillment = serverobject.getJSONObject("fulfillment");
-
-                if(fulfillment.has("speech")){
-
-                    message_server = fulfillment.optString("speech");
-
-                }
-
-            }
-
-
-            return message_server;
-        }
-        catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+            SessionsSettings.Builder settingsBuilder = SessionsSettings.newBuilder();
+            SessionsSettings sessionsSettings = settingsBuilder.setCredentialsProvider(FixedCredentialsProvider.create(credentials)).build();
+            sessionsClient = SessionsClient.create(sessionsSettings);
+            session = SessionName.of(projectId, uuid);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return null;
     }
 
-    class RetrieveFeedTask extends AsyncTask<String, Void, String> {
-        String s = "Hi";
-        protected String doInBackground(String... urls) {
-            try {
-                s = getText(urls[0]);
-                Log.d("schavishay","ikde kay hotay?");
-            } catch (Exception e) {
-
-            }
-            return  s;
-        }
-
-        protected void onPostExecute(String s2) {
-            super.onPostExecute(s);
-            ResponseMessage message2 = null;
-            message2 = new ResponseMessage(s,false);
-
-            responseMessageList.add(message2);
+    public void callbackV2(DetectIntentResponse response) {
+        if (response != null) {
+            // process aiResponse here
+            String botReply = response.getQueryResult().getFulfillmentText();
+            Log.d(TAG, "V2 Bot Reply: " + botReply);
+            ResponseMessage message_server = new ResponseMessage(botReply, false);
+            responseMessageList.add(message_server);
             messageAdapter.notifyDataSetChanged();
-        }
 
+        } else {
+            Log.d(TAG, "Bot Reply: Null");
+            ResponseMessage message_server = new ResponseMessage("Didn't receive a respone from API.AI. \nCheck your net connection and try again.", false);
+            responseMessageList.add(message_server);
+            messageAdapter.notifyDataSetChanged();
+
+        }
     }
 
-
-
+    public void sendMessage() {
+        String msg = message.getTextmessage();
+        QueryInput queryInput = QueryInput.newBuilder().setText(TextInput.newBuilder().setText(msg).setLanguageCode("en-US")).build();
+        new RequestJava(this, session, sessionsClient, queryInput).execute();
+    }
 }
