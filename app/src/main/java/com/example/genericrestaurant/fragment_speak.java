@@ -66,10 +66,7 @@ public class fragment_speak extends Fragment {
 
     private final int REQ_CODE_SPEECH_INPUT = 100;
     ArrayList<MenuCard> order = new ArrayList<>();
-    TextView total_amount, date_user;
 
-
-    Date currenttime = Calendar.getInstance().getTime();
     TextToSpeech voiceoutput;
     FloatingActionButton mic_float_button;
     List<ResponseMessage> responseMessageList = new ArrayList<>();
@@ -82,7 +79,6 @@ public class fragment_speak extends Fragment {
     SessionName session;
     private String uuid = UUID.randomUUID().toString();
     DatabaseHelper databaseHelper;
-
 
     public void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -98,13 +94,10 @@ public class fragment_speak extends Fragment {
         }
     }
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        //order1 = new MenuCard("Chicken Burger", "Rs. 100", "Non-Veg.");
-        //order.add(order1);
     }
 
     @Nullable
@@ -114,6 +107,7 @@ public class fragment_speak extends Fragment {
         final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         databaseHelper = new DatabaseHelper(getActivity());
+        //ChatBot Initialized.
         initV2Chatbot();
 
         return inflater.inflate(R.layout.fragment_mic, null);
@@ -125,14 +119,12 @@ public class fragment_speak extends Fragment {
 
         mic_float_button = view.findViewById(R.id.mic_float_button2);
         offline_micbutton = view.findViewById(R.id.mic_float_button);
-
         offline_micbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 promptSpeechInput();
             }
         });
-
         mic_float_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,18 +134,15 @@ public class fragment_speak extends Fragment {
 
 
         });
-
         volume_button = view.findViewById(R.id.mute_float_button);
 
         if (savedInstanceState != null)
             volume = savedInstanceState.getInt("volume");
-
         if (volume == 1) {
             volume_button.setImageResource(R.drawable.ic_volume_on_black_24dp);
         } else if (volume == 0) {
             volume_button.setImageResource(R.drawable.ic_volume_off_black_24dp);
         }
-
         volume_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,43 +169,30 @@ public class fragment_speak extends Fragment {
                     if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Log.e("VOICE OUTPUT", "Language not Supported");
                     } else {
-
                     }
-
                 } else {
                     Log.e("VOICE OUTPUT", "Initialization failure");
                 }
-
-
-
             }
         });
-
-        //final AIConfiguration aiConfiguration;
-        //aiConfiguration = new AIConfiguration("1348d95ad6aa4e119cec25a7973ba09f",AIConfiguration.SupportedLanguages.English);
-
-
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQ_CODE_SPEECH_INPUT: {
                 if (resultCode == RESULT_OK && null != data) {
-
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String string = result.get(0);
                     if(string.contains("burger")) {
                             databaseHelper.insertCartItem(databaseHelper.getWritableDatabase(), 1, 2);
-
                     }
-
 
                     messageAdapter = new MessageAdapter(responseMessageList);
                     Conversation.setAdapter(messageAdapter);
                     message = new ResponseMessage(string, true);
                     responseMessageList.add(message);
-                    sendMessage();
+                    sendMessage(message);
                     messageAdapter.notifyDataSetChanged();
 
 
@@ -282,17 +258,17 @@ public class fragment_speak extends Fragment {
         try {
             InputStream stream = getResources().openRawResource(R.raw.agent_credentials);
             GoogleCredentials credentials = GoogleCredentials.fromStream(stream);
+            Log.d("Credentials","Credentials are " + credentials);
             String projectId = ((ServiceAccountCredentials)credentials).getProjectId();
             Log.d("projectId"," This is  " + projectId);
-
-            ResponseMessage responseMessage = new ResponseMessage("yo",true);
-            responseMessageList.add(responseMessage);
-            messageAdapter.notifyDataSetChanged();
             SessionsSettings.Builder settingsBuilder = SessionsSettings.newBuilder();
-            SessionsSettings sessionsSettings = settingsBuilder.setCredentialsProvider
-                    (FixedCredentialsProvider.create(credentials)).build();
+            Log.d("settingsBuilder "," This is  " + settingsBuilder);
+            SessionsSettings sessionsSettings = settingsBuilder.setCredentialsProvider(FixedCredentialsProvider.create(credentials)).build();
+            Log.d("sessionSettings "," This is  " + sessionsSettings);
             sessionsClient = SessionsClient.create(sessionsSettings);
+            Log.d("Client of Session "," This is  " + sessionsClient);
             session = SessionName.of(projectId, uuid);
+            Log.d("Name of Session "," This is  " + session + "\t UUID = " + uuid);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -302,25 +278,23 @@ public class fragment_speak extends Fragment {
         if (response != null) {
             // process aiResponse here
             String botReply = response.getQueryResult().getFulfillmentText();
-            Log.d(TAG, "V2 Bot Reply: " + botReply);
+            Log.d("Bot Reply", "V2 Bot Reply: " + botReply);
             ResponseMessage message_server = new ResponseMessage(botReply, false);
             responseMessageList.add(message_server);
             messageAdapter.notifyDataSetChanged();
-
         } else {
-            Log.d(TAG, "Bot Reply: Null");
+            Log.d("Bot Reply", "Bot Reply is Null");
             ResponseMessage message_server = new ResponseMessage("Didn't receive a " +
-                    "response from API.AI. \nCheck your net connection and try again.", false);
+                    response +"from API.AI. \nCheck your net connection and try again.", false);
             responseMessageList.add(message_server);
             messageAdapter.notifyDataSetChanged();
-
         }
     }
 
-    public void sendMessage() {
-        String msg = message.getTextmessage();
-        QueryInput queryInput = QueryInput.newBuilder().setText(TextInput.newBuilder().setText(msg).
-                setLanguageCode("en-US")).build();
-        new RequestJava(this, session, sessionsClient, queryInput).execute();
+    public void sendMessage(ResponseMessage query_client) {
+        String msg = query_client.getTextmessage();
+        Log.d("sendMessage-322","This is Query" + msg);
+        QueryInput queryInput = QueryInput.newBuilder().setText(TextInput.newBuilder().setText(msg).setLanguageCode("en-US")).build();
+        new RequestJava(fragment_speak.this, session, sessionsClient, queryInput).execute();
     }
 }
