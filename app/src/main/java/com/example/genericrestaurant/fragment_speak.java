@@ -33,6 +33,8 @@ import com.google.cloud.dialogflow.v2.SessionName;
 import com.google.cloud.dialogflow.v2.SessionsClient;
 import com.google.cloud.dialogflow.v2.SessionsSettings;
 import com.google.cloud.dialogflow.v2.TextInput;
+import com.google.protobuf.Struct;
+import com.google.protobuf.Value;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,14 +46,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 //import ai.api.AIConfiguration;
@@ -80,6 +87,7 @@ public class fragment_speak extends Fragment {
     SessionName session;
     private String uuid = UUID.randomUUID().toString();
     DatabaseHelper databaseHelper;
+    ArrayList<String> response_food_list;
 
     public void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -283,6 +291,13 @@ public class fragment_speak extends Fragment {
             ResponseMessage message_server = new ResponseMessage(botReply, false);
             responseMessageList.add(message_server);
             messageAdapter.notifyDataSetChanged();
+
+            response_food_list = new ArrayList<>();
+            Struct struct = response.getQueryResult().getParameters();
+            Map<String,Value> map = struct.getFieldsMap();
+            Collection<Value> collection = map.values();
+            Log.d("Collection Response", "Collection : " + collection);
+
         } else {
             Log.d("Bot Reply", "Bot Reply is Null");
             ResponseMessage message_server = new ResponseMessage("Didn't receive a " +
@@ -299,48 +314,6 @@ public class fragment_speak extends Fragment {
         new RequestJava(fragment_speak.this, session, sessionsClient, queryInput).execute();
     }
 
-    public class RequestJava extends AsyncTask<Void, Void, DetectIntentResponse> {
-        fragment_speak fragment;
-        private SessionName session;
-        private SessionsClient sessionsClient;
-        private QueryInput queryInput;
 
-        RequestJava(fragment_speak fragment, SessionName session, SessionsClient sessionsClient, QueryInput queryInput) {
-            this.fragment = fragment;
-            this.session = session;
-            this.sessionsClient = sessionsClient;
-            this.queryInput = queryInput;
-        }
-
-        protected DetectIntentResponse doInBackground(Void... voids) {
-            try{
-                DetectIntentRequest detectIntentRequest =
-                        DetectIntentRequest.newBuilder()
-                                .setSession(session.toString())
-                                .setQueryInput(queryInput)
-                                .build();
-
-                Log.d("DetectIntentRequest:","Intent Is: " + detectIntentRequest );
-
-                //Log.d(" Request is "," " + sessionsClient.detectIntent(detectIntentRequest));
-
-//                this.wait(1000);
-                //Log.d("Bot_reply: ","Response is " + sessionsClient.detectIntent(detectIntentRequest));
-                //return sessionsClient.detectIntent(detectIntentRequest);
-                return this.sessionsClient.detectIntent(detectIntentRequest);
-            }
-            catch (Exception e) {
-                Log.d("36","In catch block");
-//                Toast.makeText(getContext(),"Failed",Toast.LENGTH_LONG).show();
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        protected void onPostExecute(DetectIntentResponse response) {
-            this.fragment.callbackV2(response);
-        }
-
-    }
 
 }

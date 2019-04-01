@@ -1,3 +1,69 @@
+{
+    "responseId": "40d1f94f-4673-4644-aa53-99c854ff2596",
+    "queryResult": {
+        "queryText": "that video matters a lot for me",
+        "action": "input.unknown",
+        "parameters": {},
+        "allRequiredParamsPresent": true,
+        "fulfillmentText": "Can you say that again?",
+        "fulfillmentMessages": [
+            {
+                "text": {
+                    "text": [
+                        "Sorry, what was that?"
+                    ]
+                }
+            }
+        ],
+        "intent": {
+            "name": "projects/project-name/agent/intents/10c88e8d-f16a-4905-b829-f596d3b3c588",
+            "displayName": "Default Fallback Intent",
+            "isFallback": true
+        },
+        "intentDetectionConfidence": 1,
+        "languageCode": "en"
+    }
+}
+
+
+{
+  "responseId": "86680886-9361-4563-9dec-5361cff78e26",
+  "queryResult": {
+    "queryText": "i want burger fries and coke",
+    "parameters": {
+      "Food": [
+        "Burger",
+        "Fries",
+        "coke"
+      ]
+    },
+    "allRequiredParamsPresent": true,
+    "fulfillmentText": "Got it. Confirm it from the cart so that I can relay it to the chef.",
+    "fulfillmentMessages": [
+      {
+        "text": {
+          "text": [
+            "I'll get that for you shortly after you confirm it from the cart."
+          ]
+        }
+      }
+    ],
+    "intent": {
+      "name": "projects/projectbot-ba068/agent/intents/c1b1a252-bc93-4b0f-be8a-fde281c6db5e",
+      "displayName": "Order"
+    },
+    "intentDetectionConfidence": 0.63,
+    "diagnosticInfo": {
+      "webhook_latency_ms": 10001
+    },
+    "languageCode": "en"
+  },
+  "webhookStatus": {
+    "code": 4,
+    "message": "Webhook call failed. Error: Request timeout."
+  }
+}
+
 
 JSON POST REQUEST TO SERVER
 
@@ -273,3 +339,28 @@ JSON GET OBJECT FORMAT FROM SERVER
                     set_FOOD_ID= selected.
 
 
+USE CASE :
+
+I/Timeline: Timeline: Activity_launch_request time:10841943
+D/sendMessage-322: This is QueryI want coke and fries
+D/DetectIntentRequest:: Intent Is: session: "projects/projectbot-ba068/agent/sessions/788efd97-8593-43b8-8b01-1eda15b24185"
+    query_input {
+      text {
+        text: "I want coke and fries"
+        language_code: "en-US"
+      }
+    }
+D/Bot Reply: V2 Bot Reply: Order noted and placed in cart. Would you like anything else?
+D/Struct: Structure : fields {
+      key: "Food"
+      value {
+        list_value {
+          values {
+            string_value: "coke"
+          }
+          values {
+            string_value: "Fries"
+          }
+        }
+      }
+    }
