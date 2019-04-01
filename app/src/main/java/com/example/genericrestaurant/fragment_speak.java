@@ -80,7 +80,7 @@ public class fragment_speak extends Fragment {
     List<ResponseMessage> responseMessageList = new ArrayList<>();
     RecyclerView Conversation;
     MessageAdapter messageAdapter;
-    FloatingActionButton volume_button,offline_micbutton;
+    FloatingActionButton volume_button, offline_micbutton;
     int volume = 1;
     public ResponseMessage message;
     SessionsClient sessionsClient;
@@ -141,7 +141,6 @@ public class fragment_speak extends Fragment {
             }
 
 
-
         });
         volume_button = view.findViewById(R.id.mute_float_button);
 
@@ -193,8 +192,8 @@ public class fragment_speak extends Fragment {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String string = result.get(0);
-                    if(string.contains("burger")) {
-                            databaseHelper.insertCartItem(databaseHelper.getWritableDatabase(), 1, 2);
+                    if (string.contains("burger")) {
+                        databaseHelper.insertCartItem(databaseHelper.getWritableDatabase(), 1, 2);
                     }
 
                     messageAdapter = new MessageAdapter(responseMessageList);
@@ -203,13 +202,6 @@ public class fragment_speak extends Fragment {
                     responseMessageList.add(message);
                     sendMessage(message);
                     messageAdapter.notifyDataSetChanged();
-
-
-                    if (!isMessageVisible()) {
-                        Conversation.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
-                        if (volume == 1)
-                            speak();
-                    }
 
 
                     Bundle bundle = new Bundle();
@@ -267,23 +259,24 @@ public class fragment_speak extends Fragment {
         try {
             InputStream stream = getResources().openRawResource(R.raw.agent_credentials);
             GoogleCredentials credentials = GoogleCredentials.fromStream(stream);
-            Log.d("Credentials","Credentials are " + credentials);
-            String projectId = ((ServiceAccountCredentials)credentials).getProjectId();
-            Log.d("projectId"," This is  " + projectId);
+            Log.d("Credentials", "Credentials are " + credentials);
+            String projectId = ((ServiceAccountCredentials) credentials).getProjectId();
+            Log.d("projectId", " This is  " + projectId);
             SessionsSettings.Builder settingsBuilder = SessionsSettings.newBuilder();
-            Log.d("settingsBuilder "," This is  " + settingsBuilder);
+            Log.d("settingsBuilder ", " This is  " + settingsBuilder);
             SessionsSettings sessionsSettings = settingsBuilder.setCredentialsProvider(FixedCredentialsProvider.create(credentials)).build();
-            Log.d("sessionSettings "," This is  " + sessionsSettings);
+            Log.d("sessionSettings ", " This is  " + sessionsSettings);
             sessionsClient = SessionsClient.create(sessionsSettings);
-            Log.d("Client of Session "," This is  " + sessionsClient);
+            Log.d("Client of Session ", " This is  " + sessionsClient);
             session = SessionName.of(projectId, uuid);
-            Log.d("Name of Session "," This is  " + session + "\t UUID = " + uuid);
+            Log.d("Name of Session ", " This is  " + session + "\t UUID = " + uuid);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void callbackV2(DetectIntentResponse response) {
+        String Foods = "";
         if (response != null) {
             // process aiResponse here
             String botReply = response.getQueryResult().getFulfillmentText();
@@ -292,28 +285,53 @@ public class fragment_speak extends Fragment {
             responseMessageList.add(message_server);
             messageAdapter.notifyDataSetChanged();
 
-            response_food_list = new ArrayList<>();
-            Struct struct = response.getQueryResult().getParameters();
-            Map<String,Value> map = struct.getFieldsMap();
-            Collection<Value> collection = map.values();
-            Log.d("Collection Response", "Collection : " + collection);
+            if (!isMessageVisible()) {
+                Conversation.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+                if (volume == 1)
+                    speak();
+            }
 
+            response_food_list = new ArrayList<>();
+
+            Struct struct = response.getQueryResult().getParameters();
+            try {
+                Value number = struct.getFieldsOrThrow("number");
+                String Quantity = String.valueOf(number.getListValue().getValuesList().get(0).getNumberValue());
+
+                Value Topping = struct.getFieldsOrThrow("Toppings");
+                String Toppings = String.valueOf(Topping.getStringValue());
+
+                Value Food = struct.getFieldsOrThrow("Food");
+                Foods = Food.getListValue().getValuesList().get(0).getStringValue();
+
+                Log.d("Quantity is:", String.valueOf(Quantity));
+                Log.d("Toppings is:", String.valueOf(Toppings));
+                Log.d("Foods is:", String.valueOf(Foods));
+
+                Log.d("Collection Response", "Collection : " + struct.toString());
+            } catch (Exception e) {
+            }
         } else {
             Log.d("Bot Reply", "Bot Reply is Null");
             ResponseMessage message_server = new ResponseMessage("Didn't receive a " +
-                    response +"from API.AI. \nCheck your net connection and try again.", false);
+                    response + "from API.AI. \nCheck your net connection and try again.", false);
             responseMessageList.add(message_server);
             messageAdapter.notifyDataSetChanged();
+
+            if (!isMessageVisible()) {
+                Conversation.smoothScrollToPosition(messageAdapter.getItemCount() - 1);
+                if (volume == 1)
+                    speak();
+            }
         }
     }
 
     public void sendMessage(ResponseMessage query_client) {
         String msg = query_client.getTextmessage();
-        Log.d("sendMessage-322","This is Query" + msg);
+        Log.d("sendMessage-322", "This is Query" + msg);
         QueryInput queryInput = QueryInput.newBuilder().setText(TextInput.newBuilder().setText(msg).setLanguageCode("en-US")).build();
         new RequestJava(fragment_speak.this, session, sessionsClient, queryInput).execute();
     }
-
 
 
 }
