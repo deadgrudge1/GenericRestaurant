@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.google.api.gax.core.FixedCredentialsProvider;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
+import com.google.cloud.dialogflow.v2.DetectIntentRequest;
 import com.google.cloud.dialogflow.v2.DetectIntentResponse;
 import com.google.cloud.dialogflow.v2.QueryInput;
 import com.google.cloud.dialogflow.v2.SessionName;
@@ -297,4 +298,47 @@ public class fragment_speak extends Fragment {
         QueryInput queryInput = QueryInput.newBuilder().setText(TextInput.newBuilder().setText(msg).setLanguageCode("en-US")).build();
         new RequestJava(fragment_speak.this, session, sessionsClient, queryInput).execute();
     }
+
+    public class RequestJava extends AsyncTask<Void, Void, DetectIntentResponse> {
+        fragment_speak fragment;
+        private SessionName session;
+        private SessionsClient sessionsClient;
+        private QueryInput queryInput;
+
+        RequestJava(fragment_speak fragment, SessionName session, SessionsClient sessionsClient, QueryInput queryInput) {
+            this.fragment = fragment;
+            this.session = session;
+            this.sessionsClient = sessionsClient;
+            this.queryInput = queryInput;
+        }
+
+        protected DetectIntentResponse doInBackground(Void... voids) {
+            //try{
+                DetectIntentRequest detectIntentRequest =
+                        DetectIntentRequest.newBuilder()
+                                .setSession(session.toString())
+                                .setQueryInput(queryInput)
+                                .build();
+
+                Log.d("DetectIntentRequest:","Intent Is: " + detectIntentRequest );
+
+                Log.d(" Request is "," " + sessionsClient.detectIntent(detectIntentRequest));
+
+//                this.wait(1000);
+                Log.d("Bot_reply: ","Response is " + sessionsClient.detectIntent(detectIntentRequest));
+                return sessionsClient.detectIntent(detectIntentRequest);
+            //}
+            /*catch (Exception e) {
+                Log.d("36","In catch block");
+                e.printStackTrace();
+            }
+            return null;*/
+        }
+
+        protected void onPostExecute(DetectIntentResponse response) {
+            this.fragment.callbackV2(response);
+        }
+
+    }
+
 }
