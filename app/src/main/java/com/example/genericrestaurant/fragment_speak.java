@@ -313,7 +313,7 @@ public class fragment_speak extends Fragment {
         }
 
         protected DetectIntentResponse doInBackground(Void... voids) {
-            //try{
+            try{
                 DetectIntentRequest detectIntentRequest =
                         DetectIntentRequest.newBuilder()
                                 .setSession(session.toString())
@@ -322,17 +322,19 @@ public class fragment_speak extends Fragment {
 
                 Log.d("DetectIntentRequest:","Intent Is: " + detectIntentRequest );
 
-                Log.d(" Request is "," " + sessionsClient.detectIntent(detectIntentRequest));
+                //Log.d(" Request is "," " + sessionsClient.detectIntent(detectIntentRequest));
 
 //                this.wait(1000);
-                Log.d("Bot_reply: ","Response is " + sessionsClient.detectIntent(detectIntentRequest));
-                return sessionsClient.detectIntent(detectIntentRequest);
-            //}
-            /*catch (Exception e) {
+                //Log.d("Bot_reply: ","Response is " + sessionsClient.detectIntent(detectIntentRequest));
+                //return sessionsClient.detectIntent(detectIntentRequest);
+                return this.sessionsClient.detectIntent(detectIntentRequest);
+            }
+            catch (Exception e) {
                 Log.d("36","In catch block");
+//                Toast.makeText(getContext(),"Failed",Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
-            return null;*/
+            return null;
         }
 
         protected void onPostExecute(DetectIntentResponse response) {

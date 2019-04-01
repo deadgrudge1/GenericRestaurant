@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +29,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.android.volley.toolbox.HttpResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -298,6 +301,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private String username;
+        private String password;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
@@ -307,6 +312,38 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+
+            // url where the data will be posted
+            String path = "https://generic-restaurant.000webhostapp.com/login.php?";
+/*
+            Log.v(TAG, "postURL: " + postReceiverUrl);
+
+// HttpClient
+            HttpClient httpClient = new DefaultHttpClient();
+
+// post header
+            HttpPost httpPost = new HttpPost(postReceiverUrl);
+
+// add your data
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("firstname", "Mike"));
+            nameValuePairs.add(new BasicNameValuePair("lastname", "Dalisay"));
+            nameValuePairs.add(new BasicNameValuePair("email", "mike@testmail.com"));
+
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+// execute HTTP post request
+            HttpResponse response = httpClient.execute(httpPost);
+            HttpEntity resEntity = response.getEntity();
+
+            if (resEntity != null) {
+
+                String responseStr = EntityUtils.toString(resEntity).trim();
+                Log.v(TAG, "Response: " +  responseStr);
+
+                // you can add an if statement here and do other actions based on the response
+            }
+*/
 
             try {
                 // Simulate network access.
