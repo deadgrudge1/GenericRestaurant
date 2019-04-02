@@ -18,7 +18,7 @@
         android:text="B.E Project"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:textColor="@color/backgroundBlue"
+        android:textColor="@color/backgroundBlueLight"
         android:textSize="40dp"
         android:typeface="serif"
         app:layout_constraintBottom_toBottomOf="parent"

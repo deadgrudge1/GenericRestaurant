@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
+    android:background="@color/backgroundGrey"
     >
 
     <android.support.design.widget.CoordinatorLayout
@@ -41,7 +42,7 @@
         android:layout_marginStart="0dp"
         android:backgroundTint="#dddddd"
         android:background="?android:attr/windowBackground"
-        app:itemBackground="@color/backgroundBlue"
+        app:itemBackground="@color/backgroundBlueLight"
         app:itemIconTint="#dddddd"
         app:itemTextColor="#dddddd"
         app:labelVisibilityMode="auto"
