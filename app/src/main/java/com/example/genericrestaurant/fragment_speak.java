@@ -315,7 +315,7 @@ public class fragment_speak extends Fragment {
 
                 //Foods_List = new ArrayList<>();
                 i=0;
-
+                Foods_List = new ArrayList<>();
                 while(i!=Food.getListValue().getValuesList().size()) {
                     Foods_List.add(Food.getListValue().getValuesList().get(i).getStringValue());
                     Log.d("Food items are:", String.valueOf(Foods_List.get(i)));
