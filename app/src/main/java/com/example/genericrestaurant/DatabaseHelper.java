@@ -234,5 +234,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public int getIdfromName(SQLiteDatabase db, String name)
+    {
+        Cursor temp = db.rawQuery("select * from " + TABLE_MENU + " where " + FOOD_NAME + " like \"%" + name + "%\";",null);
+        temp.moveToFirst();
+        int id = temp.getInt(temp.getColumnIndex(FOOD_ID));
+        return id;
+    }
+
 
 }

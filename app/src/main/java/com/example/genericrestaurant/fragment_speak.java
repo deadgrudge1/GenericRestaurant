@@ -88,6 +88,8 @@ public class fragment_speak extends Fragment {
     private String uuid = UUID.randomUUID().toString();
     DatabaseHelper databaseHelper;
     ArrayList<String> response_food_list;
+    ArrayList<String> Foods_List = new ArrayList<>();
+    ArrayList<String> Quantity = new ArrayList<>();
 
     public void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -193,7 +195,7 @@ public class fragment_speak extends Fragment {
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String string = result.get(0);
                     if (string.contains("burger")) {
-                        databaseHelper.insertCartItem(databaseHelper.getWritableDatabase(), 1, 2);
+                        //databaseHelper.insertCartItem(databaseHelper.getWritableDatabase(), 1, 2);
                     }
 
                     messageAdapter = new MessageAdapter(responseMessageList);
@@ -202,6 +204,7 @@ public class fragment_speak extends Fragment {
                     responseMessageList.add(message);
                     sendMessage(message);
                     messageAdapter.notifyDataSetChanged();
+                    //Log.d("Food items (result) : ", String.valueOf(Foods_List.get(0)));
 
 
                     Bundle bundle = new Bundle();
@@ -296,13 +299,33 @@ public class fragment_speak extends Fragment {
             Struct struct = response.getQueryResult().getParameters();
             try {
                 Value number = struct.getFieldsOrThrow("number");
-                String Quantity = String.valueOf(number.getListValue().getValuesList().get(0).getNumberValue());
+                int i = 0;
+
+                while(i!=number.getListValue().getValuesList().size()) {
+                    Quantity.add(String.valueOf(number.getListValue().getValuesList().get(i).getNumberValue()));
+                    Log.d("Quantity array is :", String.valueOf(Quantity.get(i)));
+                    i++;
+                }
 
                 Value Topping = struct.getFieldsOrThrow("Toppings");
                 String Toppings = String.valueOf(Topping.getStringValue());
 
+
                 Value Food = struct.getFieldsOrThrow("Food");
-                Foods = Food.getListValue().getValuesList().get(0).getStringValue();
+
+                //Foods_List = new ArrayList<>();
+                i=0;
+
+                while(i!=Food.getListValue().getValuesList().size()) {
+                    Foods_List.add(Food.getListValue().getValuesList().get(i).getStringValue());
+                    Log.d("Food items are:", String.valueOf(Foods_List.get(i)));
+
+
+                    int temp = databaseHelper.getIdfromName(databaseHelper.getReadableDatabase(),String.valueOf(Foods_List.get(i)));
+                    databaseHelper.insertCartItem(databaseHelper.getWritableDatabase(),temp,1);
+                    Toast.makeText(getContext(),Foods_List.get(i) + String.valueOf(temp),Toast.LENGTH_SHORT).show();
+                    i++;
+                }
 
                 Log.d("Quantity is:", String.valueOf(Quantity));
                 Log.d("Toppings is:", String.valueOf(Toppings));
@@ -310,6 +333,7 @@ public class fragment_speak extends Fragment {
 
                 Log.d("Collection Response", "Collection : " + struct.toString());
             } catch (Exception e) {
+
             }
         } else {
             Log.d("Bot Reply", "Bot Reply is Null");
