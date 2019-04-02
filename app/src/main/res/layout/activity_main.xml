@@ -41,7 +41,7 @@
         android:layout_marginStart="0dp"
         android:backgroundTint="#dddddd"
         android:background="?android:attr/windowBackground"
-        app:itemBackground="@color/backgroundYellowLight"
+        app:itemBackground="@color/backgroundBlue"
         app:itemIconTint="#dddddd"
         app:itemTextColor="#dddddd"
         app:labelVisibilityMode="auto"

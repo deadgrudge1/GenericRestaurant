@@ -9,8 +9,8 @@
         />
 
     <gradient
-        android:startColor="@color/backgroundYellowLight"
-        android:endColor="@color/backgroundYellow"
+        android:startColor="@color/backgroundBlue"
+        android:endColor="@color/backgroundBlue"
         />
 
 

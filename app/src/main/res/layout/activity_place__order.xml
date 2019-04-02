@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
-        android:backgroundTint="@color/backgroundYellow"
+        android:backgroundTint="@color/backgroundGreen"
         android:text="GO BACK"
         android:visibility="visible" />
 

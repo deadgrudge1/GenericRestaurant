@@ -3,21 +3,21 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/backgroundYellowLight</item>
-        <item name="colorPrimaryDark">@color/backgroundYellow</item>
+        <item name="colorPrimary">@color/backgroundBlue</item>
+        <item name="colorPrimaryDark">@color/backgroundGreen</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="Theme.MaterialButton" parent="AppTheme">
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorButtonNormal">@color/backgroundYellow</item>
+        <item name="colorButtonNormal">@color/backgroundGreen</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
     </style>
 
     <style name="GenericProgressBackground" parent="android:Theme">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:background">@color/backgroundYellow</item>
+        <item name="android:background">@color/backgroundGreen</item>
         <item name="android:gravity">center</item>
     </style>
 

@@ -3,6 +3,6 @@
     <color name="colorPrimary">#7dd9d0</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#000000</color>
-    <color name="backgroundYellowLight">#FFC30B</color>
-    <color name="backgroundYellow">#FDA50F</color>
+    <color name="backgroundBlue">#065ae0</color>
+    <color name="backgroundGreen">#00368e</color>
 </resources>
