@@ -274,6 +274,29 @@ public class fragment_speak extends Fragment {
     public void callbackV2(DetectIntentResponse response) {
         String Foods = "";
         if (response != null) {
+
+
+            //Create response message as per intent and call intent action
+            String intent = response.getQueryResult().getIntent().getDisplayName();
+            intent = intent.toLowerCase();
+
+            switch (intent)
+            {
+                case "hungry" :
+                    break;
+
+                case "order" :
+                    break;
+
+                case "checkout" :
+                    break;
+
+                case "checkout - custom" :
+                    break;
+            }
+
+
+
             // process aiResponse here
             String botReply = response.getQueryResult().getFulfillmentText();
             Log.d("Bot Reply", "V2 Bot Reply: " + botReply);
