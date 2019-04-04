@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     fragment_menu fragmentMenu = new fragment_menu();
     private ViewPager viewPager;
     private TabLayout mTabLayout;
-    SwipeAdapter swipeAdapter;
+    SwipeAdapter swipeAdapter = new SwipeAdapter(getSupportFragmentManager(),3);
 
 
 
@@ -51,11 +51,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         //fragment_mic = new fragment_speak();
         loadFragment(fragment_menu,"Menu");
 
-
-
-
-
-
+        
 
     }
 
@@ -131,33 +127,4 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onPause();
     }
 
-   /* @Override
-    public void onResult(AIResponse result) {
-
-    }
-
-    @Override
-    public void onError(AIError error) {
-
-    }
-
-    @Override
-    public void onAudioLevel(float level) {
-
-    }
-
-    @Override
-    public void onListeningStarted() {
-
-    }
-
-    @Override
-    public void onListeningCanceled() {
-
-    }
-
-    @Override
-    public void onListeningFinished() {
-
-    }*/
 }

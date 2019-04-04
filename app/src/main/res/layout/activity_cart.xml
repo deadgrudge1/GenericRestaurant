@@ -33,8 +33,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="60dp"
-        android:backgroundTint="@color/backgroundBlue"
+        android:backgroundTint="@color/secondaryColor"
         android:text="Place Order"
+        android:textColor="#ffffff"
         android:visibility="visible" />
 
     <Button
@@ -46,7 +47,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="11dp"
         android:layout_marginEnd="25dp"
-        android:backgroundTint="@color/backgroundBlue"
+        android:backgroundTint="@color/secondaryColor"
+        android:textColor="#ffffff"
         android:text="CLEAR" />
 
 

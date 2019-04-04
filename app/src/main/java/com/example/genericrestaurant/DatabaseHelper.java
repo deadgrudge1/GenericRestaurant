@@ -80,7 +80,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         insertMenuItem(db,menuCard);
         menuCard = new MenuCard(4,"Coke", "40", "Veg.",0);
         insertMenuItem(db,menuCard);
-        Log.d("insert-item", "Inserted item succesfully");
+        Log.d("insert-item", "Inserted item successfully");
 
         db.execSQL(CREATE_TABLE_CART);
         //insertCartItem(db, 2, 2);

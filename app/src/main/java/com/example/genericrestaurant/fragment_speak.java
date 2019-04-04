@@ -80,7 +80,7 @@ public class fragment_speak extends Fragment {
     List<ResponseMessage> responseMessageList = new ArrayList<>();
     RecyclerView Conversation;
     MessageAdapter messageAdapter;
-    FloatingActionButton volume_button, offline_micbutton;
+    FloatingActionButton volume_button;
     int volume = 1;
     public ResponseMessage message;
     SessionsClient sessionsClient;
@@ -129,13 +129,6 @@ public class fragment_speak extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mic_float_button = view.findViewById(R.id.mic_float_button2);
-        offline_micbutton = view.findViewById(R.id.mic_float_button);
-        offline_micbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                promptSpeechInput();
-            }
-        });
         mic_float_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

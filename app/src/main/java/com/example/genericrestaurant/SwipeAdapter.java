@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class SwipeAdapter extends FragmentStatePagerAdapter {
 
-    int frag_count = 3;
+    int frag_count;
 
     public SwipeAdapter(FragmentManager fm, int frag_count) {
         super(fm);

@@ -90,7 +90,7 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
 
             break;
             case 0:
-                cashcard.setText("Pleas pay cash at the counter");
+                cashcard.setText("Please pay cash at the counter");
             paytm.setVisibility(View.GONE);
             cashcard.setVisibility(View.VISIBLE);
 

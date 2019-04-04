@@ -34,15 +34,16 @@
         <LinearLayout android:orientation="vertical"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content">
+
             <TextView
                 android:id="@+id/foodname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:text="Walla habibi"
-                android:textStyle="bold"
+                android:textColor="@color/primaryColor"
                 android:textSize="25dp"
-                />
+                android:textStyle="bold" />
 
 
             <TextView
@@ -51,37 +52,36 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/foodname"
                 android:text="Non veg"
-                android:textSize="16dp"
+                android:textColor="@color/secondaryColor"
 
 
-                />
+                android:textSize="16dp" />
         </LinearLayout>
 
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/edit_quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/foodcost"
-        android:layout_below="@+id/foodcost"
-        android:text="Qty : 1"
-        android:textSize="14dp"
-        android:textColor="@color/colorAccent"
-         />
+        <TextView
+            android:id="@+id/edit_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/foodcost"
+            android:layout_alignEnd="@+id/foodcost"
+            android:text="Qty : 1"
+            android:textColor="@color/primaryColor"
+            android:textSize="14dp" />
 
-    <TextView
-        android:id="@+id/foodcost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Rs.249"
-        android:textSize="17dp"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="20dp"
-        />
+        <TextView
+            android:id="@+id/foodcost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:text="Rs.249"
+            android:textColor="@color/primaryColor"
+            android:textSize="17dp"
+            android:textStyle="bold" />
 
 
     </RelativeLayout>
