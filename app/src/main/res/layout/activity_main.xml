@@ -43,7 +43,7 @@
         android:backgroundTint="#dddddd"
         app:itemBackground="@color/primaryLightColor"
         app:itemIconTint="@color/secondaryTextColor"
-        app:itemTextColor="@color/secondaryColor"
+        app:itemTextColor="@color/backgroundGrey"
         app:layout_anchor="@+id/coordinatorLayout_main"
         app:labelVisibilityMode="labeled"
         app:layout_anchorGravity="bottom|center"
