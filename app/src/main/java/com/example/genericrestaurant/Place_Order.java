@@ -2,6 +2,7 @@ package com.example.genericrestaurant;
 
 import android.app.FragmentManager;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +11,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -28,6 +31,10 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
     Spinner spin;
     ArrayAdapter aa;
     String[] payment_options = {"Cash", "Card","UPI", "Paytm"};
+    ListView orderList;
+    OrderAdapter orderAdapter;
+    DatabaseHelper databaseHelper;
+    Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +58,50 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
         total = bundle.getInt("total");
 
 
-        total_text = (TextView)findViewById(R.id.place_order_total);
-        order_text = (TextView)findViewById((R.id.order_items_text));
-        back = (Button)findViewById(R.id.button_place_order_back);
+        total_text = findViewById(R.id.place_order_total);
+        order_text = findViewById((R.id.order_items_text));
+        back = findViewById(R.id.button_place_order_back);
 
+        ArrayList<OrderCard> order1 = new ArrayList<>();
+
+        databaseHelper = new DatabaseHelper(this);
+
+
+        cursor = databaseHelper.fetchCartItems(databaseHelper.getWritableDatabase());
+        if (cursor.getCount() == 0) {
+            Toast.makeText(this, "Cart Db is empty", Toast.LENGTH_SHORT).show();
+        } else
+            cursor.moveToFirst();
+
+        OrderCard orderCard;
+        while (!cursor.isAfterLast()) {
+            int food_id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.FOOD_ID));
+            int quantity = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.QUANTITY));
+
+            Cursor temp = databaseHelper.fetchMenuItem(databaseHelper.getReadableDatabase(), food_id);
+            if (temp.getCount() == 0) {
+                Toast.makeText(this, "Failed to map Cart Item", Toast.LENGTH_SHORT).show();
+            } else
+                temp.moveToFirst();
+
+            String foodname = temp.getString(temp.getColumnIndex(DatabaseHelper.FOOD_NAME));
+            String foodcost = temp.getString(temp.getColumnIndex(DatabaseHelper.FOOD_COST));
+            String foodtype = temp.getString(temp.getColumnIndex(DatabaseHelper.FOOD_TYPE));
+            int img_type = temp.getInt(temp.getColumnIndex(DatabaseHelper.FOOD_IMG));
+
+            orderCard = new OrderCard(foodname, foodcost, foodtype, img_type, String.valueOf(quantity));
+
+            order1.add(orderCard);
+
+            cursor.moveToNext();
+        }
+
+
+        //OrderCard orderCard1 = new OrderCard("Test","50","Veg",1,"2");
+
+        orderList = findViewById(R.id.list_order);
+        orderAdapter = new OrderAdapter(order1,this);
+        orderList.setAdapter(orderAdapter);
 
 
         back.setOnClickListener(new View.OnClickListener() {

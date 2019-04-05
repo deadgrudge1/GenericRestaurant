@@ -1,8 +1,10 @@
 package com.example.genericrestaurant;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +44,7 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
 
     private int lastPosition = -1;
 
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
@@ -56,10 +59,10 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.food_item, parent, false);
-            viewHolder.foodName = (TextView) convertView.findViewById(R.id.foodname);
-            viewHolder.foodType = (TextView) convertView.findViewById(R.id.foodtype);
-            viewHolder.foodCost = (TextView) convertView.findViewById(R.id.foodcost);
-            viewHolder.imageView=(ImageView)convertView.findViewById(R.id.food_img);
+            viewHolder.foodName = convertView.findViewById(R.id.foodname);
+            viewHolder.foodType = convertView.findViewById(R.id.foodtype);
+            viewHolder.foodCost = convertView.findViewById(R.id.foodcost);
+            viewHolder.imageView= convertView.findViewById(R.id.food_img);
 
             result=convertView;
 
@@ -73,10 +76,14 @@ public class CustomAdapter extends ArrayAdapter<MenuCard>{
         viewHolder.foodName.setText(menuCard.getFoodName());
         viewHolder.foodType.setText(menuCard.getFoodType());
         viewHolder.foodCost.setText("Rs. "+menuCard.getFoodCost());
-        if(menuCard.img_type==0)
+        if(menuCard.img_type==0) {
             viewHolder.imageView.setImageResource(R.drawable.vegetarian_food_symbol);
-        else if(menuCard.img_type==1)
+            viewHolder.foodType.setTextColor(Color.parseColor("#069426"));
+        }
+        else if(menuCard.img_type==1) {
             viewHolder.imageView.setImageResource(R.drawable.non_vegetarian_food_symbol);
+            viewHolder.foodType.setTextColor(Color.parseColor("#B40000"));
+        }
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

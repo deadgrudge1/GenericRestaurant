@@ -100,6 +100,8 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         order_place = view.findViewById(R.id.button_place_order);
         cart_clear = view.findViewById(R.id.clear_cart);
 
+
+
         recyclerView = view.findViewById(R.id.recycler_cart);
         // set a LinearLayoutManager with default vertical orientation
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -124,9 +126,10 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         order_place.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(menu.isEmpty())
+                if (menu.isEmpty()){
                     Toast.makeText(getActivity(), "Add atleast 1 item to place order", Toast.LENGTH_SHORT).show();
-                else
+            }
+                    else
                     place_order();
 
             }
@@ -223,7 +226,6 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         bundle.putSerializable("items", menu);
         intent.putExtra("bundle", bundle);
         startActivity(intent);
-        cart_empty();
     }
 
 

@@ -35,8 +35,17 @@
                     android:gravity="center"
                     >
 
+                    <ImageView
+                        android:id="@+id/image_item_order"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_weight="1.15"
+                        android:clickable="false"
+                        android:padding="4dp"
+                        android:src="@drawable/vegetarian_food_symbol" />
+
                     <TextView
-                        android:id="@+id/food_name_cart"
+                        android:id="@+id/food_name_order"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.75"
@@ -44,11 +53,11 @@
                         android:textAppearance="@style/TextAppearance.AppCompat" />
 
                     <TextView
-                        android:id="@+id/food_quantity_cart"
+                        android:id="@+id/food_quantity_order"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.1"
-                        android:text="Size"
+                        android:text="Qty"
                         android:textAlignment="center"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textSize="13dp"
@@ -56,17 +65,17 @@
                         />
 
                     <TextView
-                        android:id="@+id/food_cost_cart"
+                        android:id="@+id/food_cost_order1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Rate"
+                        android:text="Price"
                         android:textAlignment="center"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textSize="13dp" />
 
                     <TextView
-                        android:id="@+id/total_bill_cart"
+                        android:id="@+id/food_total_order1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/tv_qty"
@@ -76,12 +85,7 @@
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:textSize="13dp" />
 
-                    <CheckBox
-                        android:id="@+id/chk_selectitem_cart"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.15"
-                        android:clickable="false" />
+
                 </LinearLayout>
 
             </LinearLayout>
