@@ -208,7 +208,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
 
     public void cart_empty() {
 
-        databaseHelper.emptyCart(databaseHelper.getWritableDatabase());
+        //databaseHelper.emptyCart(databaseHelper.getWritableDatabase());
         menu.clear();
         cartAdapter = new CartAdapter(getContext(), menu, listener);
         recyclerView.setAdapter(cartAdapter);

@@ -36,12 +36,13 @@ public class OrderAdapter extends ArrayAdapter<OrderCard> {
         ViewHolder viewHolder;
         final View result;
 
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        convertView = inflater.inflate(R.layout.order_layout, parent, false);
 
         if(convertView == null){
             viewHolder = new ViewHolder();
-            viewHolder.txtName = convertView.findViewById(R.id.food_name_order);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.order_layout, parent, false);
+
+            viewHolder.txtName = convertView.findViewById(R.id.food_name_order);  //null
             viewHolder.txtQty = convertView.findViewById(R.id.food_quantity_order);
             viewHolder.txtPrice = convertView.findViewById(R.id.food_cost_order1);
             viewHolder.txtTotal = convertView.findViewById(R.id.food_total_order1);
@@ -57,7 +58,7 @@ public class OrderAdapter extends ArrayAdapter<OrderCard> {
             result=convertView;
         }
 
-        viewHolder.txtName.setText(orderCard.getFoodName());
+        viewHolder.txtName.setText(orderCard.getFoodName());  //null
         viewHolder.txtQty.setText(orderCard.getQuantity());
         viewHolder.txtPrice.setText(orderCard.getFoodCost());
         if(orderCard.img_type==0) {
@@ -70,7 +71,7 @@ public class OrderAdapter extends ArrayAdapter<OrderCard> {
         price1 = Integer.parseInt(orderCard.getFoodCost());
         qty1 = Integer.parseInt(orderCard.getQuantity());
         int total = price1*qty1;
-        viewHolder.txtTotal.setText(total);
+        viewHolder.txtTotal.setText(String.valueOf(total));
 
 
 

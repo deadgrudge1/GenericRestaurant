@@ -23,7 +23,7 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
     ArrayList<OrderCard> order;
     int total;
     TextView total_text;
-    TextView order_text;
+    //TextView order_text;
     OrderCard orderCard;
     ImageView paytm;
     TextView cashcard;
@@ -59,7 +59,7 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
 
 
         total_text = findViewById(R.id.place_order_total);
-        order_text = findViewById((R.id.order_items_text));
+        //order_text = findViewById((R.id.order_items_text));
         back = findViewById(R.id.button_place_order_back);
 
         ArrayList<OrderCard> order1 = new ArrayList<>();
@@ -111,7 +111,7 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
             }
         });
 
-        order_text.setText(null);
+        //order_text.setText(null);
         total_text.setText("Total : Rs. " + String.valueOf(total));
         paytm = findViewById(R.id.qrcode);
         cashcard = findViewById(R.id.cashcard);
@@ -123,7 +123,7 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
         {
             orderCard = order.get(i);
             int item_total = Integer.parseInt(orderCard.food_cost) * Integer.parseInt(orderCard.quantity);
-            order_text.append(orderCard.food_name + " x " + orderCard.quantity + " : Rs. " + item_total + "\n");
+            //order_text.append(orderCard.food_name + " x " + orderCard.quantity + " : Rs. " + item_total + "\n");
         }
 
     }
