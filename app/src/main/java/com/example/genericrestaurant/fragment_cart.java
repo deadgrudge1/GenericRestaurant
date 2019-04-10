@@ -1,7 +1,9 @@
 package com.example.genericrestaurant;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -38,6 +40,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
     public static final int REQ_CODE = 1;
     DatabaseHelper databaseHelper;
     Cursor cursor;
+    int table_id=0;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -180,6 +183,14 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         set_total();
     }
 
+    @Override
+    public void doPositiveClick_Table(int val) {
+        table_id = val;
+        Toast.makeText(getActivity(), "Selected Table No. " + String.valueOf(table_id), Toast.LENGTH_SHORT).show();
+        if(val>0)
+            new sendOrder().execute(menu);
+    }
+
 
     public void doNegativeClick() {
         // Do stuff here.
@@ -219,14 +230,68 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
     }
 
     private void place_order() {
-        Intent intent = new Intent(getContext(), Place_Order.class);
 
-        Bundle bundle = new Bundle();
-        bundle.putInt("total", amount_total);
-        bundle.putSerializable("items", menu);
-        intent.putExtra("bundle", bundle);
-        startActivity(intent);
+        Dialog_Table newFragment = new Dialog_Table();
+        newFragment.setTargetFragment(this, REQ_CODE);
+        newFragment.show(getFragmentManager(), "table picker");
     }
 
+    public class sendOrder extends AsyncTask<ArrayList<OrderCard>, Void, Boolean>
+    {
+        private ProgressDialog dialog = new ProgressDialog(getContext());
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+
+
+            this.dialog.setMessage("Please wait");
+            this.dialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(ArrayList<OrderCard>... orderCards) {
+
+            databaseHelper = new DatabaseHelper(getActivity());
+
+            cursor = databaseHelper.fetchCartItems(databaseHelper.getWritableDatabase());
+            if (cursor.getCount() == 0) {
+                Toast.makeText(getActivity(), "Cart Db is empty", Toast.LENGTH_SHORT).show();
+            } else
+                cursor.moveToFirst();
+
+            OrderCard orderCard;
+            while (!cursor.isAfterLast()) {
+                int food_id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.FOOD_ID));
+                int quantity = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.QUANTITY));
+                cursor.moveToNext();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            if(aBoolean==null)
+            {
+                Toast.makeText(getActivity(), "Failed to send order", Toast.LENGTH_SHORT).show();
+                this.dialog.dismiss();
+                //return;
+            }
+
+            Intent intent = new Intent(getContext(), Place_Order.class);
+
+            Bundle bundle = new Bundle();
+            bundle.putInt("total", amount_total);
+            bundle.putSerializable("items", menu);
+            bundle.putInt("table_id",table_id);
+            intent.putExtra("bundle", bundle);
+
+            startActivity(intent);
+        }
+    }
 
 }

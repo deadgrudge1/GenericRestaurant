@@ -1,8 +1,10 @@
 package com.example.genericrestaurant;
 
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +37,8 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
     OrderAdapter orderAdapter;
     DatabaseHelper databaseHelper;
     Cursor cursor;
+    int table_id=0;
+    TextView table_id_text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +60,13 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
         Bundle bundle = getIntent().getBundleExtra("bundle");
         order = (ArrayList<OrderCard>) bundle.getSerializable("items");
         total = bundle.getInt("total");
+        table_id = bundle.getInt("table_id");
 
 
         total_text = findViewById(R.id.place_order_total);
         //order_text = findViewById((R.id.order_items_text));
         back = findViewById(R.id.button_place_order_back);
+        table_id_text = findViewById(R.id.table_id);
 
         ArrayList<OrderCard> order1 = new ArrayList<>();
 
@@ -113,6 +119,7 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
 
         //order_text.setText(null);
         total_text.setText("Total : Rs. " + String.valueOf(total));
+        table_id_text.setText("Table ID : " + String.valueOf(table_id));
         paytm = findViewById(R.id.qrcode);
         cashcard = findViewById(R.id.cashcard);
         cashcard.setVisibility(View.GONE);
@@ -162,4 +169,6 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
+
 }
