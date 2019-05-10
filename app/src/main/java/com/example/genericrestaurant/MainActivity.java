@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements
     fragment_menu fragmentMenu = new fragment_menu();
     private ViewPager viewPager;
     private TabLayout mTabLayout;
-    //SwipeAdapter swipeAdapter = new SwipeAdapter(getSupportFragmentManager(),3);
+    SwipeAdapter swipeAdapter = new SwipeAdapter(getSupportFragmentManager(),3);
     private SpeechRecognizerManager mSpeechRecognizerManager;
     private static MainActivity instance;
 
@@ -48,8 +49,9 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         //mSpeechRecognizerManager=new SpeechRecognizerManager(this);
         navigation =  findViewById(R.id.navigation);
-        //viewPager = findViewById(R.id.view_pager);
-        //viewPager.setAdapter(swipeAdapter);
+        viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(swipeAdapter);
+        viewPager.setVisibility(View.GONE);
         order.add(new MenuCard("Veg Burger","Rs. 70","Veg",0));
         //fragment_mic = new fragment_speak();
         loadFragment(fragment_menu,"Menu");
