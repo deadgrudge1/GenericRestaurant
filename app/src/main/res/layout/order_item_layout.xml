@@ -7,14 +7,15 @@
     android:background="?android:attr/selectableItemBackground"
     android:padding="45dp"
     android:layout_height="wrap_content"
-    card_view:cardCornerRadius="4dp"
+
     android:elevation="3dp"
     android:layout_margin="15dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:background="@drawable/list_shape">
 
 
 

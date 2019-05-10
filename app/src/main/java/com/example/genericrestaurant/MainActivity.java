@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements
     Fragment fragment_menu = new fragment_menu();
     Fragment fragment_cart = new fragment_cart();
     Fragment fragment_speak = new fragment_speak();
-    fragment_menu fragmentMenu = new fragment_menu();
+    Fragment fragment_profile = new fragment_profile();
     private ViewPager viewPager;
     private TabLayout mTabLayout;
     SwipeAdapter swipeAdapter = new SwipeAdapter(getSupportFragmentManager(),3);
@@ -81,6 +81,10 @@ public class MainActivity extends AppCompatActivity implements
                     case R.id.navigation_dashboard:
                         fragment = new fragment_cart();
                         loadFragment(fragment_cart, "Cart");
+                        return true;
+
+                    case R.id.navigation_notifications:
+                        loadFragment(fragment_profile,"Profile");
                         return true;
                 }
 
