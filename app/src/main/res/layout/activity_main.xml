@@ -14,43 +14,36 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="60dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
 
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="60dp">
 
         </FrameLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
-        android:background="?android:attr/windowBackground"
-        android:backgroundTint="#dddddd"
+        android:layout_gravity="bottom"
+        app:itemIconTint="@color/button_colour_primary"
+        app:itemTextColor="@color/button_colour_primary"
         app:itemBackground="@color/primaryLightColor"
-        app:itemIconTint="@color/secondaryTextColor"
-        app:itemTextColor="@color/backgroundGrey"
-        app:layout_anchor="@+id/coordinatorLayout_main"
-        app:labelVisibilityMode="labeled"
-        app:layout_anchorGravity="bottom|center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />
+        app:menu="@menu/navigation"
+        app:labelVisibilityMode="selected"
+        />
 
 
 

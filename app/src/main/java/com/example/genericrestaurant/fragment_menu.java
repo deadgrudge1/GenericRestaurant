@@ -34,7 +34,7 @@ public class fragment_menu extends Fragment
     Cursor cursor;
     DatabaseHelper databaseHelper;
     StringRequest stringRequest;
-    SwipeRefreshLayout pullToRefresh;
+    //SwipeRefreshLayout pullToRefresh;
     int status = 0;
 
     @Nullable
@@ -66,7 +66,7 @@ public class fragment_menu extends Fragment
         super.onViewCreated(view, savedInstanceState);
         menuCardListView = view.findViewById(R.id.menu_list);
         progressBar=view.findViewById(R.id.loadingPanel);
-        pullToRefresh = view.findViewById(R.id.pullDownToRefresh);
+        //pullToRefresh = view.findViewById(R.id.pullDownToRefresh);
 
 
         if(savedInstanceState!=null)
@@ -107,7 +107,8 @@ public class fragment_menu extends Fragment
 
         }
 
-        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+ /*       pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 Toast.makeText(getContext(),"Wait for Refresh", Toast.LENGTH_SHORT).show();
@@ -115,7 +116,9 @@ public class fragment_menu extends Fragment
                 foodAdapter.notifyDataSetChanged();
                 pullToRefresh.setRefreshing(false);
             }
-        });
+        }); */
+
+
 
        // try {
 
@@ -130,6 +133,8 @@ public class fragment_menu extends Fragment
         String path;
 
         path = "https://generic-restaurant.000webhostapp.com/fetch_menu.php";
+
+        //path = "192.168.43.230/restaurant/fetch_menu.php";
         /*
          * Creating a String Request
          * The request type is GET defined by first parameter
@@ -226,6 +231,7 @@ public class fragment_menu extends Fragment
     @Override
     public void onPause() {
         super.onPause();
+        if(stringRequest!=null)
             stringRequest.cancel();
     }
 

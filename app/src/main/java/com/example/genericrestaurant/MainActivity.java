@@ -1,6 +1,8 @@
 package com.example.genericrestaurant;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -19,22 +21,23 @@ import java.util.ArrayList;
 //import ai.api.model.AIError;
 //import ai.api.model.AIResponse;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,
+public class MainActivity extends AppCompatActivity implements
         fragment_speak.OnFragmentInteractionListener {
 
+    BottomNavigationView navigation;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     ArrayList<MenuCard> order = new ArrayList<>();
     Fragment fragment = null;
     boolean doubleBackToExitPressedOnce = false;
-    public MainActivity getMainActivityInstance(){return this;}
-    MainActivity mainActivity = getMainActivityInstance();
     Fragment fragment_menu = new fragment_menu();
     Fragment fragment_cart = new fragment_cart();
     Fragment fragment_speak = new fragment_speak();
     fragment_menu fragmentMenu = new fragment_menu();
     private ViewPager viewPager;
     private TabLayout mTabLayout;
-    SwipeAdapter swipeAdapter = new SwipeAdapter(getSupportFragmentManager(),3);
+    //SwipeAdapter swipeAdapter = new SwipeAdapter(getSupportFragmentManager(),3);
+    private SpeechRecognizerManager mSpeechRecognizerManager;
+    private static MainActivity instance;
 
 
 
@@ -43,16 +46,45 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navigation =  findViewById(R.id.navigation);
-        viewPager = findViewById(R.id.view_pager);
-        viewPager.setAdapter(swipeAdapter);
-        navigation.setOnNavigationItemSelectedListener(this);
+        //mSpeechRecognizerManager=new SpeechRecognizerManager(this);
+        navigation =  findViewById(R.id.navigation);
+        //viewPager = findViewById(R.id.view_pager);
+        //viewPager.setAdapter(swipeAdapter);
         order.add(new MenuCard("Veg Burger","Rs. 70","Veg",0));
         //fragment_mic = new fragment_speak();
         loadFragment(fragment_menu,"Menu");
+        instance = this;
 
-        
 
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+
+                switch (menuItem.getItemId())
+                {
+                    case R.id.navigation_home:
+                        //fragment = new fragment_menu();
+                        loadFragment(fragment_menu, "Menu");
+                        return true;
+
+                    case R.id.navigation_Microphone:
+                        //Bundle bundle = new Bundle();
+                        //bundle.putSerializable("order_speak", order);
+                        //fragment = new fragment_speak();
+                        //fragment.setArguments(bundle);
+                        loadFragment(fragment_speak, "Speak");
+                        return true;
+
+                    case R.id.navigation_dashboard:
+                        fragment = new fragment_cart();
+                        loadFragment(fragment_cart, "Cart");
+                        return true;
+                }
+
+                return false;
+            }
+        });
     }
 
     private boolean loadFragment(Fragment fragment, String fragment_tag)
@@ -69,35 +101,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-
-        switch (menuItem.getItemId())
-        {
-            case R.id.navigation_home:
-                    //fragment = new fragment_menu();
-                    loadFragment(fragment_menu, "Menu");
-                break;
-
-            case R.id.navigation_Microphone:
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("order_speak", order);
-                    fragment = new fragment_speak();
-                    fragment.setArguments(bundle);
-                    loadFragment(fragment_speak, "Speak");
-            break;
-
-            case R.id.navigation_dashboard:
-                fragment = new fragment_cart();
-                loadFragment(fragment_cart, "Cart");
-                break;
-        }
-
-        return false;
-    }
-
-    @Override
     public void onFragmentInteraction(ArrayList<MenuCard> order) {
         this.order=order;
         Toast.makeText(getApplicationContext(),"Got it",Toast.LENGTH_SHORT).show();
@@ -125,6 +128,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    public static MainActivity getInstance() {
+        return instance;
     }
 
 }

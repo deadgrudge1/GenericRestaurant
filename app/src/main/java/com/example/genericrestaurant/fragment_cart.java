@@ -15,14 +15,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
-import static android.app.Activity.RESULT_OK;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class fragment_cart extends Fragment implements CartAdapter.OnItemClickListener, DialogClickListener {
 
@@ -41,6 +50,13 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
     DatabaseHelper databaseHelper;
     Cursor cursor;
     int table_id=0;
+    ArrayList<String> food_id_array = new ArrayList<>();
+    ArrayList<String> qty_array = new ArrayList<>();
+    String idArray_string;
+    String qtyArray_string;
+    String menu_string;
+    boolean req_stat=false;
+    StringRequest request;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -129,11 +145,13 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         order_place.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                req_stat=false;
                 if (menu.isEmpty()){
                     Toast.makeText(getActivity(), "Add atleast 1 item to place order", Toast.LENGTH_SHORT).show();
             }
                     else
                     place_order();
+                    //sendData();
 
             }
         });
@@ -219,7 +237,8 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
 
     public void cart_empty() {
 
-        //databaseHelper.emptyCart(databaseHelper.getWritableDatabase());
+
+        databaseHelper.emptyCart(databaseHelper.getWritableDatabase());
         menu.clear();
         cartAdapter = new CartAdapter(getContext(), menu, listener);
         recyclerView.setAdapter(cartAdapter);
@@ -244,9 +263,6 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-
-
             this.dialog.setMessage("Please wait");
             this.dialog.show();
         }
@@ -259,39 +275,125 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
             cursor = databaseHelper.fetchCartItems(databaseHelper.getWritableDatabase());
             if (cursor.getCount() == 0) {
                 Toast.makeText(getActivity(), "Cart Db is empty", Toast.LENGTH_SHORT).show();
+                return false;
             } else
                 cursor.moveToFirst();
 
-            OrderCard orderCard;
+
+            food_id_array = new ArrayList<>();
+            qty_array = new ArrayList<>();
+
             while (!cursor.isAfterLast()) {
-                int food_id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.FOOD_ID));
                 int quantity = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.QUANTITY));
+                qty_array.add(String.valueOf(quantity));
+                int food_id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.FOOD_ID));
+                food_id_array.add(String.valueOf(food_id));
+
                 cursor.moveToNext();
             }
-            return null;
+
+
+
+            Gson gson = new Gson();
+
+            idArray_string = "";
+            idArray_string = gson.toJson(food_id_array);
+
+            gson = new Gson();
+
+            qtyArray_string = "";
+            qtyArray_string = gson.toJson(qty_array);
+
+
+            if(sendData())
+            {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+
+                }
+                return req_stat;
+            }
+            else
+                return false;
+
+
         }
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
 
-            if(aBoolean==null)
+            if(aBoolean) {
+                Toast.makeText(getActivity(), "Order sent", Toast.LENGTH_SHORT).show();
+                this.dialog.dismiss();
+                //return;
+
+
+                Intent intent = new Intent(getContext(), Place_Order.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("total", amount_total);
+                bundle.putSerializable("items", menu);
+                bundle.putInt("table_id", table_id);
+                intent.putExtra("bundle", bundle);
+
+                startActivity(intent);
+            }
+
+            else
             {
                 Toast.makeText(getActivity(), "Failed to send order", Toast.LENGTH_SHORT).show();
                 this.dialog.dismiss();
-                //return;
             }
 
-            Intent intent = new Intent(getContext(), Place_Order.class);
-
-            Bundle bundle = new Bundle();
-            bundle.putInt("total", amount_total);
-            bundle.putSerializable("items", menu);
-            bundle.putInt("table_id",table_id);
-            intent.putExtra("bundle", bundle);
-
-            startActivity(intent);
+            super.onPostExecute(aBoolean);
         }
+    }
+
+    public boolean sendData()
+    {
+        String path ="http://192.168.43.230/restaurant/place_order.php";
+        request = new StringRequest(Request.Method.POST, path, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                //Toast.makeText(getContext(), "dfdsfsd"+response, Toast.LENGTH_SHORT).show();
+                Log.d("My success",""+response);
+                req_stat=true;
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                //Toast.makeText(MainActivity.this, "my error :"+error, Toast.LENGTH_LONG).show();
+                Log.d("My error",""+error);
+                req_stat=false;
+            }
+        }
+        )
+
+        {
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String,String> map = new HashMap<String, String>();
+                map.put("user_id", String.valueOf(5));
+                map.put("table_id", String.valueOf(7));
+                map.put("bill", String.valueOf(430));
+                map.put("item_id",idArray_string);
+                map.put("qty",qtyArray_string);
+
+                return map;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                1000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(getContext()).add(request);
+        return true;
     }
 
 }

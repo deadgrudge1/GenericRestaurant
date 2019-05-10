@@ -1,3 +1,31 @@
+
+
+  <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="10dp"
+        android:background="?android:attr/windowBackground"
+        android:backgroundTint="#dddddd"
+        app:itemBackground="@drawable/marble_rock"
+        app:layout_insetEdge="bottom"
+        app:itemIconTint="@color/button_colour_primary"
+        app:itemTextColor="@color/button_colour_primary"
+        app:layout_anchor="@+id/coordinatorLayout_main"
+        app:layout_anchorGravity="bottom|center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/navigation"
+        app:labelVisibilityMode="labeled"/>
+
+
 {
     "responseId": "40d1f94f-4673-4644-aa53-99c854ff2596",
     "queryResult": {

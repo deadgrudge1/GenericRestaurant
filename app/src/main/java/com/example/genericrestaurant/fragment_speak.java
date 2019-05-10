@@ -70,7 +70,7 @@ import java.util.UUID;
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
-public class fragment_speak extends Fragment {
+public class fragment_speak extends Fragment implements FragmentSpeakListener{
 
     private final int REQ_CODE_SPEECH_INPUT = 100;
     ArrayList<MenuCard> order = new ArrayList<>();
@@ -90,6 +90,14 @@ public class fragment_speak extends Fragment {
     ArrayList<String> response_food_list;
     ArrayList<String> Foods_List = new ArrayList<>();
     ArrayList<String> Quantity = new ArrayList<>();
+    FragmentSpeakListener fragmentSpeakListener=this;
+
+    @Override
+    public void voice_input_listener() {
+       promptSpeechInput();
+    }
+
+
 
     public void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -120,6 +128,7 @@ public class fragment_speak extends Fragment {
         databaseHelper = new DatabaseHelper(getActivity());
         //ChatBot Initialized.
         initV2Chatbot();
+        fragmentSpeakListener = this;
 
         return inflater.inflate(R.layout.fragment_mic, null);
     }
@@ -209,6 +218,7 @@ public class fragment_speak extends Fragment {
 
         }
     }
+
 
 
     public interface OnFragmentInteractionListener {

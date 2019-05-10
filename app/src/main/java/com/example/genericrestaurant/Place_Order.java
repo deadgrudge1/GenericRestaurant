@@ -45,6 +45,8 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place__order);
 
+
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         //Getting the instance of Spinner and applying OnItemSelectedListener on it
