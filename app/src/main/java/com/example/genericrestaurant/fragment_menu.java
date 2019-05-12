@@ -132,7 +132,8 @@ public class fragment_menu extends Fragment
 
         String path;
 
-        path = "https://generic-restaurant.000webhostapp.com/fetch_menu.php";
+        //path = "https://generic-restaurant.000webhostapp.com/fetch_menu.php";
+        path ="http://192.168.0.102/restaurant/fetch_menu.php";
 
         //path = "192.168.43.230/restaurant/fetch_menu.php";
         /*

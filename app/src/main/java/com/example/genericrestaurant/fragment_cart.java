@@ -57,6 +57,9 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
     String menu_string;
     boolean req_stat=false;
     StringRequest request;
+    int order_id;
+    String response_string;
+    int user_id = 0;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -270,6 +273,13 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         @Override
         protected Boolean doInBackground(ArrayList<OrderCard>... orderCards) {
 
+            user_id = MainActivity.getInstance().id_user;
+            if(user_id == 0)
+            {
+                //Toast.makeText(getActivity(), "Please Log In first", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
             databaseHelper = new DatabaseHelper(getActivity());
 
             cursor = databaseHelper.fetchCartItems(databaseHelper.getWritableDatabase());
@@ -304,11 +314,10 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
             qtyArray_string = "";
             qtyArray_string = gson.toJson(qty_array);
 
-
             if(sendData())
             {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
 
                 }
@@ -335,6 +344,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
                 bundle.putInt("total", amount_total);
                 bundle.putSerializable("items", menu);
                 bundle.putInt("table_id", table_id);
+                bundle.putInt("order_id", order_id);
                 intent.putExtra("bundle", bundle);
 
                 startActivity(intent);
@@ -342,7 +352,10 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
 
             else
             {
-                Toast.makeText(getActivity(), "Failed to send order", Toast.LENGTH_SHORT).show();
+                if(user_id == 0)
+                    Toast.makeText(getActivity(), "Please Log in First", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getActivity(), "Failed to send order", Toast.LENGTH_SHORT).show();
                 this.dialog.dismiss();
             }
 
@@ -352,13 +365,14 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
 
     public boolean sendData()
     {
-        String path ="http://192.168.43.230/restaurant/place_order.php";
+        String path ="http://192.168.0.102/restaurant/place_order.php";
         request = new StringRequest(Request.Method.POST, path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                //Toast.makeText(getContext(), "dfdsfsd"+response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();
                 Log.d("My success",""+response);
+                order_id = Integer.parseInt(response);
                 req_stat=true;
             }
         }, new Response.ErrorListener() {
@@ -377,18 +391,18 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
             public Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String,String> map = new HashMap<String, String>();
-                map.put("user_id", String.valueOf(5));
-                map.put("table_id", String.valueOf(7));
-                map.put("bill", String.valueOf(430));
+                map.put("user_id", String.valueOf(user_id));
+                map.put("table_id", String.valueOf(table_id));
+                map.put("bill", String.valueOf(amount_total));
                 map.put("item_id",idArray_string);
                 map.put("qty",qtyArray_string);
-
+                user_id = 0;
                 return map;
             }
         };
 
         request.setRetryPolicy(new DefaultRetryPolicy(
-                1000,
+                2000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         //adding our stringrequest to queue

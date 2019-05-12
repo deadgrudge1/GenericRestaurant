@@ -29,11 +29,21 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpResponse;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -64,6 +74,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    boolean req_stat;
+    StringRequest request;
+    String response_msg;
+    int user_id=0;
+    String email_id;
+    String pass_n;
+    String path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +175,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        email_id = mEmailView.getText().toString();
+        pass_n = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -313,55 +332,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            // url where the data will be posted
-            String path = "https://generic-restaurant.000webhostapp.com/login.php?";
-/*
-            Log.v(TAG, "postURL: " + postReceiverUrl);
-
-// HttpClient
-            HttpClient httpClient = new DefaultHttpClient();
-
-// post header
-            HttpPost httpPost = new HttpPost(postReceiverUrl);
-
-// add your data
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-            nameValuePairs.add(new BasicNameValuePair("firstname", "Mike"));
-            nameValuePairs.add(new BasicNameValuePair("lastname", "Dalisay"));
-            nameValuePairs.add(new BasicNameValuePair("email", "mike@testmail.com"));
-
-            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-// execute HTTP post request
-            HttpResponse response = httpClient.execute(httpPost);
-            HttpEntity resEntity = response.getEntity();
-
-            if (resEntity != null) {
-
-                String responseStr = EntityUtils.toString(resEntity).trim();
-                Log.v(TAG, "Response: " +  responseStr);
-
-                // you can add an if statement here and do other actions based on the response
-            }
-*/
-
-            try {
+            /*try {
                 // Simulate network access.
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
-            }
+            }*/
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+            if(sendData())
+            {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+
                 }
+                return req_stat;
             }
+            else
+                return false;
 
             // TODO: register the new account here.
-            return true;
         }
 
         @Override
@@ -370,6 +360,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                Toast.makeText(getBaseContext(),"User ID : " + user_id, Toast.LENGTH_SHORT).show();
+                MainActivity.getInstance().id_user = user_id;
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -382,5 +374,52 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+    }
+
+    public boolean sendData()
+    {
+        path ="http://192.168.0.102/restaurant/authenticate.php";
+        request = new StringRequest(Request.Method.POST, path, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Toast.makeText(getBaseContext(), "dfdsfsd"+response, Toast.LENGTH_SHORT).show();
+                Log.d("My success",""+response);
+                try {
+                    user_id = Integer.parseInt(response);
+                    if(user_id != 0)
+                        req_stat=true;
+                }
+                catch (Exception e) {req_stat=false;}
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                //Toast.makeText(MainActivity.this, "my error :"+error, Toast.LENGTH_LONG).show();
+                Log.d("My error",""+error);
+                req_stat=false;
+            }
+        }
+        )
+
+        {
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String,String> map = new HashMap<String, String>();
+                map.put("username",email_id);
+                map.put("password",pass_n);
+                return map;
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                1000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //adding our stringrequest to queue
+        Volley.newRequestQueue(getBaseContext()).add(request);
+        return true;
     }
 }

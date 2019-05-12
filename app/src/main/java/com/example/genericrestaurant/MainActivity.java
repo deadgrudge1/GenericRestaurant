@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements
     SwipeAdapter swipeAdapter = new SwipeAdapter(getSupportFragmentManager(),3);
     private SpeechRecognizerManager mSpeechRecognizerManager;
     private static MainActivity instance;
+    int id_user;
 
 
 
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements
                     case R.id.navigation_Microphone:
                         //Bundle bundle = new Bundle();
                         //bundle.putSerializable("order_speak", order);
-                        //fragment = new fragment_speak();
+                        fragment = new fragment_speak();
                         //fragment.setArguments(bundle);
                         loadFragment(fragment_speak, "Speak");
                         return true;
