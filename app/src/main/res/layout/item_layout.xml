@@ -15,53 +15,52 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:background="@drawable/list_shape">
+        android:background="@drawable/card_view_shape"
+        android:padding="15dp">
 
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
+            <ImageView
+                android:id="@+id/food_img"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:padding="6dp"
+                android:src="@drawable/vegetarian_food_symbol" />
 
-        <ImageView
-            android:id="@+id/food_img"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:padding="6dp"
-            android:src="@drawable/vegetarian_food_symbol" />
-
-        <LinearLayout android:orientation="vertical"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content">
-
-            <TextView
-                android:id="@+id/foodname"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:text="Walla habibi"
-                android:textColor="@color/primaryColor"
-                android:textSize="25dp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/foodname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="Walla habibi"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="25dp"
+                    android:textStyle="bold" />
 
 
-            <TextView
-                android:id="@+id/foodtype"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/foodname"
-                android:text="Non veg"
-                android:textColor="@color/secondaryColor"
+                <TextView
+                    android:id="@+id/foodtype"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/foodname"
+                    android:text="Non veg"
+                    android:textColor="@color/secondaryColor"
 
 
-                android:textSize="16dp" />
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+
         </LinearLayout>
-
-
-    </LinearLayout>
 
         <TextView
             android:id="@+id/edit_quantity"
@@ -84,20 +83,20 @@
             android:textSize="17dp"
             android:textStyle="bold" />
 
-    <ImageButton
-        android:id="@+id/cancelButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentEnd="true"
-        android:contentDescription="@android:string/cancel"
-        app:srcCompat="@drawable/cross"
-        android:scaleType="fitCenter"
-        android:background="#20dddddd"
-        android:layout_marginStart="20dp"
-        android:padding="7dp"
-        android:layout_marginTop="10dp"
+        <ImageButton
+            android:id="@+id/cancelButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:background="#20dddddd"
+            android:contentDescription="@android:string/cancel"
+            android:padding="7dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/cross"
 
-        />
+            />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

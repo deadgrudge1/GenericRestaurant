@@ -32,10 +32,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="60dp"
-        android:backgroundTint="@color/secondaryColor"
+        android:layout_marginBottom="70dp"
+        android:background="@drawable/button_shape"
         android:text="Place Order"
-        android:textColor="#ffffff"
+        android:textColor="@color/secondaryTextColor"
         android:visibility="visible" />
 
     <Button
@@ -47,9 +47,9 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="11dp"
         android:layout_marginEnd="25dp"
-        android:backgroundTint="@color/secondaryColor"
-        android:textColor="#ffffff"
-        android:text="CLEAR" />
+        android:background="@drawable/button_shape"
+        android:text="CLEAR"
+        android:textColor="#ffffff" />
 
 
 </RelativeLayout>
