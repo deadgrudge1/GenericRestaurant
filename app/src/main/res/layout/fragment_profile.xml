@@ -30,10 +30,10 @@
     <ImageView
         android:id="@+id/imageView_profile"
         android:layout_width="match_parent"
-        android:layout_height="275dp"
-        android:src="@mipmap/ic_launcher"
+        android:layout_height="338dp"
+        android:padding="50dp"
         android:scaleType="fitXY"
-        />
+        android:src="@drawable/profile" />
 
     <Button
         android:id="@+id/button_edit_profile_image"
