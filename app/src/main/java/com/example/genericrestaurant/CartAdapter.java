@@ -120,6 +120,7 @@ public class CartAdapter extends RecyclerView.Adapter implements NumberPicker.On
     public int getItemCount() {
         return menuCardsdata.size();
     }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         // init the item view's
         TextView foodName;
