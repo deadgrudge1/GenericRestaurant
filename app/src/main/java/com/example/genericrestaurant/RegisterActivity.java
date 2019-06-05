@@ -237,7 +237,7 @@ public class RegisterActivity extends Activity {
 
     public boolean sendData()
     {
-        path ="http://192.168.0.107/restaurant/authenticate.php";
+        path ="http://192.168.0.105/restaurant/authenticate.php";
         request = new StringRequest(Request.Method.POST, path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

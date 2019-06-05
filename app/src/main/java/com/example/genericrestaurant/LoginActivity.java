@@ -377,6 +377,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
+                Toast.makeText(getBaseContext(),"Could not connect or invalid credentials", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -389,7 +390,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     public boolean sendData()
     {
-        path ="http://192.168.0.107/restaurant/authenticate.php";
+        path ="http://192.168.0.105/restaurant/authenticate.php";
         request = new StringRequest(Request.Method.POST, path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
