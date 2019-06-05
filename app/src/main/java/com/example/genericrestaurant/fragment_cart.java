@@ -365,7 +365,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
 
     public boolean sendData()
     {
-        String path ="http://192.168.0.102/restaurant/place_order.php";
+        String path ="http://192.168.0.107/restaurant/place_order.php";
         request = new StringRequest(Request.Method.POST, path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/backgroundBlue"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginBottom="10dp">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/converse"
@@ -28,7 +29,7 @@
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="81dp"
+        android:layout_marginBottom="90dp"
         app:backgroundTint="@color/secondaryColor"
         app:srcCompat="@drawable/microphone" />
 
@@ -40,7 +41,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="8dp"
         android:layout_marginRight="0dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="89dp"
         android:layout_alignParentBottom="true"
         android:scaleX="0.6"
         android:scaleY="0.6"

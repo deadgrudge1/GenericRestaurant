@@ -7,8 +7,11 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="30dp"
         android:text="Log In"
         />
 
@@ -17,6 +20,81 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="User ID : "
-        android:layout_below="@+id/button"
+        android:layout_above="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:textSize="20dp"
         />
+
+    <ImageView
+        android:id="@+id/imageView_profile"
+        android:layout_width="match_parent"
+        android:layout_height="275dp"
+        android:src="@mipmap/ic_launcher"
+        android:scaleType="fitXY"
+        />
+
+    <Button
+        android:id="@+id/button_edit_profile_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/imageView_profile"
+        android:text="Edit"
+        android:textSize="20dp"
+        android:layout_marginTop="5dp"
+        android:scaleX="0.7"
+        />
+
+    <Button
+        android:id="@+id/button_edit_profile_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/imageView_profile"
+        android:layout_below="@id/imageView_profile"
+        android:text="Edit"
+        android:textSize="20dp"
+        android:layout_marginTop="5dp"
+        android:scaleX="0.7"
+        />
+
+    <TextView
+        android:id="@+id/text_profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageView_profile"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:textSize="20dp"
+        android:text="Name : " />
+
+    <TextView
+        android:id="@+id/text_profile_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_profile_name"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:textSize="20dp"
+        android:text="Contact : " />
+
+    <TextView
+        android:id="@+id/text_profile_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_profile_contact"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:textSize="20dp"
+        android:text="Address : " />
+
+    <TextView
+        android:id="@+id/text_profile_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_profile_address"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:textSize="20dp"
+        android:text="Age : " />
+
 </RelativeLayout>
