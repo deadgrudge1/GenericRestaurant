@@ -5,13 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundGrey"
-    tools:context=".MainActivity">
+    android:id="@+id/r1"
+    tools:context=".MainActivity"
+    android:paddingBottom="10dp">
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:id="@+id/recycler_cart"
             android:layout_height="wrap_content"
-            android:scrollbars="vertical">
+            android:scrollbars="vertical"
+            android:layout_margin="5dp">
         </android.support.v7.widget.RecyclerView>
 
 
@@ -24,6 +27,7 @@
         android:layout_marginTop="16dp"
         android:text="Total : "
         android:textAlignment="center"
+        android:textColor="@color/primaryColor"
         android:textSize="20dp" />
 
     <Button
@@ -32,9 +36,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="70dp"
         android:background="@drawable/button_shape"
         android:text="Place Order"
+        android:layout_marginHorizontal="15dp"
         android:textColor="@color/secondaryTextColor"
         android:visibility="visible" />
 

@@ -6,13 +6,16 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="15dp"
+    android:background="@drawable/card_view_shape"
+    android:outlineSpotShadowColor="@color/backgroundGrey"
+    android:backgroundTint="@color/backgroundGrey"
     android:elevation="3dp"
     android:padding="45dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/list_shape"
+        android:background="@drawable/card_view_shape"
         android:padding="15dp">
 
 

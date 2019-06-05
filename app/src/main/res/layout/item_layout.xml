@@ -8,8 +8,10 @@
     android:padding="45dp"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="150dp"
+    android:outlineSpotShadowColor="@color/backgroundGrey"
+    android:backgroundTint="@color/backgroundGrey"
     android:elevation="3dp"
-    android:layout_margin="7dp"
+    android:layout_margin="5dp"
     >
 
     <RelativeLayout
