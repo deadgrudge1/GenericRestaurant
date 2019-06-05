@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".WelcomeActivity"
     style="@style/Theme.AppCompat.DayNight.NoActionBar"
-    android:background="@drawable/vintage_restaurant_background"
     >
 
     <TextView
