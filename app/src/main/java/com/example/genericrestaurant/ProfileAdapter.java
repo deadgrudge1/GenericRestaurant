@@ -49,10 +49,10 @@ public class ProfileAdapter extends RecyclerView.Adapter{
         public MyViewHolder(View itemView) {
             super(itemView);
             // get the reference of item view's
-            Name = (EditText) itemView.findViewById(R.id.foodname);
-            Contact = (EditText) itemView.findViewById(R.id.foodtype);
-            Address = (EditText) itemView.findViewById(R.id.foodcost);
-            Age = (EditText) itemView.findViewById(R.id.edit_quantity);
+            //Name = (EditText) itemView.findViewById(R.id.foodname);
+            //Contact = (EditText) itemView.findViewById(R.id.foodtype);
+            //Address = (EditText) itemView.findViewById(R.id.foodcost);
+            //Age = (EditText) itemView.findViewById(R.id.edit_quantity);
         }
     }
 }

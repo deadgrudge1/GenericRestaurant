@@ -133,7 +133,7 @@ public class fragment_menu extends Fragment
         String path;
 
         //path = "https://generic-restaurant.000webhostapp.com/fetch_menu.php";
-        path ="http://192.168.0.105/restaurant/fetch_menu.php";
+        path = getResources().getString(R.string.server_path)+"fetch_menu.php";
 
         //path = "192.168.43.230/restaurant/fetch_menu.php";
         /*

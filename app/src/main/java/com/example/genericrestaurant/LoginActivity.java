@@ -390,7 +390,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     public boolean sendData()
     {
-        path ="http://192.168.0.105/restaurant/authenticate.php";
+        path = getResources().getString(R.string.server_path)+"authenticate.php";
         request = new StringRequest(Request.Method.POST, path, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
