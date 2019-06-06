@@ -410,4 +410,16 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         return true;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+
+        //outState.putString("test","test");
+        //outState.putInt("status",status);
+        super.onSaveInstanceState(outState);
+    }
 }

@@ -35,6 +35,9 @@ public class RegisterActivity extends Activity {
     private RegisterActivity.UserLoginTask mAuthTask = null;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private EditText mUserName;
+    private EditText mUserPhone;
+    private EditText mUserAge;
     private View mProgressView;
     private View mLoginFormView;
     String email_id;
@@ -63,6 +66,9 @@ public class RegisterActivity extends Activity {
             }
         });
 
+        mUserName = (EditText) findViewById(R.id.user_name);
+        mUserPhone = (EditText) findViewById(R.id.user_phone);
+        mUserAge = (EditText) findViewById(R.id.user_age);
 
         Button register_button = (Button) findViewById(R.id.register_button_register);
         register_button.setOnClickListener(new View.OnClickListener() {
