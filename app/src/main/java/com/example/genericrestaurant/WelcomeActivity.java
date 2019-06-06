@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -29,8 +30,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.welcome_animation);
-        TextView textView = findViewById(R.id.textView12);
-        textView.startAnimation(animation);
+        ImageView imageView = findViewById(R.id.imgView);
+        imageView.startAnimation(animation);
 
 
     }
