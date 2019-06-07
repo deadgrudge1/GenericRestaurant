@@ -22,7 +22,7 @@
         android:id="@+id/menu_list"
         android:scrollbars="vertical"
         android:divider="@android:color/transparent"
-        android:dividerHeight="8.0sp"
+        android:dividerHeight="10.0sp"
 
         android:layout_marginBottom="60dp"
         />

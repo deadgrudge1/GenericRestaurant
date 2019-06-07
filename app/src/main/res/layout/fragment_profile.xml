@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="10dp">
+    android:paddingBottom="20dp">
 
     <Button
         android:id="@+id/button"
@@ -14,6 +14,20 @@
         android:layout_marginHorizontal="20dp"
         android:background="@drawable/button_shape"
         android:text="Log In"
+        android:textColor="@color/secondaryTextColor" />
+
+    <Button
+        android:id="@+id/button_sign_out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/button_shape"
+        android:text="Sign Out"
+        android:scaleY="0.7"
+        android:scaleX="0.7"
+        android:layout_above="@+id/button"
+        android:layout_alignBaseline="@+id/user_id_text_profile"
         android:textColor="@color/secondaryTextColor" />
 
     <TextView
@@ -74,6 +88,16 @@
         android:textColor="@color/primaryTextColor"
         android:textSize="20dp" />
 
+    <EditText
+        android:id="@+id/name_edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:layout_toRightOf="@+id/text_profile_contact"
+        android:layout_alignBaseline="@+id/text_profile_name"
+        android:inputType="none"
+        android:textColor="@color/primaryTextColor" />
+
     <TextView
         android:id="@+id/text_profile_contact"
         android:layout_width="wrap_content"
@@ -85,26 +109,37 @@
         android:textColor="@color/primaryTextColor"
         android:textSize="20dp" />
 
-    <TextView
-        android:id="@+id/text_profile_address"
+    <EditText
+        android:id="@+id/phone_edittext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_profile_contact"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:text="Address : "
-        android:textColor="@color/primaryTextColor"
-        android:textSize="20dp" />
+        android:hint="Phone No."
+        android:layout_toRightOf="@+id/text_profile_contact"
+        android:layout_alignBaseline="@+id/text_profile_contact"
+        android:inputType="none"
+        android:textColor="@color/primaryTextColor" />
 
     <TextView
         android:id="@+id/text_profile_age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_profile_address"
+        android:layout_below="@+id/text_profile_contact"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
         android:text="Age : "
         android:textColor="@color/primaryTextColor"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        />
+
+    <EditText
+        android:id="@+id/age_edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Age"
+        android:textColor="@color/primaryTextColor"
+        android:layout_toRightOf="@+id/text_profile_contact"
+        android:layout_alignBaseline="@+id/text_profile_age"
+        android:inputType="none"
+        />
 
 </RelativeLayout>

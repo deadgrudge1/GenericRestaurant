@@ -7,7 +7,8 @@
     <color name="secondaryLightColor">#ffd700</color>
     <color name="secondaryDarkColor">#ffaa00</color>
     <color name="primaryTextColor">#ffaa00</color>
-    <color name="secondaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#000000</color>
+    <color name="tertiaryTextColor">#ffffff</color>
     <color name="backgroundBlack">#000000</color>
     <color name="vegGreen">#069426</color>
 
