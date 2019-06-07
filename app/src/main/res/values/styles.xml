@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/backgroundBlueLight</item>
-        <item name="colorPrimaryDark">@color/backgroundBlue</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/secondaryTextColor</item>
         <item name="android:actionBarStyle">@style/MyActionBar</item>
     </style>
 
@@ -23,7 +23,7 @@
     <style name="GenericProgressBackground" parent="android:Theme">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:background">@color/backgroundBlue</item>
+        <item name="android:background">@color/backgroundBlack</item>
         <item name="android:gravity">center</item>
     </style>
 

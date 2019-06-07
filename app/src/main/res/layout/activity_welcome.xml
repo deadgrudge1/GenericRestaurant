@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".WelcomeActivity"
     style="@style/Theme.AppCompat.DayNight.NoActionBar"
+    android:background="@color/secondaryTextColor"
     >
 
    <ImageView

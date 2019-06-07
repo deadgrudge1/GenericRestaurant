@@ -167,6 +167,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         DialogBox newFragment = new DialogBox();
         newFragment.set(id, qty, this.menu);
         newFragment.setTargetFragment(this, REQ_CODE);
+
         newFragment.show(getFragmentManager(), "time picker");
         menu = newFragment.get_menu();
         cartAdapter = new CartAdapter(getContext(), menu, listener);

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundGrey"
+    android:background="@color/backgroundBlack"
     android:id="@+id/r1"
     tools:context=".MainActivity"
     android:paddingBottom="10dp">
@@ -27,7 +27,7 @@
         android:layout_marginTop="16dp"
         android:text="Total : "
         android:textAlignment="center"
-        android:textColor="@color/primaryColor"
+        android:textColor="@color/secondaryColor"
         android:textSize="20dp" />
 
     <Button

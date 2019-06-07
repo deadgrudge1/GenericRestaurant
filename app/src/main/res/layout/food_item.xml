@@ -5,11 +5,11 @@
     android:id="@+id/menu_text"
     android:layout_width="wrap_content"
     android:background="@drawable/card_view_shape"
-    android:backgroundTint="@color/backgroundGrey"
+    android:backgroundTint="@color/backgroundBlack"
     android:padding="45dp"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="15dp"
-    android:outlineSpotShadowColor="@color/backgroundGrey"
+    android:outlineSpotShadowColor="@color/backgroundBlack"
     android:layout_margin="20dp">
 
     <RelativeLayout
@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:text="Walla habibi"
-                    android:textColor="@color/primaryColor"
+                    android:textColor="@color/secondaryDarkColor"
                     android:textSize="25dp"
                     android:textStyle="bold" />
 
@@ -63,12 +63,12 @@
             android:id="@+id/foodcost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="29dp"
+            android:layout_alignParentTop="true"
             android:layout_marginEnd="23dp"
+            android:layout_marginTop="29dp"
             android:text="Rs.249"
-            android:textColor="#000000"
+            android:textColor="@color/secondaryDarkColor"
             android:textSize="17dp"
             android:textStyle="bold" />
 

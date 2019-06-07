@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="10dp"
-    android:background="@color/backgroundBlue"
+    android:background="@color/backgroundBlack"
     android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
@@ -27,7 +27,7 @@
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        app:backgroundTint="@color/secondaryColor"
+        app:backgroundTint="@color/backgroundBlue"
         app:srcCompat="@drawable/microphone" />
 
     <android.support.design.widget.FloatingActionButton
@@ -42,7 +42,7 @@
         android:layout_marginBottom="89dp"
         android:scaleX="0.6"
         android:scaleY="0.6"
-        app:backgroundTint="@color/secondaryColor"
+        app:backgroundTint="@color/backgroundBlue"
         app:srcCompat="@drawable/ic_volume_on_black_24dp" />
 
 </RelativeLayout>
