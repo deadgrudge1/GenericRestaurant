@@ -333,7 +333,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
             if(sendData())
             {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1500);
                 } catch (InterruptedException e) {
 
                 }
@@ -364,6 +364,13 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
                 intent.putExtra("bundle", bundle);
 
                 startActivity(intent);
+
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+
+                }
+                cart_empty();
             }
 
             else
@@ -428,7 +435,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         };
 
         request.setRetryPolicy(new DefaultRetryPolicy(
-                2000,
+                1000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         //adding our stringrequest to queue

@@ -26,4 +26,5 @@
     <string name="CLIENT_ACCESS_TOKEN">1348d95ad6aa4e119cec25a7973ba09f1348d95ad6aa4e119cec25a7973ba09f</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="server_path">https://genericrestaurant.000webhostapp.com/</string>
+
 </resources>

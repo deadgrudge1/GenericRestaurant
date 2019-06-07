@@ -57,8 +57,8 @@ public class fragment_profile extends Fragment {
                 MainActivity.getInstance().age = 0;
 
                 user_id_text.setText("User ID : ");
-                name_text.setText(name);
-                phone_text.setText(phone);
+                name_text.setText("");
+                phone_text.setText("");
                 age_text.setText("");
             }
         });

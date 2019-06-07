@@ -214,7 +214,7 @@ public class RegisterActivity extends Activity {
             if(sendData())
             {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(1500);
                 } catch (InterruptedException e) {
 
                 }
@@ -235,7 +235,9 @@ public class RegisterActivity extends Activity {
                 //Toast.makeText(getBaseContext(),"User ID : " + user_id, Toast.LENGTH_SHORT).show();
                 //MainActivity.getInstance().id_user = user_id;
                 finish();
-            } else {
+                onBackPressed();
+            }
+            else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
@@ -257,12 +259,7 @@ public class RegisterActivity extends Activity {
 
                 Toast.makeText(getBaseContext(), "dfdsfsd"+response, Toast.LENGTH_SHORT).show();
                 Log.d("My success",""+response);
-                try {
-                    //user_id = Integer.parseInt(response);
-                    //if(user_id != 0)
                         req_stat=true;
-                }
-                catch (Exception e) {req_stat=false;}
             }
         }, new Response.ErrorListener() {
             @Override
