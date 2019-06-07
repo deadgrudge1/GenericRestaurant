@@ -1,5 +1,6 @@
 package com.example.genericrestaurant;
 
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.StringJoiner;
 
 public class fragment_cart extends Fragment implements CartAdapter.OnItemClickListener, DialogClickListener {
 
@@ -60,6 +63,8 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
     int order_id;
     String response_string;
     int user_id = 0;
+    StringJoiner joiner = new StringJoiner(" ");
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -80,6 +85,9 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
         } else
             cursor.moveToFirst();
 
+
+
+
         OrderCard orderCard;
         while (!cursor.isAfterLast()) {
             int food_id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.FOOD_ID));
@@ -95,6 +103,13 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
             String foodcost = temp.getString(temp.getColumnIndex(DatabaseHelper.FOOD_COST));
             String foodtype = temp.getString(temp.getColumnIndex(DatabaseHelper.FOOD_TYPE));
             int img_type = temp.getInt(temp.getColumnIndex(DatabaseHelper.FOOD_IMG));
+
+            joiner.add(String.valueOf(quantity));
+            joiner.add("x");
+            joiner.add(foodname);
+            joiner.add("="+String.valueOf(Integer.parseInt(foodcost)*quantity));
+
+            joiner.add("\n");
 
             orderCard = new OrderCard(foodname, foodcost, foodtype, img_type, String.valueOf(quantity));
 
@@ -353,8 +368,18 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
 
             else
             {
-                if(user_id == 0)
+                if(user_id == 0) {
                     Toast.makeText(getActivity(), "Please Log in First", Toast.LENGTH_SHORT).show();
+                    SmsManager smgr = SmsManager.getDefault();
+                    String joined = joiner.toString();
+                    String message="Thanks for dining at Oblique.\nTotal bill Rs. "+amount_total+"\n"+joined;
+                    smgr.sendTextMessage("+918208582466",null,message,null,null);
+
+
+
+
+
+                }
                 else
                     Toast.makeText(getActivity(), "Failed to send order", Toast.LENGTH_SHORT).show();
                 this.dialog.dismiss();
