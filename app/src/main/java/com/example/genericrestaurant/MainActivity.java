@@ -40,7 +40,9 @@ public class MainActivity extends AppCompatActivity implements
     private SpeechRecognizerManager mSpeechRecognizerManager;
     private static MainActivity instance;
     int id_user;
-
+    String name;
+    String phone_no;
+    int age;
 
 
     @SuppressLint("WrongViewCast")

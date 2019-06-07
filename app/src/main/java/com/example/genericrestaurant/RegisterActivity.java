@@ -42,6 +42,9 @@ public class RegisterActivity extends Activity {
     private View mLoginFormView;
     String email_id;
     String pass_n;
+    String user_name;
+    String user_phone;
+    String user_age;
     boolean req_stat;
     StringRequest request;
     String path;
@@ -97,6 +100,9 @@ public class RegisterActivity extends Activity {
         String password = mPasswordView.getText().toString();
         email_id = mEmailView.getText().toString();
         pass_n = mPasswordView.getText().toString();
+        user_name = mUserName.getText().toString();
+        user_phone = mUserPhone.getText().toString();
+        user_age = mUserAge.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -276,6 +282,9 @@ public class RegisterActivity extends Activity {
                 Map<String,String> map = new HashMap<String, String>();
                 map.put("username",email_id);
                 map.put("password",pass_n);
+                map.put("name",user_name);
+                map.put("phone",user_phone);
+                map.put("age",user_age);
                 return map;
             }
         };

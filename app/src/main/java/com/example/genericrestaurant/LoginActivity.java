@@ -41,6 +41,9 @@ import com.android.volley.toolbox.HttpResponse;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,6 +82,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     StringRequest request;
     String response_msg;
     int user_id=0;
+    String phone;
+    String name;
+    int age=0;
+
     String email_id;
     String pass_n;
     String path;
@@ -371,8 +378,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                Toast.makeText(getBaseContext(),"User ID : " + user_id, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(),"User ID : " + user_id + "Phone : " + phone + "Name : " + name + "Age : " + age, Toast.LENGTH_SHORT).show();
                 MainActivity.getInstance().id_user = user_id;
+                MainActivity.getInstance().phone_no = phone;
+                MainActivity.getInstance().name = name;
+                MainActivity.getInstance().age = age;
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -398,7 +408,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Toast.makeText(getBaseContext(), "dfdsfsd"+response, Toast.LENGTH_SHORT).show();
                 Log.d("My success",""+response);
                 try {
-                    user_id = Integer.parseInt(response);
+                    //user_id = Integer.parseInt(response);
+                    //JSONArray array = new JSONArray(response);
+                    JSONObject object = new JSONObject(response);
+                    user_id = object.getInt("id");
+                    phone = object.getString("phone");
+                    name = object.getString("name");
+                    age = object.getInt("age");
                     if(user_id != 0)
                         req_stat=true;
                 }

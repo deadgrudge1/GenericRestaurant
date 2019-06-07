@@ -25,5 +25,5 @@
     <string name="tap_on_the_button_to_continue">Tap on the button to continue</string>
     <string name="CLIENT_ACCESS_TOKEN">1348d95ad6aa4e119cec25a7973ba09f1348d95ad6aa4e119cec25a7973ba09f</string>
     <string name="title_activity_register">RegisterActivity</string>
-    <string name="server_path">http://192.168.1.106/restaurant/</string>
+    <string name="server_path">http://192.168.0.106/restaurant/</string>
 </resources>
