@@ -10,7 +10,7 @@
 
     <gradient
         android:startColor="@color/secondaryDarkColor"
-        android:endColor="@color/secondaryColor"
+        android:endColor="@color/backgroundBlue"
         />
 
 

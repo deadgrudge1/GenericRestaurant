@@ -56,8 +56,8 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
         spin.setOnItemSelectedListener(this);
 
         //Creating the ArrayAdapter instance having the country list
-        aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,payment_options);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        aa = new ArrayAdapter(this,R.layout.layout_spinner_item,payment_options);
+        aa.setDropDownViewResource(R.layout.layout_spinner_item);
         //Setting the ArrayAdapter data on the Spinner
         spin.setAdapter(aa);
 

@@ -8,8 +8,8 @@
     android:padding="45dp"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="150dp"
-    android:outlineSpotShadowColor="@color/backgroundGrey"
-    android:backgroundTint="@color/backgroundGrey"
+    android:outlineSpotShadowColor="@color/backgroundBlack"
+    android:backgroundTint="@color/backgroundBlack"
     android:elevation="3dp"
     android:layout_margin="5dp"
     >
@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:text="Walla habibi"
-                    android:textColor="@color/primaryColor"
+                    android:textColor="@color/secondaryColor"
                     android:textSize="25dp"
                     android:textStyle="bold" />
 
@@ -55,7 +55,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/foodname"
                     android:text="Non veg"
-                    android:textColor="@color/secondaryColor"
 
 
                     android:textSize="16dp" />
@@ -68,10 +67,10 @@
             android:id="@+id/edit_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/foodcost"
             android:layout_alignEnd="@+id/foodcost"
+            android:layout_below="@+id/foodcost"
             android:text="Qty : 1"
-            android:textColor="@color/primaryColor"
+            android:textColor="@color/secondaryColor"
             android:textSize="14dp" />
 
         <TextView
@@ -81,7 +80,7 @@
             android:layout_marginTop="10dp"
             android:layout_toStartOf="@+id/cancelButton"
             android:text="Rs.249"
-            android:textColor="@color/primaryColor"
+            android:textColor="@color/secondaryColor"
             android:textSize="17dp"
             android:textStyle="bold" />
 
@@ -92,7 +91,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
-            android:background="#20dddddd"
+            android:background="@color/primaryColor"
             android:contentDescription="@android:string/cancel"
             android:padding="7dp"
             android:scaleType="fitCenter"

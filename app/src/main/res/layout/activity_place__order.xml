@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundGrey"
+    android:background="@color/backgroundBlack"
     tools:context=".Place_Order">
 
     <TextView
@@ -54,16 +54,16 @@
         android:textSize="25sp" />
 
 
-
     <TextView
         android:id="@+id/place_order_total"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total : Rs. 101"
+        android:layout_above="@+id/button_place_order_back"
         android:layout_centerHorizontal="true"
-        android:textSize="20dp"
         android:layout_margin="15dp"
-        android:layout_above="@+id/button_place_order_back"/>
+        android:text="Total : Rs. 101"
+        android:textColor="@color/secondaryColor"
+        android:textSize="20dp" />
 
     <Button
         android:id="@+id/button_place_order_back"
@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
-        android:backgroundTint="@color/secondaryColor"
+        android:background="@drawable/button_shape"
         android:text="GO BACK"
         android:textColor="@color/secondaryTextColor"
         android:visibility="visible" />
@@ -88,12 +88,16 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="39dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/list_order"
         android:layout_alignParentStart="true"
+        android:background="@color/primaryDarkColor"
         android:outlineAmbientShadowColor="@color/primaryLightColor"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:spinnerMode="dropdown"
+        android:theme="@android:style/Theme.Holo.Light"/>
+
 
     <ListView
         android:id="@+id/list_order"

@@ -11,9 +11,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher_round_real"
-        android:label="BE Restaurant"
-        android:roundIcon="@drawable/ic_launcher_round_real"
+        android:icon="@drawable/download"
+        android:label="OBLIQUE"
+        android:roundIcon="@drawable/download"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
