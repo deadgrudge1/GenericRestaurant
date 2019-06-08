@@ -140,6 +140,8 @@ public class Place_Order extends AppCompatActivity implements  AdapterView.OnIte
             //order_text.append(orderCard.food_name + " x " + orderCard.quantity + " : Rs. " + item_total + "\n");
         }
 
+        databaseHelper.emptyCart(databaseHelper.getWritableDatabase());
+
     }
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

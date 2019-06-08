@@ -214,7 +214,7 @@ public class RegisterActivity extends Activity {
             if(sendData())
             {
                 try {
-                    Thread.sleep(1500);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
 
                 }

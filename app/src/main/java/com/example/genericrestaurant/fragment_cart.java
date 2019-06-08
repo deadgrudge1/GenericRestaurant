@@ -333,7 +333,7 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
             if(sendData())
             {
                 try {
-                    Thread.sleep(1500);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
 
                 }
@@ -363,29 +363,28 @@ public class fragment_cart extends Fragment implements CartAdapter.OnItemClickLi
                 bundle.putInt("order_id", order_id);
                 intent.putExtra("bundle", bundle);
 
+                String phone = MainActivity.getInstance().phone_no;
+                if(phone.isEmpty())
+                    phone = "918208582466";
+                SmsManager smgr = SmsManager.getDefault();
+                String joined = joiner.toString();
+                String message="Thanks for dining at Oblique.\nTotal bill Rs. "+amount_total+"\n"+joined;
+                smgr.sendTextMessage(phone,null,message,null,null);
+
                 startActivity(intent);
 
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException e) {
-
-                }
-                cart_empty();
+                menu.clear();
+                cartAdapter = new CartAdapter(getContext(), menu, listener);
+                recyclerView.setAdapter(cartAdapter);
+                cart_clear.setVisibility(View.GONE);
+                total.setText("Cart is empty, add items from menu to place order.");
             }
 
             else
             {
                 if(user_id == 0) {
+
                     Toast.makeText(getActivity(), "Please Log in First", Toast.LENGTH_SHORT).show();
-                    SmsManager smgr = SmsManager.getDefault();
-                    String joined = joiner.toString();
-                    String message="Thanks for dining at Oblique.\nTotal bill Rs. "+amount_total+"\n"+joined;
-                    smgr.sendTextMessage("+918208582466",null,message,null,null);
-
-
-
-
-
                 }
                 else
                     Toast.makeText(getActivity(), "Failed to send order", Toast.LENGTH_SHORT).show();
